@@ -26,23 +26,19 @@ import { BaseHttpRequest } from '../core/BaseHttpRequest';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 {{/equals}}
 {{else}}
-import { OpenAPI } from '../core/OpenAPI';
-import { request as __request } from '../core/request';
+import { ManagementClientOptions } from '../../options/ManagementClientOptions';
+import { HttpClient } from '../../client/HttpClient';
+
 {{/if}}
 
 {{#equals @root.httpClient 'angular'}}
 @Injectable()
 {{/equals}}
 export class {{{name}}}{{{@root.postfix}}} {
-	{{#if @root.exportClient}}
-
-	constructor(public readonly httpRequest: BaseHttpRequest) {}
-	{{else}}
-	{{#equals @root.httpClient 'angular'}}
-
-	constructor(public readonly http: HttpClient) {}
-	{{/equals}}
-	{{/if}}
+    httpClient: HttpClient;
+    constructor(options: ManagementClientOptions) {
+        this.httpClient = new HttpClient(options)
+    }
 
 	{{#each operations}}
 	/**
@@ -81,7 +77,7 @@ export class {{{name}}}{{{@root.postfix}}} {
 		return __request(OpenAPI, this.http, {
 	{{else}}
 	public async {{{name}}}({{>parameters}}): Promise<{{>result}}> {
-		return __request(OpenAPI, {
+		return await this.httpClient.request({
 	{{/equals}}
 	{{/if}}
 			method: '{{{method}}}',
