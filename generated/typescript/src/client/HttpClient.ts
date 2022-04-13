@@ -27,11 +27,16 @@ export class HttpClient {
         }
 
         const headers: any = {};
+        // @ts-ignore
         headers[this.options.headers['app-id']] = this.options.appId || '';
+        // @ts-ignore
         headers[this.options.headers['tenant-id']] = this.options.tenantId;
+        // @ts-ignore
         headers[this.options.headers['userpool-id']] = this.options.userPoolId || '';
+        // @ts-ignore
         headers[this.options.headers['request-from']] = this.options.requestFrom || 'sdk';
         // headers[this.options.headers['sdk-version']] = `js:${SDK_VERSION}`;
+        // @ts-ignore
         headers[this.options.headers.lang] = this.options.lang || '';
 
         // TODO: REPLACE ME
