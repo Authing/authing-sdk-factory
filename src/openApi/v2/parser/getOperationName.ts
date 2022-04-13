@@ -9,6 +9,7 @@ export const getOperationName = (url: string, method: string, operationId?: stri
     if (operationId) {
         return camelCase(
             operationId
+                .split('_')[1]
                 .replace(/^[^a-zA-Z]+/g, '')
                 .replace(/[^\w\-]+/g, '-')
                 .trim()

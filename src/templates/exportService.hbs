@@ -18,7 +18,6 @@ import type { {{{this}}} } from '../models/{{{this}}}';
 
 {{/if}}
 {{#notEquals @root.httpClient 'angular'}}
-import type { CancelablePromise } from '../core/CancelablePromise';
 {{/notEquals}}
 {{#if @root.exportClient}}
 {{#equals @root.httpClient 'angular'}}
@@ -73,7 +72,7 @@ export class {{{name}}}{{{@root.postfix}}} {
 	public {{{name}}}({{>parameters}}): Observable<{{>result}}> {
 		return this.httpRequest.request({
 	{{else}}
-	public {{{name}}}({{>parameters}}): CancelablePromise<{{>result}}> {
+	public {{{name}}}({{>parameters}}): Promise<{{>result}}> {
 		return this.httpRequest.request({
 	{{/equals}}
 	{{else}}
@@ -81,7 +80,7 @@ export class {{{name}}}{{{@root.postfix}}} {
 	public {{{name}}}({{>parameters}}): Observable<{{>result}}> {
 		return __request(OpenAPI, this.http, {
 	{{else}}
-	public static {{{name}}}({{>parameters}}): CancelablePromise<{{>result}}> {
+	public async {{{name}}}({{>parameters}}): Promise<{{>result}}> {
 		return __request(OpenAPI, {
 	{{/equals}}
 	{{/if}}
