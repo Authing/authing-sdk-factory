@@ -1,14 +1,14 @@
 import { ManagementClient } from './generated/typescript/src';
 
 const m = new ManagementClient({
-    userPoolId: '623c390f840bb446d53fc539',
-    secret: '20df4d1528146546f820ec5dfb7060f7',
-    host: 'https://console.cj.mereith.com',
+    userPoolId: '624d8f0796b12035d0dfc10e',
+    secret: '2bd8fbefcafd9c59ec2a1d5caf9b0337',
+    host: 'http://localhost:3000',
 });
 
 const main = async () => {
     const data = await m.users.getUser({
-        userId: 'xxx',
+        userId: '62559df6b27c98259877b5f4',
     });
     console.log(data);
 };

@@ -6,6 +6,7 @@ export { CancelablePromise, CancelError } from './core/CancelablePromise';
 export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
+export type { AccessTokenDto } from './models/AccessTokenDto';
 export type { AddDepartmentMembersReqDto } from './models/AddDepartmentMembersReqDto';
 export type { AddGroupMembersReqDto } from './models/AddGroupMembersReqDto';
 export { AppDto } from './models/AppDto';
@@ -33,6 +34,7 @@ export type { DepartmentDto } from './models/DepartmentDto';
 export type { GetDepartmentReqDto } from './models/GetDepartmentReqDto';
 export { GetGroupAuthorizedResourcesDto } from './models/GetGroupAuthorizedResourcesDto';
 export type { GetGroupDto } from './models/GetGroupDto';
+export type { GetManagementAccessTokenDto } from './models/GetManagementAccessTokenDto';
 export type { GetParentDepartmentReqDto } from './models/GetParentDepartmentReqDto';
 export type { GetRoleDto } from './models/GetRoleDto';
 export type { GetUserAccessibleAppsReqDto } from './models/GetUserAccessibleAppsReqDto';
@@ -114,6 +116,7 @@ export type { UserLoginHistoryDto } from './models/UserLoginHistoryDto';
 export type { UserMfaRespDto } from './models/UserMfaRespDto';
 
 export { GroupsManagementService } from './services/GroupsManagementService';
+export { ManagementTokenService } from './services/ManagementTokenService';
 export { OrganizationsManagementService } from './services/OrganizationsManagementService';
 export { RolesManagementService } from './services/RolesManagementService';
 export { UserDefinedFieldsManagementService } from './services/UserDefinedFieldsManagementService';

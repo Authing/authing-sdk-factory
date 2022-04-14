@@ -2,6 +2,7 @@ import Axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
 import { ManagementClientOptions } from '../options/ManagementClientOptions';
 import { pickBy } from '../utils';
+import { ManagementTokenProvider } from './ManagementTokenProvider';
 
 export interface AuthingRequestConfig extends AxiosRequestConfig {
     body: any;
@@ -12,9 +13,11 @@ export interface AuthingRequestConfig extends AxiosRequestConfig {
 export class HttpClient {
     options: ManagementClientOptions;
     axios: AxiosInstance;
+    tokenProvider: ManagementTokenProvider;
 
     constructor(options: ManagementClientOptions) {
         this.options = options;
+        this.tokenProvider = new ManagementTokenProvider(this.options);
         this.axios = Axios.create({
             withCredentials: true,
         });
@@ -39,8 +42,7 @@ export class HttpClient {
         // @ts-ignore
         headers[this.options.headers.lang] = this.options.lang || '';
 
-        // TODO: REPLACE ME
-        const token = 'REPLACE ME';
+        const token = await this.tokenProvider.getToken();
         token && (headers.Authorization = `Bearer ${token}`);
 
         config.headers = headers;
