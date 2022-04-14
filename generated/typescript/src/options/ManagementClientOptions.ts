@@ -1,10 +1,5 @@
 export type Lang = 'zh-CN' | 'en-US';
 
-export interface Encryption {
-    type: string;
-    publicKey: string;
-}
-
 /**
  * 初始化 Authing SDK 的参数，secret 和 accessToken 必须传其中一个。
  */
@@ -27,10 +22,6 @@ export interface ManagementClientOptions {
     host?: string;
     /** 请求来源 */
     requestFrom?: string;
-    /** 加密函数 */
-    encryptFunction?: (plainText: string, publicKey: string, encryption?: Encryption) => Promise<string>;
-    /** 密码传输加密公钥 */
-    publicKey?: string;
 
     /**
      * 语言
@@ -48,5 +39,4 @@ export interface ManagementClientOptions {
         'request-from': string;
         lang: string;
     };
-    encryption?: Encryption;
 }

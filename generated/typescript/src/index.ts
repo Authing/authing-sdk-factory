@@ -2,7 +2,6 @@ import Axios from 'axios';
 
 import { UsersManagementService } from './api/services/UsersManagementService';
 import { ManagementClientOptions } from './options/ManagementClientOptions';
-import { encrypt } from './utils';
 
 const DEFAULT_OPTIONS: ManagementClientOptions = {
     timeout: 10000,
@@ -11,7 +10,6 @@ const DEFAULT_OPTIONS: ManagementClientOptions = {
     },
     host: 'https://core.authing.cn',
     requestFrom: 'sdk',
-    encryptFunction: encrypt,
     headers: {
         'userpool-id': 'x-authing-userpool-id',
         'app-id': 'x-authing-app-id',

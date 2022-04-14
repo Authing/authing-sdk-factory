@@ -1,5 +1,3 @@
-import { Encryption } from '../options/ManagementClientOptions';
-
 export const pickBy = (obj: any, predicate: (value: any, key: string) => boolean) => {
     const ret: any = {};
     for (const key of Object.keys(obj)) {
@@ -8,8 +6,4 @@ export const pickBy = (obj: any, predicate: (value: any, key: string) => boolean
         }
     }
     return ret;
-};
-
-export const encrypt = async (plainText: string, publicKey: string, encryption?: Encryption) => {
-    return plainText;
 };
