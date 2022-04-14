@@ -7,9 +7,16 @@ const m = new ManagementClient({
 });
 
 const main = async () => {
-    const { data: user } = await m.getUser({
+    const {
+        code,
+        errorCode,
+        message,
+        data: user,
+    } = await m.getUser({
         userId: '62559df6b27c98259877b5f4',
     });
+    if (code === 200) {
+    }
     console.log(user);
 };
 
