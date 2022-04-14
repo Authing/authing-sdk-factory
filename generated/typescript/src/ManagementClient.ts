@@ -66,14 +66,30 @@ import type { UpdateDepartmentReqDto } from './models/UpdateDepartmentReqDto';
 import type { UpdateOrganizationReqDto } from './models/UpdateOrganizationReqDto';
 import type { GetUserDefinedFieldsDto } from './models/GetUserDefinedFieldsDto';
 
-import { ManagementClientOptions } from './ManagementClientOptions';
+import { DEFAULT_OPTIONS, ManagementClientOptions } from './ManagementClientOptions';
 import { HttpClient } from './HttpClient';
+import Axios from 'axios';
 
 
 export class ManagementClient {
-    httpClient: HttpClient;
+    private httpClient: HttpClient;
+    private options: ManagementClientOptions;
     constructor(options: ManagementClientOptions) {
-        this.httpClient = new HttpClient(options)
+        // @ts-ignore
+        Object.keys(options).forEach((i: any) => !options[i] && delete options[i]);
+        this.options = Object.assign({}, DEFAULT_OPTIONS, options);
+        Axios.defaults.baseURL = this.options.host;
+        this.httpClient = new HttpClient(this.options);
+
+        if (!this.options.userPoolId) {
+            throw new Error('userPoolId not provided');
+        }
+
+        if (!this.options.secret && !this.options.accessToken) {
+            throw new Error(
+                'secret or accessToken not provided'
+            );
+        }
     }
 
     /**
@@ -81,7 +97,6 @@ export class ManagementClient {
      * @description 获取 Management API Token
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async getManagementToken(
         requestBody: GetManagementAccessTokenDto,
@@ -99,7 +114,6 @@ export class ManagementClient {
      * @description 获取用户信息
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async getUser(
         requestBody: GetUserDto,
@@ -117,7 +131,6 @@ export class ManagementClient {
      * @description 根据用户 id 批量获取用户信息
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async getUserBatch(
         requestBody: GetUserBatchDto,
@@ -135,7 +148,6 @@ export class ManagementClient {
      * @description 获取用户列表接口，支持分页
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async listUsers(
         requestBody: ListUsersDto,
@@ -153,7 +165,6 @@ export class ManagementClient {
      * @description 获取用户的外部身份源
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async getUserIdentities(
         requestBody: GetUserIdentitiesDto,
@@ -171,7 +182,6 @@ export class ManagementClient {
      * @description 获取用户自定义数据
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async getUserCustomData(
         requestBody: GetUserCustomDataDto,
@@ -189,7 +199,6 @@ export class ManagementClient {
      * @description 设置用户自定义数据
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async setUserCustomData(
         requestBody: SetUserCustomDataDto,
@@ -207,7 +216,6 @@ export class ManagementClient {
      * @description 获取用户角色列表
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async getUserRoles(
         requestBody: GetUserRolesDto,
@@ -225,7 +233,6 @@ export class ManagementClient {
      * @description 获取用户实名认证信息
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async getPrincipalAuthenticationInfo(
         requestBody: GetUserPrincipalAuthenticationInfoDto,
@@ -243,7 +250,6 @@ export class ManagementClient {
      * @description 删除用户实名认证信息
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async resetPrincipalAuthenticationInfo(
         requestBody: ResetUserPrincipalAuthenticationInfoDto,
@@ -261,7 +267,6 @@ export class ManagementClient {
      * @description 获取用户部门列表
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async getUserDepartments(
         requestBody: GetUserDepartmentsDto,
@@ -279,7 +284,6 @@ export class ManagementClient {
      * @description 设置用户所在部门
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async setUserDepartment(
         requestBody: SetUserDepartmentsDto,
@@ -297,7 +301,6 @@ export class ManagementClient {
      * @description 获取用户分组列表
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async getUserGroups(
         requestBody: GetUserGroupsDto,
@@ -315,7 +318,6 @@ export class ManagementClient {
      * @description 删除用户（支持批量删除）
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async deleteUserBatch(
         requestBody: DeleteUsersBatchDto,
@@ -333,7 +335,6 @@ export class ManagementClient {
      * @description 获取用户 MFA 绑定信息
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async getUserMfaInfo(
         requestBody: GetUserMfaInfoDto,
@@ -351,7 +352,6 @@ export class ManagementClient {
      * @description 获取已归档的用户列表
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async listArchivedUsers(
         requestBody: ListArchivedUsersDto,
@@ -369,7 +369,6 @@ export class ManagementClient {
      * @description 强制下线用户
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async kickUsers(
         requestBody: KickUsersDto,
@@ -387,7 +386,6 @@ export class ManagementClient {
      * @description 根据条件判断用户是否存在
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async isUserExists(
         requestBody: IsUserExistsReqDto,
@@ -405,7 +403,6 @@ export class ManagementClient {
      * @description 创建用户
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async createUser(
         requestBody: CreateUserReqDto,
@@ -423,7 +420,6 @@ export class ManagementClient {
      * @description 批量创建用户
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async createUserBatch(
         requestBody: CreateUserBatchReqDto,
@@ -441,7 +437,6 @@ export class ManagementClient {
      * @description 修改用户资料
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async updateUser(
         requestBody: UpdateUserReqDto,
@@ -459,7 +454,6 @@ export class ManagementClient {
      * @description 获取用户可访问应用
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async getUserAccessibleApps(
         requestBody: GetUserAccessibleAppsReqDto,
@@ -477,7 +471,6 @@ export class ManagementClient {
      * @description 获取用户授权的应用
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async getUserAuthorizedApps(
         requestBody: GetUserAccessibleAppsReqDto,
@@ -495,7 +488,6 @@ export class ManagementClient {
      * @description 判断用户是否有某个角色，支持同时传入多个角色进行判断
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async hasAnyRole(
         requestBody: HasAnyRoleDto,
@@ -513,7 +505,6 @@ export class ManagementClient {
      * @description 获取用户登录历史记录
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async getUserLoginHistory(
         requestBody: GetUserLoginHistoryDto,
@@ -531,7 +522,6 @@ export class ManagementClient {
      * @description 获取用户曾经登录过的应用
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async getUserLoggedInApps(
         requestBody: GetUserLoggedInAppsReqDto,
@@ -549,7 +539,6 @@ export class ManagementClient {
      * @description 获取用户被授权的所有资源
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async getUserAuthorizedResources(
         requestBody: GetUserAuthorizedResourcesDto,
@@ -567,7 +556,6 @@ export class ManagementClient {
      * @description 通过分组 code 获取分组详情
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async getGroup(
         requestBody: GetGroupDto,
@@ -585,7 +573,6 @@ export class ManagementClient {
      * @description 获取分组列表接口，支持分页
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async getGroupList(
         requestBody: ListGroupsDto,
@@ -602,7 +589,6 @@ export class ManagementClient {
      * @summary 创建分组
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async createGroup(
         requestBody: CreateGroupReqDto,
@@ -619,7 +605,6 @@ export class ManagementClient {
      * @summary 批量创建分组
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async createGroupBatch(
         requestBody: CreateGroupBatchReqDto,
@@ -636,7 +621,6 @@ export class ManagementClient {
      * @summary 修改分组
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async updateGroup(
         requestBody: UpdateGroupReqDto,
@@ -653,7 +637,6 @@ export class ManagementClient {
      * @summary 删除分组
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async deleteGroups(
         requestBody: DeleteGroupsReqDto,
@@ -670,7 +653,6 @@ export class ManagementClient {
      * @summary 添加分组成员
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async addGroupMembers(
         requestBody: AddGroupMembersReqDto,
@@ -687,7 +669,6 @@ export class ManagementClient {
      * @summary 移除分组成员
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async removeGroupMembers(
         requestBody: RemoveGroupMembersReqDto,
@@ -704,7 +685,6 @@ export class ManagementClient {
      * @summary 获取分组成员列表
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async listGroupMembers(
         requestBody: ListGroupMembersDto,
@@ -721,7 +701,6 @@ export class ManagementClient {
      * @summary 获取分组被授权的资源列表
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async getGroupAuthorizedResources(
         requestBody: GetGroupAuthorizedResourcesDto,
@@ -739,7 +718,6 @@ export class ManagementClient {
      * @description 获取角色详情
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async getRole(
         requestBody: GetRoleDto,
@@ -757,7 +735,6 @@ export class ManagementClient {
      * @description 分配角色，被分配者可以是用户，可以是部门
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async assignRole(
         requestBody: AssignRoleDto,
@@ -775,7 +752,6 @@ export class ManagementClient {
      * @description 分配角色，被分配者可以是用户，可以是部门
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async assignRoleBatch(
         requestBody: AssignRoleBatchDto,
@@ -793,7 +769,6 @@ export class ManagementClient {
      * @description 分配角色，被分配者可以是用户，可以是部门
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async revokeRole(
         requestBody: RevokeRoleDto,
@@ -811,7 +786,6 @@ export class ManagementClient {
      * @description 分配角色，被分配者可以是用户，可以是部门
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async revokeRoleBatch(
         requestBody: RevokeRoleBatchDto,
@@ -829,7 +803,6 @@ export class ManagementClient {
      * @description 角色被授权的资源列表
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async getRoleAuthorizedResources(
         requestBody: RoleAuthorizedResourcesDto,
@@ -847,7 +820,6 @@ export class ManagementClient {
      * @description 获取角色成员列表
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async listRoleMembers(
         requestBody: ListRoleMemberDto,
@@ -865,7 +837,6 @@ export class ManagementClient {
      * @description 获取角色的部门列表
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async listDepartments(
         requestBody: ListRoleDepartmentDto,
@@ -883,7 +854,6 @@ export class ManagementClient {
      * @description 创建角色
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async createRole(
         requestBody: CreateRoleDto,
@@ -901,7 +871,6 @@ export class ManagementClient {
      * @description 获取角色列表
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async listRoles(
         requestBody: ListRoleDto,
@@ -919,7 +888,6 @@ export class ManagementClient {
      * @description 删除角色
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async deleteRoles(
         requestBody: DeleteRoleDto,
@@ -937,7 +905,6 @@ export class ManagementClient {
      * @description 批量创建角色
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async createRolesBatch(
         requestBody: CreateRolesBatch,
@@ -955,7 +922,6 @@ export class ManagementClient {
      * @description 修改角色
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async updateRole(
         requestBody: UpdateRoleDto,
@@ -973,7 +939,6 @@ export class ManagementClient {
      * @description 获取顶层组织机构列表
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async listOrganizations(
         requestBody: ListOrganizationsReqDto,
@@ -991,7 +956,6 @@ export class ManagementClient {
      * @description 创建顶层组织机构
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async createOrganization(
         requestBody: CreateOrganizationReqDto,
@@ -1009,7 +973,6 @@ export class ManagementClient {
      * @description 修改顶层组织机构
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async updateOrganization(
         requestBody: UpdateOrganizationReqDto,
@@ -1027,7 +990,6 @@ export class ManagementClient {
      * @description 删除顶层组织机构
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async deleteOrganization(
         requestBody: DeleteOrganizationReqDto,
@@ -1045,7 +1007,6 @@ export class ManagementClient {
      * @description 获取部门信息
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async getDepartment(
         requestBody: GetDepartmentReqDto,
@@ -1063,7 +1024,6 @@ export class ManagementClient {
      * @description 创建部门
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async createDepartment(
         requestBody: CreateDepartmentReqDto,
@@ -1081,7 +1041,6 @@ export class ManagementClient {
      * @description 修改部门
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async updateDepartment(
         requestBody: UpdateDepartmentReqDto,
@@ -1099,7 +1058,6 @@ export class ManagementClient {
      * @description 删除部门
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async deleteDepartment(
         requestBody: DeleteDepartmentReqDto,
@@ -1117,7 +1075,6 @@ export class ManagementClient {
      * @description 搜索部门
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async searchDepartments(
         requestBody: SearchDepartmentsReqDto,
@@ -1135,7 +1092,6 @@ export class ManagementClient {
      * @description 获取子部门列表
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async listChildrenDepartments(
         requestBody: ListChildrenDepartmentsReqDto,
@@ -1153,7 +1109,6 @@ export class ManagementClient {
      * @description 获取部门直属成员列表
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async listDepartmentMembers(
         requestBody: ListDepartmentMembersReqDto,
@@ -1171,7 +1126,6 @@ export class ManagementClient {
      * @description 获取部门直属成员 ID 列表
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async listDepartmentMemberIds(
         requestBody: ListChildrenDepartmentsReqDto,
@@ -1189,7 +1143,6 @@ export class ManagementClient {
      * @description 部门下添加成员
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async addDepartmentMembers(
         requestBody: AddDepartmentMembersReqDto,
@@ -1207,7 +1160,6 @@ export class ManagementClient {
      * @description 部门下删除成员
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async removeDepartmentMembers(
         requestBody: AddDepartmentMembersReqDto,
@@ -1225,7 +1177,6 @@ export class ManagementClient {
      * @description 获取父部门信息
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async getParentDepartment(
         requestBody: GetParentDepartmentReqDto,
@@ -1243,7 +1194,6 @@ export class ManagementClient {
      * @description 获取用户池定义的自定义字段
      * @param requestBody
      * @returns any
-     * @throws ApiError
      */
     public async getUserCustomFields(
         requestBody: GetUserDefinedFieldsDto,

@@ -26,8 +26,9 @@ import { BaseHttpRequest } from '../core/BaseHttpRequest';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 {{/equals}}
 {{else}}
-import { ManagementClientOptions } from './ManagementClientOptions';
+import { DEFAULT_OPTIONS, ManagementClientOptions } from './ManagementClientOptions';
 import { HttpClient } from './HttpClient';
+import Axios from 'axios';
 
 {{/if}}
 
@@ -35,9 +36,24 @@ import { HttpClient } from './HttpClient';
 @Injectable()
 {{/equals}}
 export class ManagementClient {
-    httpClient: HttpClient;
+    private httpClient: HttpClient;
+    private options: ManagementClientOptions;
     constructor(options: ManagementClientOptions) {
-        this.httpClient = new HttpClient(options)
+        // @ts-ignore
+        Object.keys(options).forEach((i: any) => !options[i] && delete options[i]);
+        this.options = Object.assign({}, DEFAULT_OPTIONS, options);
+      	Axios.defaults.baseURL = this.options.host;
+        this.httpClient = new HttpClient(this.options);
+
+		if (!this.options.userPoolId) {
+      		throw new Error('userPoolId not provided');
+		}
+
+		if (!this.options.secret && !this.options.accessToken) {
+			throw new Error(
+				'secret or accessToken not provided'
+			);
+    	}
     }
 
 	{{#each operations}}
@@ -61,7 +77,6 @@ export class ManagementClient {
 	{{#each results}}
 	 * @returns {{{type}}} {{#if description}}{{{escapeComment description}}}{{/if}}
 	{{/each}}
-	 * @throws ApiError
 	 */
 	{{#if @root.exportClient}}
 	{{#equals @root.httpClient 'angular'}}
