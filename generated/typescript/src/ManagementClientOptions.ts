@@ -40,3 +40,21 @@ export interface ManagementClientOptions {
         lang: string;
     };
 }
+
+export const DEFAULT_OPTIONS: ManagementClientOptions = {
+    timeout: 10000,
+    onError: (code: number, message: string) => {
+        throw { code, message };
+    },
+    host: 'https://core.authing.cn',
+    requestFrom: 'sdk',
+    headers: {
+        'userpool-id': 'x-authing-userpool-id',
+        'app-id': 'x-authing-app-id',
+        'tenant-id': 'x-authing-app-tenant-id',
+        'request-from': 'x-authing-request-from',
+        'sdk-version': 'x-authing-sdk-version',
+        lang: 'x-authing-lang',
+    },
+    lang: 'zh-CN',
+};

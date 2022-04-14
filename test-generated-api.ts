@@ -7,7 +7,7 @@ const m = new ManagementClient({
 });
 
 const main = async () => {
-    const data = await m.users.getUser({
+    const data = await m.getUser({
         userId: '62559df6b27c98259877b5f4',
     });
     console.log(data);

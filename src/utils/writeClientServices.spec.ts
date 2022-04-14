@@ -3,7 +3,7 @@ import { HttpClient } from '../HttpClient';
 import { Indent } from '../Indent';
 import { writeFile } from './fileSystem';
 import type { Templates } from './registerHandlebarTemplates';
-import { writeClientServices } from './writeClientServices';
+import { writeManagementClient } from './writeClientServices';
 
 jest.mock('./fileSystem');
 
@@ -37,7 +37,7 @@ describe('writeClientServices', () => {
             },
         };
 
-        await writeClientServices(services, templates, '/', HttpClient.FETCH, false, false, Indent.SPACE_4, 'Service');
+        await writeManagementClient(services, templates, '/', HttpClient.FETCH, false, false, Indent.SPACE_4, 'Service');
 
         expect(writeFile).toBeCalledWith('/UserService.ts', 'service');
     });

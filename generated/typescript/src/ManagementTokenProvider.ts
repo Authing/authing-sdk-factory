@@ -1,9 +1,9 @@
 import Axios from 'axios';
 
-import { AccessTokenDto } from '../api/models/AccessTokenDto';
-import { CommonResponseDto } from '../api/models/CommonResponseDto';
-import { ManagementClientOptions } from '../options/ManagementClientOptions';
-import { parseJwt } from '../utils';
+import { ManagementClientOptions } from './ManagementClientOptions';
+import { AccessTokenDto } from './models/AccessTokenDto';
+import { CommonResponseDto } from './models/CommonResponseDto';
+import { parseJwt } from './utils';
 
 export interface DecodedAccessToken {
     /** 签发时间 **/

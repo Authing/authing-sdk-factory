@@ -2,15 +2,13 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { GetUserRolesOptionsDto } from './GetUserRolesOptionsDto';
-
 export type GetUserRolesDto = {
     /**
      * 用户 ID
      */
     userId: string;
     /**
-     * 可选参数
+     * 权限分组的 code
      */
-    options?: GetUserRolesOptionsDto;
+    namespace?: string;
 };

@@ -1,13 +1,14 @@
-import { resolve } from 'path';
+import * as path from 'path';
 
 import type { Service } from '../client/interfaces/Service';
 import type { HttpClient } from '../HttpClient';
 import type { Indent } from '../Indent';
 import { writeFile } from './fileSystem';
-import { formatCode as f } from './formatCode';
-import { formatIndentation as i } from './formatIndentation';
+import { formatCode } from './formatCode';
+import { formatIndentation } from './formatIndentation';
 import { isDefined } from './isDefined';
 import type { Templates } from './registerHandlebarTemplates';
+import { removeDuplicates } from './unique';
 
 /**
  * Generate Services using the Handlebar template and write to disk.
@@ -21,7 +22,7 @@ import type { Templates } from './registerHandlebarTemplates';
  * @param postfix Service name postfix
  * @param clientName Custom client class name
  */
-export const writeClientServices = async (
+export const writeManagementClient = async (
     services: Service[],
     templates: Templates,
     outputPath: string,
@@ -32,16 +33,31 @@ export const writeClientServices = async (
     postfix: string,
     clientName?: string
 ): Promise<void> => {
-    for (const service of services) {
-        const file = resolve(outputPath, `${service.name}${postfix}.ts`);
-        const templateResult = templates.exports.service({
-            ...service,
-            httpClient,
-            useUnionTypes,
-            useOptions,
-            postfix,
-            exportClient: isDefined(clientName),
-        });
-        await writeFile(file, i(f(templateResult), indent));
-    }
+    const service = {
+        name: 'ManagementClient',
+        operations: services.map(s => s.operations).flat(),
+        imports: removeDuplicates(services.map(s => s.imports).flat()),
+    };
+    const file = path.resolve(outputPath, `ManagementClient.ts`);
+    const templateResult = templates.exports.service({
+        ...service,
+        httpClient,
+        useUnionTypes,
+        useOptions,
+        postfix,
+        exportClient: isDefined(clientName),
+    });
+    await writeFile(file, formatIndentation(formatCode(templateResult), indent));
+    // for (const service of services) {
+    //     const file = resolve(outputPath, `${service.name}${postfix}.ts`);
+    //     const templateResult = templates.exports.service({
+    //         ...service,
+    //         httpClient,
+    //         useUnionTypes,
+    //         useOptions,
+    //         postfix,
+    //         exportClient: isDefined(clientName),
+    //     });
+    //     await writeFile(file, i(f(templateResult), indent));
+    // }
 };

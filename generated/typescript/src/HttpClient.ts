@@ -1,8 +1,8 @@
 import Axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
-import { ManagementClientOptions } from '../options/ManagementClientOptions';
-import { pickBy } from '../utils';
+import { ManagementClientOptions } from './ManagementClientOptions';
 import { ManagementTokenProvider } from './ManagementTokenProvider';
+import { pickBy } from './utils';
 
 export interface AuthingRequestConfig extends AxiosRequestConfig {
     body: any;
