@@ -2,9 +2,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { IsUserExistsDto } from './IsUserExistsDto';
+import type { AuthorizedResourceDto } from './AuthorizedResourceDto';
 
-export type IsUserExistsRespDto = {
+export type AuthorizedResourceListRespDto = {
     /**
      * 业务状态码，200 表示成功
      */
@@ -16,5 +16,5 @@ export type IsUserExistsRespDto = {
     /**
      * 数据
      */
-    data: IsUserExistsDto;
+    data: Array<AuthorizedResourceDto>;
 };

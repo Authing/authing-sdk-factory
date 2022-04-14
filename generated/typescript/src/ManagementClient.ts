@@ -1,8 +1,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CommonResponseDto } from './models/CommonResponseDto';
 import type { GetManagementAccessTokenDto } from './models/GetManagementAccessTokenDto';
+import type { GetManagementTokenRespDto } from './models/GetManagementTokenRespDto';
+import type { AppListRespDto } from './models/AppListRespDto';
+import type { AuthorizedResourcePaginatedRespDto } from './models/AuthorizedResourcePaginatedRespDto';
 import type { CreateUserBatchReqDto } from './models/CreateUserBatchReqDto';
 import type { CreateUserReqDto } from './models/CreateUserReqDto';
 import type { DeleteUsersBatchDto } from './models/DeleteUsersBatchDto';
@@ -19,21 +21,39 @@ import type { GetUserLoginHistoryDto } from './models/GetUserLoginHistoryDto';
 import type { GetUserMfaInfoDto } from './models/GetUserMfaInfoDto';
 import type { GetUserPrincipalAuthenticationInfoDto } from './models/GetUserPrincipalAuthenticationInfoDto';
 import type { GetUserRolesDto } from './models/GetUserRolesDto';
+import type { GroupPaginatedRespDto } from './models/GroupPaginatedRespDto';
 import type { HasAnyRoleDto } from './models/HasAnyRoleDto';
+import type { HasAnyRoleRespDto } from './models/HasAnyRoleRespDto';
+import type { IdentityListRespDto } from './models/IdentityListRespDto';
+import type { IsSuccessRespDto } from './models/IsSuccessRespDto';
 import type { IsUserExistsReqDto } from './models/IsUserExistsReqDto';
+import type { IsUserExistsRespDto } from './models/IsUserExistsRespDto';
 import type { KickUsersDto } from './models/KickUsersDto';
 import type { ListArchivedUsersDto } from './models/ListArchivedUsersDto';
+import type { ListArchivedUsersSingleRespDto } from './models/ListArchivedUsersSingleRespDto';
 import type { ListUsersDto } from './models/ListUsersDto';
+import type { PrincipalAuthenticationInfoPaginatedRespDto } from './models/PrincipalAuthenticationInfoPaginatedRespDto';
 import type { ResetUserPrincipalAuthenticationInfoDto } from './models/ResetUserPrincipalAuthenticationInfoDto';
+import type { RolePaginatedRespDto } from './models/RolePaginatedRespDto';
 import type { SetUserCustomDataDto } from './models/SetUserCustomDataDto';
+import type { SetUserCustomDataRespDto } from './models/SetUserCustomDataRespDto';
 import type { SetUserDepartmentsDto } from './models/SetUserDepartmentsDto';
 import type { UpdateUserReqDto } from './models/UpdateUserReqDto';
+import type { UserDepartmentPaginatedRespDto } from './models/UserDepartmentPaginatedRespDto';
+import type { UserListRespDto } from './models/UserListRespDto';
+import type { UserLoggedInAppsListRespDto } from './models/UserLoggedInAppsListRespDto';
+import type { UserLoginHistoryPaginatedRespDto } from './models/UserLoginHistoryPaginatedRespDto';
+import type { UserMfaSingleRespDto } from './models/UserMfaSingleRespDto';
+import type { UserSingleRespDto } from './models/UserSingleRespDto';
 import type { AddGroupMembersReqDto } from './models/AddGroupMembersReqDto';
+import type { AuthorizedResourceListRespDto } from './models/AuthorizedResourceListRespDto';
 import type { CreateGroupBatchReqDto } from './models/CreateGroupBatchReqDto';
 import type { CreateGroupReqDto } from './models/CreateGroupReqDto';
 import type { DeleteGroupsReqDto } from './models/DeleteGroupsReqDto';
 import type { GetGroupAuthorizedResourcesDto } from './models/GetGroupAuthorizedResourcesDto';
 import type { GetGroupDto } from './models/GetGroupDto';
+import type { GroupListRespDto } from './models/GroupListRespDto';
+import type { GroupSingleRespDto } from './models/GroupSingleRespDto';
 import type { ListGroupMembersDto } from './models/ListGroupMembersDto';
 import type { ListGroupsDto } from './models/ListGroupsDto';
 import type { RemoveGroupMembersReqDto } from './models/RemoveGroupMembersReqDto';
@@ -50,21 +70,28 @@ import type { ListRoleMemberDto } from './models/ListRoleMemberDto';
 import type { RevokeRoleBatchDto } from './models/RevokeRoleBatchDto';
 import type { RevokeRoleDto } from './models/RevokeRoleDto';
 import type { RoleAuthorizedResourcesDto } from './models/RoleAuthorizedResourcesDto';
+import type { RoleSingleRespDto } from './models/RoleSingleRespDto';
 import type { UpdateRoleDto } from './models/UpdateRoleDto';
 import type { AddDepartmentMembersReqDto } from './models/AddDepartmentMembersReqDto';
 import type { CreateDepartmentReqDto } from './models/CreateDepartmentReqDto';
 import type { CreateOrganizationReqDto } from './models/CreateOrganizationReqDto';
 import type { DeleteDepartmentReqDto } from './models/DeleteDepartmentReqDto';
 import type { DeleteOrganizationReqDto } from './models/DeleteOrganizationReqDto';
+import type { DepartmentListRespDto } from './models/DepartmentListRespDto';
+import type { DepartmentPaginatedRespDto } from './models/DepartmentPaginatedRespDto';
+import type { DepartmentSingleRespDto } from './models/DepartmentSingleRespDto';
 import type { GetDepartmentReqDto } from './models/GetDepartmentReqDto';
 import type { GetParentDepartmentReqDto } from './models/GetParentDepartmentReqDto';
 import type { ListChildrenDepartmentsReqDto } from './models/ListChildrenDepartmentsReqDto';
 import type { ListDepartmentMembersReqDto } from './models/ListDepartmentMembersReqDto';
 import type { ListOrganizationsReqDto } from './models/ListOrganizationsReqDto';
+import type { OrganizationPaginatedRespDto } from './models/OrganizationPaginatedRespDto';
+import type { OrganizationSingleRespDto } from './models/OrganizationSingleRespDto';
 import type { SearchDepartmentsReqDto } from './models/SearchDepartmentsReqDto';
 import type { UpdateDepartmentReqDto } from './models/UpdateDepartmentReqDto';
 import type { UpdateOrganizationReqDto } from './models/UpdateOrganizationReqDto';
 import type { GetUserDefinedFieldsDto } from './models/GetUserDefinedFieldsDto';
+import type { UserCustomFieldListRespDto } from './models/UserCustomFieldListRespDto';
 
 import { DEFAULT_OPTIONS, ManagementClientOptions } from './ManagementClientOptions';
 import { HttpClient } from './HttpClient';
@@ -96,11 +123,11 @@ export class ManagementClient {
      * @summary 获取 Management API Token
      * @description 获取 Management API Token
      * @param requestBody
-     * @returns any
+     * @returns GetManagementTokenRespDto
      */
     public async getManagementToken(
         requestBody: GetManagementAccessTokenDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<GetManagementTokenRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/get-management-token',
@@ -113,11 +140,11 @@ export class ManagementClient {
      * @summary 获取用户信息
      * @description 获取用户信息
      * @param requestBody
-     * @returns any
+     * @returns UserSingleRespDto
      */
     public async getUser(
         requestBody: GetUserDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<UserSingleRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/get-user',
@@ -130,11 +157,11 @@ export class ManagementClient {
      * @summary 批量获取用户信息
      * @description 根据用户 id 批量获取用户信息
      * @param requestBody
-     * @returns any
+     * @returns UserListRespDto
      */
     public async getUserBatch(
         requestBody: GetUserBatchDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<UserListRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/get-user-batch',
@@ -147,11 +174,11 @@ export class ManagementClient {
      * @summary 获取用户列表
      * @description 获取用户列表接口，支持分页
      * @param requestBody
-     * @returns any
+     * @returns UserListRespDto
      */
     public async listUsers(
         requestBody: ListUsersDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<UserListRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/list-users',
@@ -164,11 +191,11 @@ export class ManagementClient {
      * @summary 获取用户的外部身份源
      * @description 获取用户的外部身份源
      * @param requestBody
-     * @returns any
+     * @returns IdentityListRespDto
      */
     public async getUserIdentities(
         requestBody: GetUserIdentitiesDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<IdentityListRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/get-user-identities',
@@ -198,11 +225,11 @@ export class ManagementClient {
      * @summary 设置用户自定义数据
      * @description 设置用户自定义数据
      * @param requestBody
-     * @returns any
+     * @returns SetUserCustomDataRespDto
      */
     public async setUserCustomData(
         requestBody: SetUserCustomDataDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<SetUserCustomDataRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/set-user-custom-data',
@@ -215,11 +242,11 @@ export class ManagementClient {
      * @summary 获取用户角色列表
      * @description 获取用户角色列表
      * @param requestBody
-     * @returns any
+     * @returns RolePaginatedRespDto
      */
     public async getUserRoles(
         requestBody: GetUserRolesDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<RolePaginatedRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/get-user-roles',
@@ -232,11 +259,11 @@ export class ManagementClient {
      * @summary 获取用户实名认证信息
      * @description 获取用户实名认证信息
      * @param requestBody
-     * @returns any
+     * @returns PrincipalAuthenticationInfoPaginatedRespDto
      */
     public async getPrincipalAuthenticationInfo(
         requestBody: GetUserPrincipalAuthenticationInfoDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<PrincipalAuthenticationInfoPaginatedRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/get-user-principal-authentication-info',
@@ -249,11 +276,11 @@ export class ManagementClient {
      * @summary 删除用户实名认证信息
      * @description 删除用户实名认证信息
      * @param requestBody
-     * @returns any
+     * @returns IsSuccessRespDto
      */
     public async resetPrincipalAuthenticationInfo(
         requestBody: ResetUserPrincipalAuthenticationInfoDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<IsSuccessRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/reset-user-principal-authentication-info',
@@ -266,11 +293,11 @@ export class ManagementClient {
      * @summary 获取用户部门列表
      * @description 获取用户部门列表
      * @param requestBody
-     * @returns any
+     * @returns UserDepartmentPaginatedRespDto
      */
     public async getUserDepartments(
         requestBody: GetUserDepartmentsDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<UserDepartmentPaginatedRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/get-user-departments',
@@ -283,11 +310,11 @@ export class ManagementClient {
      * @summary 设置用户所在部门
      * @description 设置用户所在部门
      * @param requestBody
-     * @returns any
+     * @returns IsSuccessRespDto
      */
     public async setUserDepartment(
         requestBody: SetUserDepartmentsDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<IsSuccessRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/set-user-departments',
@@ -300,11 +327,11 @@ export class ManagementClient {
      * @summary 获取用户分组列表
      * @description 获取用户分组列表
      * @param requestBody
-     * @returns any
+     * @returns GroupPaginatedRespDto
      */
     public async getUserGroups(
         requestBody: GetUserGroupsDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<GroupPaginatedRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/get-user-groups',
@@ -317,11 +344,11 @@ export class ManagementClient {
      * @summary 删除用户
      * @description 删除用户（支持批量删除）
      * @param requestBody
-     * @returns any
+     * @returns IsSuccessRespDto
      */
     public async deleteUserBatch(
         requestBody: DeleteUsersBatchDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<IsSuccessRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/delete-users-batch',
@@ -334,11 +361,11 @@ export class ManagementClient {
      * @summary 获取用户 MFA 绑定信息
      * @description 获取用户 MFA 绑定信息
      * @param requestBody
-     * @returns any
+     * @returns UserMfaSingleRespDto
      */
     public async getUserMfaInfo(
         requestBody: GetUserMfaInfoDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<UserMfaSingleRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/get-user-mfa-info',
@@ -351,11 +378,11 @@ export class ManagementClient {
      * @summary 获取已归档的用户列表
      * @description 获取已归档的用户列表
      * @param requestBody
-     * @returns any
+     * @returns ListArchivedUsersSingleRespDto
      */
     public async listArchivedUsers(
         requestBody: ListArchivedUsersDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<ListArchivedUsersSingleRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/list-archived-users',
@@ -368,11 +395,11 @@ export class ManagementClient {
      * @summary 强制下线用户
      * @description 强制下线用户
      * @param requestBody
-     * @returns any
+     * @returns IsUserExistsRespDto
      */
     public async kickUsers(
         requestBody: KickUsersDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<IsUserExistsRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/kick-users',
@@ -385,11 +412,11 @@ export class ManagementClient {
      * @summary 判断用户是否存在
      * @description 根据条件判断用户是否存在
      * @param requestBody
-     * @returns any
+     * @returns IsUserExistsRespDto
      */
     public async isUserExists(
         requestBody: IsUserExistsReqDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<IsUserExistsRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/is-user-exists',
@@ -402,11 +429,11 @@ export class ManagementClient {
      * @summary 创建用户
      * @description 创建用户
      * @param requestBody
-     * @returns any
+     * @returns UserSingleRespDto
      */
     public async createUser(
         requestBody: CreateUserReqDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<UserSingleRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/create-user',
@@ -419,11 +446,11 @@ export class ManagementClient {
      * @summary 批量创建用户
      * @description 批量创建用户
      * @param requestBody
-     * @returns any
+     * @returns UserListRespDto
      */
     public async createUserBatch(
         requestBody: CreateUserBatchReqDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<UserListRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/create-users-batch',
@@ -436,11 +463,11 @@ export class ManagementClient {
      * @summary 修改用户资料
      * @description 修改用户资料
      * @param requestBody
-     * @returns any
+     * @returns UserSingleRespDto
      */
     public async updateUser(
         requestBody: UpdateUserReqDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<UserSingleRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/update-user',
@@ -453,11 +480,11 @@ export class ManagementClient {
      * @summary 获取用户可访问应用
      * @description 获取用户可访问应用
      * @param requestBody
-     * @returns any
+     * @returns AppListRespDto
      */
     public async getUserAccessibleApps(
         requestBody: GetUserAccessibleAppsReqDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<AppListRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/get-user-accessible-apps',
@@ -470,11 +497,11 @@ export class ManagementClient {
      * @summary 获取用户授权的应用
      * @description 获取用户授权的应用
      * @param requestBody
-     * @returns any
+     * @returns AppListRespDto
      */
     public async getUserAuthorizedApps(
         requestBody: GetUserAccessibleAppsReqDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<AppListRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/get-user-authorized-apps',
@@ -487,11 +514,11 @@ export class ManagementClient {
      * @summary 判断用户是否有某个角色
      * @description 判断用户是否有某个角色，支持同时传入多个角色进行判断
      * @param requestBody
-     * @returns any
+     * @returns HasAnyRoleRespDto
      */
     public async hasAnyRole(
         requestBody: HasAnyRoleDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<HasAnyRoleRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/has-any-role',
@@ -504,11 +531,11 @@ export class ManagementClient {
      * @summary 获取用户的登录历史记录
      * @description 获取用户登录历史记录
      * @param requestBody
-     * @returns any
+     * @returns UserLoginHistoryPaginatedRespDto
      */
     public async getUserLoginHistory(
         requestBody: GetUserLoginHistoryDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<UserLoginHistoryPaginatedRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/get-user-login-history',
@@ -521,11 +548,11 @@ export class ManagementClient {
      * @summary 获取用户曾经登录过的应用
      * @description 获取用户曾经登录过的应用
      * @param requestBody
-     * @returns any
+     * @returns UserLoggedInAppsListRespDto
      */
     public async getUserLoggedInApps(
         requestBody: GetUserLoggedInAppsReqDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<UserLoggedInAppsListRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/get-user-loggedin-apps',
@@ -538,11 +565,11 @@ export class ManagementClient {
      * @summary 获取用户被授权的所有资源，用户被授权的资源是用户自身被授予、通过分组继承、通过角色继承、通过组织机构继承的集合
      * @description 获取用户被授权的所有资源
      * @param requestBody
-     * @returns any
+     * @returns AuthorizedResourcePaginatedRespDto
      */
     public async getUserAuthorizedResources(
         requestBody: GetUserAuthorizedResourcesDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<AuthorizedResourcePaginatedRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/get-user-authorized-resources',
@@ -555,11 +582,11 @@ export class ManagementClient {
      * @summary 获取分组详情
      * @description 通过分组 code 获取分组详情
      * @param requestBody
-     * @returns any
+     * @returns GroupSingleRespDto
      */
     public async getGroup(
         requestBody: GetGroupDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<GroupSingleRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/get-group',
@@ -572,11 +599,11 @@ export class ManagementClient {
      * @summary 获取分组列表
      * @description 获取分组列表接口，支持分页
      * @param requestBody
-     * @returns any
+     * @returns GroupPaginatedRespDto
      */
     public async getGroupList(
         requestBody: ListGroupsDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<GroupPaginatedRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/list-groups',
@@ -588,11 +615,11 @@ export class ManagementClient {
     /**
      * @summary 创建分组
      * @param requestBody
-     * @returns any
+     * @returns GroupSingleRespDto
      */
     public async createGroup(
         requestBody: CreateGroupReqDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<GroupSingleRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/create-group',
@@ -604,11 +631,11 @@ export class ManagementClient {
     /**
      * @summary 批量创建分组
      * @param requestBody
-     * @returns any
+     * @returns GroupListRespDto
      */
     public async createGroupBatch(
         requestBody: CreateGroupBatchReqDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<GroupListRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/create-groups-batch',
@@ -620,11 +647,11 @@ export class ManagementClient {
     /**
      * @summary 修改分组
      * @param requestBody
-     * @returns any
+     * @returns GroupSingleRespDto
      */
     public async updateGroup(
         requestBody: UpdateGroupReqDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<GroupSingleRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/update-group',
@@ -636,11 +663,11 @@ export class ManagementClient {
     /**
      * @summary 删除分组
      * @param requestBody
-     * @returns any
+     * @returns IsSuccessRespDto
      */
     public async deleteGroups(
         requestBody: DeleteGroupsReqDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<IsSuccessRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/delete-groups-batch',
@@ -652,11 +679,11 @@ export class ManagementClient {
     /**
      * @summary 添加分组成员
      * @param requestBody
-     * @returns any
+     * @returns IsSuccessRespDto
      */
     public async addGroupMembers(
         requestBody: AddGroupMembersReqDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<IsSuccessRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/add-group-members',
@@ -668,11 +695,11 @@ export class ManagementClient {
     /**
      * @summary 移除分组成员
      * @param requestBody
-     * @returns any
+     * @returns IsSuccessRespDto
      */
     public async removeGroupMembers(
         requestBody: RemoveGroupMembersReqDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<IsSuccessRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/remove-group-members',
@@ -684,11 +711,11 @@ export class ManagementClient {
     /**
      * @summary 获取分组成员列表
      * @param requestBody
-     * @returns any
+     * @returns UserListRespDto
      */
     public async listGroupMembers(
         requestBody: ListGroupMembersDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<UserListRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/list-group-members',
@@ -700,11 +727,11 @@ export class ManagementClient {
     /**
      * @summary 获取分组被授权的资源列表
      * @param requestBody
-     * @returns any
+     * @returns AuthorizedResourceListRespDto
      */
     public async getGroupAuthorizedResources(
         requestBody: GetGroupAuthorizedResourcesDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<AuthorizedResourceListRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/get-group-authorized-resources',
@@ -717,11 +744,11 @@ export class ManagementClient {
      * @summary 获取角色详情
      * @description 获取角色详情
      * @param requestBody
-     * @returns any
+     * @returns RoleSingleRespDto
      */
     public async getRole(
         requestBody: GetRoleDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<RoleSingleRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/get-role',
@@ -734,11 +761,11 @@ export class ManagementClient {
      * @summary 分配角色
      * @description 分配角色，被分配者可以是用户，可以是部门
      * @param requestBody
-     * @returns any
+     * @returns IsSuccessRespDto
      */
     public async assignRole(
         requestBody: AssignRoleDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<IsSuccessRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/assign-role',
@@ -751,11 +778,11 @@ export class ManagementClient {
      * @summary 分配角色
      * @description 分配角色，被分配者可以是用户，可以是部门
      * @param requestBody
-     * @returns any
+     * @returns IsSuccessRespDto
      */
     public async assignRoleBatch(
         requestBody: AssignRoleBatchDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<IsSuccessRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/assign-role-batch',
@@ -768,11 +795,11 @@ export class ManagementClient {
      * @summary 分配角色
      * @description 分配角色，被分配者可以是用户，可以是部门
      * @param requestBody
-     * @returns any
+     * @returns IsSuccessRespDto
      */
     public async revokeRole(
         requestBody: RevokeRoleDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<IsSuccessRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/revoke-role',
@@ -785,11 +812,11 @@ export class ManagementClient {
      * @summary 分配角色
      * @description 分配角色，被分配者可以是用户，可以是部门
      * @param requestBody
-     * @returns any
+     * @returns IsSuccessRespDto
      */
     public async revokeRoleBatch(
         requestBody: RevokeRoleBatchDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<IsSuccessRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/revoke-role-batch',
@@ -802,11 +829,11 @@ export class ManagementClient {
      * @summary 角色被授权的资源列表
      * @description 角色被授权的资源列表
      * @param requestBody
-     * @returns any
+     * @returns IsSuccessRespDto
      */
     public async getRoleAuthorizedResources(
         requestBody: RoleAuthorizedResourcesDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<IsSuccessRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/get-role-authorized-resources',
@@ -819,11 +846,11 @@ export class ManagementClient {
      * @summary 获取角色成员列表
      * @description 获取角色成员列表
      * @param requestBody
-     * @returns any
+     * @returns UserListRespDto
      */
     public async listRoleMembers(
         requestBody: ListRoleMemberDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<UserListRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/list-role-members',
@@ -836,11 +863,11 @@ export class ManagementClient {
      * @summary 获取角色的部门列表
      * @description 获取角色的部门列表
      * @param requestBody
-     * @returns any
+     * @returns UserListRespDto
      */
     public async listDepartments(
         requestBody: ListRoleDepartmentDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<UserListRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/list-role-departments',
@@ -853,11 +880,11 @@ export class ManagementClient {
      * @summary 创建角色
      * @description 创建角色
      * @param requestBody
-     * @returns any
+     * @returns RoleSingleRespDto
      */
     public async createRole(
         requestBody: CreateRoleDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<RoleSingleRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/create-role',
@@ -870,11 +897,11 @@ export class ManagementClient {
      * @summary 获取角色列表
      * @description 获取角色列表
      * @param requestBody
-     * @returns any
+     * @returns RolePaginatedRespDto
      */
     public async listRoles(
         requestBody: ListRoleDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<RolePaginatedRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/list-roles',
@@ -887,11 +914,11 @@ export class ManagementClient {
      * @summary 删除角色
      * @description 删除角色
      * @param requestBody
-     * @returns any
+     * @returns IsSuccessRespDto
      */
     public async deleteRoles(
         requestBody: DeleteRoleDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<IsSuccessRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/delete-roles-batch',
@@ -904,11 +931,11 @@ export class ManagementClient {
      * @summary 批量创建角色
      * @description 批量创建角色
      * @param requestBody
-     * @returns any
+     * @returns IsSuccessRespDto
      */
     public async createRolesBatch(
         requestBody: CreateRolesBatch,
-    ): Promise<CommonResponseDto> {
+    ): Promise<IsSuccessRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/create-roles-batch',
@@ -921,11 +948,11 @@ export class ManagementClient {
      * @summary 修改角色
      * @description 修改角色
      * @param requestBody
-     * @returns any
+     * @returns IsSuccessRespDto
      */
     public async updateRole(
         requestBody: UpdateRoleDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<IsSuccessRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/update-role',
@@ -938,11 +965,11 @@ export class ManagementClient {
      * @summary 获取顶层组织机构列表
      * @description 获取顶层组织机构列表
      * @param requestBody
-     * @returns any
+     * @returns OrganizationPaginatedRespDto
      */
     public async listOrganizations(
         requestBody: ListOrganizationsReqDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<OrganizationPaginatedRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/list-organizations',
@@ -955,11 +982,11 @@ export class ManagementClient {
      * @summary 创建顶层组织机构
      * @description 创建顶层组织机构
      * @param requestBody
-     * @returns any
+     * @returns OrganizationSingleRespDto
      */
     public async createOrganization(
         requestBody: CreateOrganizationReqDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<OrganizationSingleRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/create-organization',
@@ -972,11 +999,11 @@ export class ManagementClient {
      * @summary 修改顶层组织机构
      * @description 修改顶层组织机构
      * @param requestBody
-     * @returns any
+     * @returns OrganizationSingleRespDto
      */
     public async updateOrganization(
         requestBody: UpdateOrganizationReqDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<OrganizationSingleRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/update-organization',
@@ -989,11 +1016,11 @@ export class ManagementClient {
      * @summary 删除顶层组织机构
      * @description 删除顶层组织机构
      * @param requestBody
-     * @returns any
+     * @returns IsSuccessRespDto
      */
     public async deleteOrganization(
         requestBody: DeleteOrganizationReqDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<IsSuccessRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/delete-organization',
@@ -1006,11 +1033,11 @@ export class ManagementClient {
      * @summary 获取部门信息
      * @description 获取部门信息
      * @param requestBody
-     * @returns any
+     * @returns DepartmentSingleRespDto
      */
     public async getDepartment(
         requestBody: GetDepartmentReqDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<DepartmentSingleRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/get-department',
@@ -1023,11 +1050,11 @@ export class ManagementClient {
      * @summary 创建部门
      * @description 创建部门
      * @param requestBody
-     * @returns any
+     * @returns DepartmentSingleRespDto
      */
     public async createDepartment(
         requestBody: CreateDepartmentReqDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<DepartmentSingleRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/create-department',
@@ -1040,11 +1067,11 @@ export class ManagementClient {
      * @summary 修改部门
      * @description 修改部门
      * @param requestBody
-     * @returns any
+     * @returns DepartmentSingleRespDto
      */
     public async updateDepartment(
         requestBody: UpdateDepartmentReqDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<DepartmentSingleRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/update-department',
@@ -1057,11 +1084,11 @@ export class ManagementClient {
      * @summary 删除部门
      * @description 删除部门
      * @param requestBody
-     * @returns any
+     * @returns IsSuccessRespDto
      */
     public async deleteDepartment(
         requestBody: DeleteDepartmentReqDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<IsSuccessRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/delete-department',
@@ -1074,11 +1101,11 @@ export class ManagementClient {
      * @summary 搜索部门
      * @description 搜索部门
      * @param requestBody
-     * @returns any
+     * @returns DepartmentListRespDto
      */
     public async searchDepartments(
         requestBody: SearchDepartmentsReqDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<DepartmentListRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/search-departments',
@@ -1091,11 +1118,11 @@ export class ManagementClient {
      * @summary 获取子部门列表
      * @description 获取子部门列表
      * @param requestBody
-     * @returns any
+     * @returns DepartmentPaginatedRespDto
      */
     public async listChildrenDepartments(
         requestBody: ListChildrenDepartmentsReqDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<DepartmentPaginatedRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/list-children-departments',
@@ -1108,11 +1135,11 @@ export class ManagementClient {
      * @summary 获取部门直属成员列表
      * @description 获取部门直属成员列表
      * @param requestBody
-     * @returns any
+     * @returns UserListRespDto
      */
     public async listDepartmentMembers(
         requestBody: ListDepartmentMembersReqDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<UserListRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/list-department-members',
@@ -1142,11 +1169,11 @@ export class ManagementClient {
      * @summary 部门下添加成员
      * @description 部门下添加成员
      * @param requestBody
-     * @returns any
+     * @returns IsSuccessRespDto
      */
     public async addDepartmentMembers(
         requestBody: AddDepartmentMembersReqDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<IsSuccessRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/add-department-members',
@@ -1159,11 +1186,11 @@ export class ManagementClient {
      * @summary 部门下删除成员
      * @description 部门下删除成员
      * @param requestBody
-     * @returns any
+     * @returns IsSuccessRespDto
      */
     public async removeDepartmentMembers(
         requestBody: AddDepartmentMembersReqDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<IsSuccessRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/remove-department-members',
@@ -1176,11 +1203,11 @@ export class ManagementClient {
      * @summary 获取父部门信息
      * @description 获取父部门信息
      * @param requestBody
-     * @returns any
+     * @returns DepartmentSingleRespDto
      */
     public async getParentDepartment(
         requestBody: GetParentDepartmentReqDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<DepartmentSingleRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/get-parent-department',
@@ -1193,11 +1220,11 @@ export class ManagementClient {
      * @summary 获取用户池定义的自定义字段
      * @description 获取用户池定义的自定义字段
      * @param requestBody
-     * @returns any
+     * @returns UserCustomFieldListRespDto
      */
     public async getUserCustomFields(
         requestBody: GetUserDefinedFieldsDto,
-    ): Promise<CommonResponseDto> {
+    ): Promise<UserCustomFieldListRespDto> {
         return await this.httpClient.request({
             method: 'POST',
             url: '/api/v3/get-user-defined-fields',

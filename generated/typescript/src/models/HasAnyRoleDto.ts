@@ -2,15 +2,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { HasRoleRolesDto } from './HasRoleRolesDto';
-
 export type HasAnyRoleDto = {
     /**
-     * 用户 ID
+     * 是否拥有其中某一个角色
      */
-    userId: string;
-    /**
-     * 角色列表
-     */
-    roles: Array<HasRoleRolesDto>;
+    hasAnyRole: boolean;
 };

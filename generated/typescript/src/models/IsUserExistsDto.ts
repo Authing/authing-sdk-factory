@@ -2,9 +2,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type SetUserCustomDataDto = {
+export type IsUserExistsDto = {
     /**
-     * 操作是否成功
+     * 用户是否存在
      */
-    success: boolean;
+    exists: boolean;
 };

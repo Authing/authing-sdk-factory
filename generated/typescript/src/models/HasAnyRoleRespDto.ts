@@ -2,9 +2,19 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { HasAnyRoleDto } from './HasAnyRoleDto';
+
 export type HasAnyRoleRespDto = {
     /**
-     * 是否拥有其中某一个角色
+     * 业务状态码，200 表示成功
      */
-    hasAnyRole: boolean;
+    code: number;
+    /**
+     * 描述信息
+     */
+    message: string;
+    /**
+     * 数据
+     */
+    data: HasAnyRoleDto;
 };

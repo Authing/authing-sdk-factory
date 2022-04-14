@@ -2,9 +2,19 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { SetUserCustomDataDto } from './SetUserCustomDataDto';
+
 export type SetUserCustomDataRespDto = {
     /**
-     * 操作是否成功
+     * 业务状态码，200 表示成功
      */
-    success: boolean;
+    code: number;
+    /**
+     * 描述信息
+     */
+    message: string;
+    /**
+     * 数据
+     */
+    data: SetUserCustomDataDto;
 };

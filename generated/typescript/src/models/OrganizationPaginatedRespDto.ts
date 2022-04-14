@@ -2,9 +2,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { IsUserExistsDto } from './IsUserExistsDto';
+import type { OrganizationPagingDto } from './OrganizationPagingDto';
 
-export type IsUserExistsRespDto = {
+export type OrganizationPaginatedRespDto = {
     /**
      * 业务状态码，200 表示成功
      */
@@ -16,5 +16,5 @@ export type IsUserExistsRespDto = {
     /**
      * 数据
      */
-    data: IsUserExistsDto;
+    data: OrganizationPagingDto;
 };

@@ -2,9 +2,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type PaginatedDataDto = {
+export type IsSuccessDto = {
     /**
-     * 元素总数
+     * 操作是否成功
      */
-    totalCount: number;
+    success: boolean;
 };

@@ -2,9 +2,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { PaginatedDataDto } from './PaginatedDataDto';
+import type { ListArchivedUsersRespDto } from './ListArchivedUsersRespDto';
 
-export type PaginatedDto = {
+export type ListArchivedUsersSingleRespDto = {
     /**
      * 业务状态码，200 表示成功
      */
@@ -12,9 +12,9 @@ export type PaginatedDto = {
     /**
      * 描述信息
      */
-    message?: string;
+    message: string;
     /**
-     * 分页结果
+     * 数据
      */
-    data: PaginatedDataDto;
+    data: ListArchivedUsersRespDto;
 };

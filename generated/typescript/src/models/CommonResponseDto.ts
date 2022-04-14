@@ -10,5 +10,5 @@ export type CommonResponseDto = {
     /**
      * 描述信息
      */
-    message?: string;
+    message: string;
 };
