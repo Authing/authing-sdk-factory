@@ -7,10 +7,10 @@ const m = new ManagementClient({
 });
 
 const main = async () => {
-    const data = await m.getUser({
+    const { data: user } = await m.getUser({
         userId: '62559df6b27c98259877b5f4',
     });
-    console.log(data);
+    console.log(user);
 };
 
 main().then(console.log).catch(console.error);
