@@ -1,8 +1,11 @@
+const fs = require('fs');
 const { generate } = require('./dist');
+
+fs.mkdirSync('./generated/typescript/src', { recursive: true });
 
 const main = async () => {
     await generate({
-        input: 'http://localhost:3000/openapi-json',
+        input: 'https://core.authing.cn/openapi-json',
         output: './generated/typescript/src',
         exportCore: false,
     });
