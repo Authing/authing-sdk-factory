@@ -1,4 +1,7 @@
+const fs = require('fs');
 const { generate } = require('./dist');
+
+fs.mkdirSync('./generated/typescript/src', { recursive: true });
 
 const main = async () => {
     await generate({
