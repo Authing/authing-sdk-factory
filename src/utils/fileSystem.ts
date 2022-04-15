@@ -48,3 +48,4 @@ export const rmdir = (path: string): Promise<void> =>
             }
         );
     });
+
