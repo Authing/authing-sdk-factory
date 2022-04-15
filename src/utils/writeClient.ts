@@ -14,8 +14,6 @@ import { writeClientIndex } from './writeClientIndex';
 import { writeClientModels } from './writeClientModels';
 import { writeClientSchemas } from './writeClientSchemas';
 import { writeManagementClient } from './writeClientServices';
-const fse = require('fs-extra');
-
 
 /**
  * Write our OpenAPI client, using the given templates at the given output
@@ -115,5 +113,4 @@ export const writeClient = async (
     // }
 
     // 复制 templates 目录到 generated
-    fse.copySync('templates/node/', outputPath);
 };

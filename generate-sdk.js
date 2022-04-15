@@ -10,7 +10,7 @@ const main = async () => {
         output: './generated/typescript/src',
         exportCore: false,
     });
-    execSync('cp -R templates/node/ generated/typescript');
+    execSync('cp -R templates/node/* generated/typescript/');
 };
 
 main().then(console.log).catch(console.error);
