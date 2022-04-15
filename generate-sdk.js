@@ -1,3 +1,4 @@
+const { execSync } = require('child_process');
 const fs = require('fs');
 const { generate } = require('./dist');
 
@@ -9,6 +10,7 @@ const main = async () => {
         output: './generated/typescript/src',
         exportCore: false,
     });
+    execSync('cp -R templates/node/ generated/typescript');
 };
 
 main().then(console.log).catch(console.error);
