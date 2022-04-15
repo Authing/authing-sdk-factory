@@ -90,8 +90,9 @@ import type { OrganizationSingleRespDto } from './models/OrganizationSingleRespD
 import type { SearchDepartmentsReqDto } from './models/SearchDepartmentsReqDto';
 import type { UpdateDepartmentReqDto } from './models/UpdateDepartmentReqDto';
 import type { UpdateOrganizationReqDto } from './models/UpdateOrganizationReqDto';
+import type { CustomFieldListRespDto } from './models/CustomFieldListRespDto';
 import type { GetUserDefinedFieldsDto } from './models/GetUserDefinedFieldsDto';
-import type { UserCustomFieldListRespDto } from './models/UserCustomFieldListRespDto';
+import type { SetCustomFieldsReqDto } from './models/SetCustomFieldsReqDto';
 
 import { DEFAULT_OPTIONS, ManagementClientOptions } from './ManagementClientOptions';
 import { HttpClient } from './HttpClient';
@@ -427,7 +428,7 @@ export class ManagementClient {
 
     /**
      * @summary 创建用户
-     * @description 创建用户
+     * @description 创建用户，邮箱、手机号、用户名必须包含其中一个
      * @param requestBody
      * @returns UserSingleRespDto
      */
@@ -1217,17 +1218,34 @@ export class ManagementClient {
     }
 
     /**
-     * @summary 获取用户池定义的自定义字段
-     * @description 获取用户池定义的自定义字段
+     * @summary 获取用户池配置的扩展字段列表
+     * @description 获取用户池配置的扩展字段列表
      * @param requestBody
-     * @returns UserCustomFieldListRespDto
+     * @returns CustomFieldListRespDto
      */
-    public async getUserCustomFields(
+    public async getCustomFields(
         requestBody: GetUserDefinedFieldsDto,
-    ): Promise<UserCustomFieldListRespDto> {
+    ): Promise<CustomFieldListRespDto> {
         return await this.httpClient.request({
             method: 'POST',
-            url: '/api/v3/get-user-defined-fields',
+            url: '/api/v3/get-custom-fields',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+
+    /**
+     * @summary 创建扩展字段
+     * @description 创建扩展字段
+     * @param requestBody
+     * @returns CustomFieldListRespDto
+     */
+    public async setCustomFields(
+        requestBody: SetCustomFieldsReqDto,
+    ): Promise<CustomFieldListRespDto> {
+        return await this.httpClient.request({
+            method: 'POST',
+            url: '/api/v3/set-custom-fields',
             body: requestBody,
             mediaType: 'application/json',
         });

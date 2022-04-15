@@ -18,5 +18,5 @@ export type IsUserExistsReqDto = {
     /**
      * 第三方外部 ID
      */
-    externalId: string;
+    externalId?: string;
 };

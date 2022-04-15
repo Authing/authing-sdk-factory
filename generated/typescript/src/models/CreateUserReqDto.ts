@@ -7,6 +7,10 @@ import type { CreateUserOptionsDto } from './CreateUserOptionsDto';
 
 export type CreateUserReqDto = {
     /**
+     * 账户当前状态
+     */
+    status?: CreateUserReqDto.status;
+    /**
      * 邮箱
      */
     email?: string;
@@ -35,33 +39,21 @@ export type CreateUserReqDto = {
      */
     photo?: string;
     /**
-     * 历史总登录次数
-     */
-    loginsCount?: number;
-    /**
-     * 上次登录时间
-     */
-    lastLogin?: string;
-    /**
-     * 上次登录 IP
-     */
-    lastIp?: string;
-    /**
      * 性别
      */
-    gender: CreateUserReqDto.gender;
+    gender?: CreateUserReqDto.gender;
     /**
      * 邮箱是否验证
      */
-    emailVerified: boolean;
+    emailVerified?: boolean;
     /**
      * 手机号是否验证
      */
-    phoneVerified: boolean;
+    phoneVerified?: boolean;
     /**
      * 第三方外部 ID
      */
-    externalId: string;
+    externalId?: string;
     /**
      * 用户所属部门 ID 列表
      */
@@ -89,6 +81,17 @@ export type CreateUserReqDto = {
 };
 
 export namespace CreateUserReqDto {
+
+    /**
+     * 账户当前状态
+     */
+    export enum status {
+        DELETED = 'Deleted',
+        SUSPENDED = 'Suspended',
+        RESIGNED = 'Resigned',
+        ACTIVATED = 'Activated',
+        ARCHIVED = 'Archived',
+    }
 
     /**
      * 性别

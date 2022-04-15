@@ -6,7 +6,7 @@ export type GetUserDefinedFieldsDto = {
     /**
      * 主体类型，目前支持用户和角色
      */
-    targetType?: GetUserDefinedFieldsDto.targetType;
+    targetType: GetUserDefinedFieldsDto.targetType;
 };
 
 export namespace GetUserDefinedFieldsDto {

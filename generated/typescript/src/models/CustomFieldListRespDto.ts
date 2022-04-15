@@ -2,9 +2,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { UserCustomFieldDto } from './UserCustomFieldDto';
+import type { CustomFieldDto } from './CustomFieldDto';
 
-export type UserCustomFieldListRespDto = {
+export type CustomFieldListRespDto = {
     /**
      * 业务状态码，可以通过此状态码判断操作是否成功，200 表示成功。
      */
@@ -20,5 +20,5 @@ export type UserCustomFieldListRespDto = {
     /**
      * 数据
      */
-    data: Array<UserCustomFieldDto>;
+    data: Array<CustomFieldDto>;
 };

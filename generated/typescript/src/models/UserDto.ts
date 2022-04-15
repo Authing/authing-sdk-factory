@@ -10,10 +10,6 @@ export type UserDto = {
      */
     userId: string;
     /**
-     * 所属用户池 ID
-     */
-    userPoolId: string;
-    /**
      * 账户当前状态
      */
     status: UserDto.status;
@@ -72,7 +68,7 @@ export type UserDto = {
     /**
      * 第三方外部 ID
      */
-    externalId: string;
+    externalId?: string;
     /**
      * 用户所属部门 ID 列表
      */
