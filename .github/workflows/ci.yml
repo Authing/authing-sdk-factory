@@ -34,6 +34,5 @@ jobs:
                   source-directory: 'generated/typescript'
                   destination-github-username: 'authing'
                   destination-repository-name: 'authing-node-sdk'
-                  user-email: github@authing.cpina
-                  user-name: Authing-Deployer
+                  user-email: willin@willin.org
                   target-branch: main
