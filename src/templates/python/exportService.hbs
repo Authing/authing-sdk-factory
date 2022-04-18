@@ -1,18 +1,20 @@
 from .ManagementClientOptions import ManagementClientOptions
+from .HttpClient import HttpClient
 
 class ManagementClient(object):
     """Authing Management Client"""
     def __init__(self, options):
         # type:(ManagementClientOptions) -> ManagementClient
         self.options = options
+		self.http_client = HttpClient(self.options)
 
 	{{#each operations}}
-	def {{{name}}}(self, dto):
+	def {{{name}}}(self, {{#each parametersRaw.python}}{{name_underscore}}{{#if isRequired}}{{else}}=None{{/if}}{{#if @last}}{{else}},{{/if}} {{/each}}):
 		"""{{{summary}}}
 
 		{{{description}}}
 		"""
-		return self.httpClient.request(
+		return self.http_client.request(
 			method='{{{method}}}',
 			url='{{{path}}}',
 			{{#if parametersPath}}
@@ -43,23 +45,17 @@ class ManagementClient(object):
 				{{/each}}
 			},
 			{{/if}}
-			{{#if parametersForm}}
-			formData={
-				{{#each parametersForm}}
-				'{{{prop}}}': {{{name}}},
-				{{/each}}
-			},
-			{{/if}}
 			{{#if parametersBody}}
 			{{#equals parametersBody.in 'formData'}}
 			formData={{{parametersBody.name}}},
 			{{/equals}}
 			{{#equals parametersBody.in 'body'}}
-			body=dto,
+			json={
+				{{#each parametersRaw.python}}
+				'{{{name}}}': {{{name_underscore}}},
+				{{/each}}
+			},
 			{{/equals}}
-			{{#if parametersBody.mediaType}}
-			mediaType='{{{parametersBody.mediaType}}}',
-			{{/if}}
 			{{/if}}
 			{{#if responseHeader}}
 			responseHeader='{{{responseHeader}}}',

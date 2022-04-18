@@ -1,16 +1,16 @@
+import { execSync } from 'child_process';
 import * as path from 'path';
 
 import type { Service } from '../client/interfaces/Service';
 import type { HttpClient } from '../HttpClient';
 import type { Indent } from '../Indent';
+import { camelToSnakeCase } from '.';
 import { writeFile } from './fileSystem';
 import { formatCode } from './formatCode';
 import { formatIndentation } from './formatIndentation';
 import { isDefined } from './isDefined';
 import type { Templates } from './registerHandlebarTemplates';
 import { removeDuplicates } from './unique';
-
-const camelToSnakeCase = (str: string) => str.replace(/[A-Z]/g, (letter: string) => `_${letter.toLowerCase()}`);
 
 /**
  * Generate Services using the Handlebar template and write to disk.
@@ -36,7 +36,7 @@ export const writeManagementClient = async (
     clientName?: string,
     lang?: string
 ): Promise<void> => {
-    let service = {
+    const service = {
         name: 'ManagementClient',
         operations: services.map(s => s.operations).flat(),
         imports: removeDuplicates(services.map(s => s.imports).flat()),
@@ -70,6 +70,7 @@ export const writeManagementClient = async (
         await writeFile(file, formatIndentation(formatCode(templateResult), indent));
     } else if (lang === 'python') {
         await writeFile(file, templateResult.replace(/\t/g, '    '));
+        execSync('python3 -m black ' + file);
     }
 
     // for (const service of services) {
