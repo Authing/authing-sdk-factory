@@ -8,6 +8,7 @@ import { isString } from './utils/isString';
 import { postProcessClient } from './utils/postProcessClient';
 import { registerHandlebarTemplates } from './utils/registerHandlebarTemplates';
 import { registerHandlebarTemplatesForJava } from './utils/registerHandlebarTemplatesForJava';
+import { registerHandlebarTemplatesForPython } from './utils/registerHandlebarTemplatesForPython';
 import { writeClient } from './utils/writeClient';
 
 export { HttpClient } from './HttpClient';
@@ -28,7 +29,7 @@ export type Options = {
     postfix?: string;
     request?: string;
     write?: boolean;
-    lang?: 'ts' | 'java';
+    lang?: 'ts' | 'java' | 'python';
 };
 
 /**
@@ -79,6 +80,12 @@ export const generate = async ({
         });
     } else if (lang === 'java') {
         templates = registerHandlebarTemplatesForJava({
+            httpClient,
+            useUnionTypes,
+            useOptions,
+        });
+    } else if (lang === 'python') {
+        templates = registerHandlebarTemplatesForPython({
             httpClient,
             useUnionTypes,
             useOptions,

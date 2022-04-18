@@ -1,0 +1,76 @@
+from .ManagementClientOptions import ManagementClientOptions
+
+class ManagementClient(object):
+    """Authing Management Client"""
+    def __init__(self, options):
+        # type:(ManagementClientOptions) -> ManagementClient
+        self.options = options
+
+	{{#each operations}}
+	def {{{name}}}(self, dto):
+		"""{{{summary}}}
+
+		{{{description}}}
+		"""
+		return self.httpClient.request(
+			method='{{{method}}}',
+			url='{{{path}}}',
+			{{#if parametersPath}}
+			path={
+				{{#each parametersPath}}
+				'{{{prop}}}': {{{name}}},
+				{{/each}}
+			},
+			{{/if}}
+			{{#if parametersCookie}}
+			cookies={
+				{{#each parametersCookie}}
+				'{{{prop}}}': {{{name}}},
+				{{/each}}
+			},
+			{{/if}}
+			{{#if parametersHeader}}
+			headers={
+				{{#each parametersHeader}}
+				'{{{prop}}}': {{{name}}},
+				{{/each}}
+			},
+			{{/if}}
+			{{#if parametersQuery}}
+			query={
+				{{#each parametersQuery}}
+				'{{{prop}}}': {{{name}}},
+				{{/each}}
+			},
+			{{/if}}
+			{{#if parametersForm}}
+			formData={
+				{{#each parametersForm}}
+				'{{{prop}}}': {{{name}}},
+				{{/each}}
+			},
+			{{/if}}
+			{{#if parametersBody}}
+			{{#equals parametersBody.in 'formData'}}
+			formData={{{parametersBody.name}}},
+			{{/equals}}
+			{{#equals parametersBody.in 'body'}}
+			body=dto,
+			{{/equals}}
+			{{#if parametersBody.mediaType}}
+			mediaType='{{{parametersBody.mediaType}}}',
+			{{/if}}
+			{{/if}}
+			{{#if responseHeader}}
+			responseHeader='{{{responseHeader}}}',
+			{{/if}}
+			{{#if errors}}
+			errors={
+				{{#each errors}}
+				{{{code}}}: `{{{escapeDescription description}}}`,
+				{{/each}}
+			},
+			{{/if}}
+		)
+
+	{{/each}}

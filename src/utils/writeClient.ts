@@ -48,7 +48,7 @@ export const writeClient = async (
     postfix: string,
     clientName?: string,
     request?: string,
-    lang?: 'ts' | 'java'
+    lang?: string
 ): Promise<void> => {
     const outputPath = resolve(process.cwd(), output);
     const outputPathCore = resolve(outputPath, 'core');

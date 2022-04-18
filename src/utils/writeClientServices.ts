@@ -10,6 +10,8 @@ import { isDefined } from './isDefined';
 import type { Templates } from './registerHandlebarTemplates';
 import { removeDuplicates } from './unique';
 
+const camelToSnakeCase = (str: string) => str.replace(/[A-Z]/g, (letter: string) => `_${letter.toLowerCase()}`);
+
 /**
  * Generate Services using the Handlebar template and write to disk.
  * @param services Array of Services to write
@@ -32,9 +34,9 @@ export const writeManagementClient = async (
     indent: Indent,
     postfix: string,
     clientName?: string,
-    lang?: 'ts' | 'java'
+    lang?: string
 ): Promise<void> => {
-    const service = {
+    let service = {
         name: 'ManagementClient',
         operations: services.map(s => s.operations).flat(),
         imports: removeDuplicates(services.map(s => s.imports).flat()),
@@ -44,6 +46,15 @@ export const writeManagementClient = async (
         file = path.resolve(outputPath, `ManagementClient.ts`);
     } else if (lang === 'java') {
         file = path.resolve(outputPath, `ManagementClient.java`);
+    } else if (lang === 'python') {
+        file = path.resolve(outputPath, `ManagementClient.py`);
+    }
+
+    if (lang === 'python') {
+        service.operations = service.operations.map(op => {
+            op.name = camelToSnakeCase(op.name);
+            return op;
+        });
     }
 
     const templateResult = templates.exports.service({
@@ -54,7 +65,13 @@ export const writeManagementClient = async (
         postfix,
         exportClient: isDefined(clientName),
     });
-    await writeFile(file, formatIndentation(formatCode(templateResult), indent));
+
+    if (lang === 'ts') {
+        await writeFile(file, formatIndentation(formatCode(templateResult), indent));
+    } else if (lang === 'python') {
+        await writeFile(file, templateResult.replace(/\t/g, '    '));
+    }
+
     // for (const service of services) {
     //     const file = resolve(outputPath, `${service.name}${postfix}.ts`);
     //     const templateResult = templates.exports.service({
