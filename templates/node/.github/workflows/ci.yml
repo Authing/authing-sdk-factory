@@ -1,28 +1,26 @@
-name: Generate
+name: CI
 
 on:
     workflow_dispatch:
-    push:
-        branches:
-            - main
 
 jobs:
-    Generate:
-        runs-on: ubuntu-latest
-        strategy:
-            matrix:
-                node-version: [16.x]
-        steps:
-            - uses: actions/checkout@v2
-            - name: Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v2
-              with:
-                  node-version: ${{ matrix.node-version }}
-            - uses: actions/cache@v2
-              with:
-                  path: '**/node_modules'
-                  key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-            - name: Install node_modules
-              run: yarn
-            - name: Build Package
-              run: yarn generate
+
+  readyGo:
+
+    runs-on: ubuntu-latest
+
+    env: 
+      NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+      PUBLISH_OPTS: ${{ github.ref_name == 'main' && '--verbose' || '--verbose --tag=alpha' }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16.13.1
+          registry-url: https://registry.npmjs.org/
+
+      - name: publish
+        run: |
+          npm config set //registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN
+          npm publish $PUBLISH_OPTS --access public
