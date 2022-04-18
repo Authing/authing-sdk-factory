@@ -31,14 +31,21 @@ export const writeManagementClient = async (
     useOptions: boolean,
     indent: Indent,
     postfix: string,
-    clientName?: string
+    clientName?: string,
+    lang?: 'ts' | 'java'
 ): Promise<void> => {
     const service = {
         name: 'ManagementClient',
         operations: services.map(s => s.operations).flat(),
         imports: removeDuplicates(services.map(s => s.imports).flat()),
     };
-    const file = path.resolve(outputPath, `ManagementClient.ts`);
+    let file = '';
+    if (lang === 'ts') {
+        file = path.resolve(outputPath, `ManagementClient.ts`);
+    } else if (lang === 'java') {
+        file = path.resolve(outputPath, `ManagementClient.java`);
+    }
+
     const templateResult = templates.exports.service({
         ...service,
         httpClient,

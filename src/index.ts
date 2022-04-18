@@ -7,6 +7,7 @@ import { getOpenApiVersion, OpenApiVersion } from './utils/getOpenApiVersion';
 import { isString } from './utils/isString';
 import { postProcessClient } from './utils/postProcessClient';
 import { registerHandlebarTemplates } from './utils/registerHandlebarTemplates';
+import { registerHandlebarTemplatesForJava } from './utils/registerHandlebarTemplatesForJava';
 import { writeClient } from './utils/writeClient';
 
 export { HttpClient } from './HttpClient';
@@ -27,6 +28,7 @@ export type Options = {
     postfix?: string;
     request?: string;
     write?: boolean;
+    lang?: 'ts' | 'java';
 };
 
 /**
@@ -63,14 +65,27 @@ export const generate = async ({
     postfix = 'Service',
     request,
     write = true,
+    lang = 'ts',
 }: Options): Promise<void> => {
     const openApi = isString(input) ? await getOpenApiSpec(input) : input;
     const openApiVersion = getOpenApiVersion(openApi);
-    const templates = registerHandlebarTemplates({
-        httpClient,
-        useUnionTypes,
-        useOptions,
-    });
+
+    let templates;
+    if (lang === 'ts') {
+        templates = registerHandlebarTemplates({
+            httpClient,
+            useUnionTypes,
+            useOptions,
+        });
+    } else if (lang === 'java') {
+        templates = registerHandlebarTemplatesForJava({
+            httpClient,
+            useUnionTypes,
+            useOptions,
+        });
+    } else {
+        throw new Error('not supported lang');
+    }
 
     switch (openApiVersion) {
         case OpenApiVersion.V2: {
@@ -114,7 +129,8 @@ export const generate = async ({
                 indent,
                 postfix,
                 clientName,
-                request
+                request,
+                lang
             );
             break;
         }

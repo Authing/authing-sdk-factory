@@ -47,7 +47,8 @@ export const writeClient = async (
     indent: Indent,
     postfix: string,
     clientName?: string,
-    request?: string
+    request?: string,
+    lang?: 'ts' | 'java'
 ): Promise<void> => {
     const outputPath = resolve(process.cwd(), output);
     const outputPathCore = resolve(outputPath, 'core');
@@ -75,7 +76,8 @@ export const writeClient = async (
             useOptions,
             indent,
             postfix,
-            clientName
+            clientName,
+            lang
         );
     }
 
