@@ -1,5 +1,5 @@
 {
-    "name": "authing-js-sdk",
+    "name": "authing-node-sdk",
     "version": "0.0.0",
     "description": "",
     "main": "dist/index.js",
@@ -11,5 +11,9 @@
     "license": "MIT",
     "dependencies": {
         "axios": "^0.26.1"
+    },
+    "publishConfig": {
+        "access": "public",
+        "registry": "https://registry.npmjs.org"
     }
 }
