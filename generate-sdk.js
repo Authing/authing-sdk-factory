@@ -10,8 +10,6 @@ const main = async () => {
         output: './generated/typescript/src',
         exportCore: false,
     });
-    execSync('cp -R templates/node/* generated/typescript/');
-    execSync('cp -R templates/node/.github generated/typescript/.github');
     execSync('cp -R generated/typescript/* ../authing-node-sdk/');
 };
 
