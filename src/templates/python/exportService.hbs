@@ -13,31 +13,15 @@ class ManagementClient(object):
 		"""{{{summary}}}
 
 		{{{description}}}
+
+		Attributes:
+		{{#each parametersRaw.python}}
+			{{name_underscore}} ({{type_python}}): {{description}}
+		{{/each}}
 		"""
 		return self.http_client.request(
 			method='{{{method}}}',
 			url='{{{path}}}',
-			{{#if parametersPath}}
-			path={
-				{{#each parametersPath}}
-				'{{{prop}}}': {{{name}}},
-				{{/each}}
-			},
-			{{/if}}
-			{{#if parametersCookie}}
-			cookies={
-				{{#each parametersCookie}}
-				'{{{prop}}}': {{{name}}},
-				{{/each}}
-			},
-			{{/if}}
-			{{#if parametersHeader}}
-			headers={
-				{{#each parametersHeader}}
-				'{{{prop}}}': {{{name}}},
-				{{/each}}
-			},
-			{{/if}}
 			{{#if parametersQuery}}
 			query={
 				{{#each parametersQuery}}
@@ -46,9 +30,6 @@ class ManagementClient(object):
 			},
 			{{/if}}
 			{{#if parametersBody}}
-			{{#equals parametersBody.in 'formData'}}
-			formData={{{parametersBody.name}}},
-			{{/equals}}
 			{{#equals parametersBody.in 'body'}}
 			json={
 				{{#each parametersRaw.python}}
@@ -56,16 +37,6 @@ class ManagementClient(object):
 				{{/each}}
 			},
 			{{/equals}}
-			{{/if}}
-			{{#if responseHeader}}
-			responseHeader='{{{responseHeader}}}',
-			{{/if}}
-			{{#if errors}}
-			errors={
-				{{#each errors}}
-				{{{code}}}: `{{{escapeDescription description}}}`,
-				{{/each}}
-			},
 			{{/if}}
 		)
 

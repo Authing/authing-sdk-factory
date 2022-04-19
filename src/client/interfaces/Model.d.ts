@@ -6,6 +6,7 @@ export interface Model extends Schema {
     name_underscore?: string;
     export: 'reference' | 'generic' | 'enum' | 'array' | 'dictionary' | 'interface' | 'one-of' | 'any-of' | 'all-of';
     type: string;
+    type_python?: string;
     base: string;
     template: string | null;
     link: Model | null;

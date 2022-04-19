@@ -10,7 +10,7 @@ const main = async () => {
         output: './generated/python/src',
         exportCore: false,
         lang: 'python',
-        exportModels: false,
+        exportModels: true,
     });
     execSync('cp -R generated/python/src/* ../authing-py-sdk/authing');
 };

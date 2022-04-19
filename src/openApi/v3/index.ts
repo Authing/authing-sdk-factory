@@ -8,6 +8,14 @@ import { getServer } from './parser/getServer';
 import { getServices } from './parser/getServices';
 import { getServiceVersion } from './parser/getServiceVersion';
 
+const pythonTypeMap: Record<string, any> = {
+    string: 'str',
+    number: 'int',
+    boolean: 'bool',
+    object: 'Object',
+    array: 'list',
+};
+
 /**
  * Parse the OpenAPI specification to a Client model that contains
  * all the models, services and schema's we should output.
@@ -27,6 +35,19 @@ export const parse = (openApi: OpenApi): Client => {
                 const properties = (model?.properties || []).sort(p => (p.isRequired ? -1 : 1));
                 properties.forEach(p => {
                     p.name_underscore = camelToSnakeCase(p.name);
+                    if (p.export === 'generic') {
+                        p.type_python = pythonTypeMap[p.type] || '';
+                    } else if (p.export === 'array') {
+                        p.type_python = 'list';
+                    } else if (p.export === 'enum') {
+                        p.type_python = 'str';
+                    } else if (p.export === 'interface') {
+                        p.type_python = 'dict';
+                    } else if (p.export === 'all-of') {
+                        p.type_python = 'dict';
+                    } else {
+                        p.type_python = pythonTypeMap[p.type] || '';
+                    }
                 });
                 op.parametersRaw = {
                     python: properties,
