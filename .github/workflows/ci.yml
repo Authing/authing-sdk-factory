@@ -26,14 +26,12 @@ jobs:
               run: yarn
             - name: Build Package
               run: yarn generate
-            - name: Release
-              uses: softprops/action-gh-release@v1
+            - name: Deploy
+              uses: peaceiris/actions-gh-pages@v3
               with:
-                  token: ${{ secrets.API_TOKEN_GITHUB }}
-                  files: 'generated/typescript'
-                  repository: 'authing/authing-sdk-factory'
-                  target_commitish: 'temp/node'
-                  tag_name: 'v0.0.0'
+                  github_token: ${{ secrets.API_TOKEN_GITHUB }}
+                  publish_dir: ./generated/typescript
+                  publish_branch: temp/node
             # - name: Pushes to another repository
             #   uses: cpina/github-action-push-to-another-repository@main
             #   env:
@@ -64,14 +62,12 @@ jobs:
               run: yarn
             - name: Build Package
               run: yarn generate:java
-            - name: Release
-              uses: softprops/action-gh-release@v1
+            - name: Deploy
+              uses: peaceiris/actions-gh-pages@v3
               with:
-                  token: ${{ secrets.API_TOKEN_GITHUB }}
-                  files: 'generated/java'
-                  repository: 'authing/authing-sdk-factory'
-                  target_commitish: 'temp/java'
-                  tag_name: 'v0.0.0'
+                  github_token: ${{ secrets.API_TOKEN_GITHUB }}
+                  publish_dir: ./generated/java
+                  publish_branch: temp/java
 
     Python:
         runs-on: ubuntu-latest
@@ -92,11 +88,9 @@ jobs:
               run: yarn
             - name: Build Package
               run: yarn generate:python
-            - name: Release
-              uses: softprops/action-gh-release@v1
+            - name: Deploy
+              uses: peaceiris/actions-gh-pages@v3
               with:
-                  token: ${{ secrets.API_TOKEN_GITHUB }}
-                  files: 'generated/python'
-                  repository: 'authing/authing-sdk-factory'
-                  target_commitish: 'temp/python'
-                  tag_name: 'v0.0.0'
+                  github_token: ${{ secrets.API_TOKEN_GITHUB }}
+                  publish_dir: ./generated/python
+                  publish_branch: temp/python
