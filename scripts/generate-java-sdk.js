@@ -1,6 +1,6 @@
 const { execSync } = require('child_process');
 const fs = require('fs');
-const { generate } = require('./dist');
+const { generate } = require('../dist');
 
 fs.mkdirSync('./generated/java/src', { recursive: true });
 
@@ -11,8 +11,7 @@ const main = async () => {
         exportCore: false,
         lang: 'java',
     });
-    // execSync('cp -R templates/node/* generated/typescript/');
-    // execSync('cp -R generated/typescript/* ../authing-node-sdk/');
+    execSync('cp -R generated/typescript/* ../authing-java-sdk/');
 };
 
 main().then(console.log).catch(console.error);

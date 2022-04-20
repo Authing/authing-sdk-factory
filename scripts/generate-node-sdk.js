@@ -1,6 +1,6 @@
 const { execSync } = require('child_process');
 const fs = require('fs');
-const { generate } = require('./dist');
+const { generate } = require('../dist');
 
 fs.mkdirSync('./generated/typescript/src', { recursive: true });
 
