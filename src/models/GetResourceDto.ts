@@ -2,9 +2,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type GetRoleDto = {
+export type GetResourceDto = {
     /**
-     * 角色唯一标识符
+     * 资源唯一标志符
      */
     code: string;
     /**

@@ -2,11 +2,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type GetGroupAuthorizedResourcesDto = {
-    /**
-     * 分组 code
-     */
-    code: string;
+import type { ListResourcesOptionsDto } from './ListResourcesOptionsDto';
+
+export type ListResourcesDto = {
     /**
      * 所属权限分组的 code
      */
@@ -14,15 +12,19 @@ export type GetGroupAuthorizedResourcesDto = {
     /**
      * 资源类型
      */
-    resourceType?: GetGroupAuthorizedResourcesDto.resourceType;
+    type?: ListResourcesDto.type;
+    /**
+     * 可选参数
+     */
+    options?: ListResourcesOptionsDto;
 };
 
-export namespace GetGroupAuthorizedResourcesDto {
+export namespace ListResourcesDto {
 
     /**
      * 资源类型
      */
-    export enum resourceType {
+    export enum type {
         DATA = 'DATA',
         API = 'API',
         MENU = 'MENU',

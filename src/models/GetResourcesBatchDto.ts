@@ -2,11 +2,11 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type GetRoleDto = {
+export type GetResourcesBatchDto = {
     /**
-     * 角色唯一标识符
+     * 资源 code 列表
      */
-    code: string;
+    codeList: Array<string>;
     /**
      * 所属权限分组的 code
      */
