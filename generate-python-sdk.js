@@ -6,11 +6,11 @@ fs.mkdirSync('./generated/python/src', { recursive: true });
 
 const main = async () => {
     await generate({
-        input: 'https://core.authing.cn/openapi-json',
+        input: 'https://console.cj.mereith.com/openapi-json',
         output: './generated/python/src',
         exportCore: false,
         lang: 'python',
-        exportModels: true,
+        exportModels: false,
     });
     execSync('cp -R generated/python/src/* ../authing-py-sdk/authing');
 };
