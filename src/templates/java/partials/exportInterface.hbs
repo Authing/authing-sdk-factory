@@ -5,14 +5,14 @@ public class {{{name}}} {
 	 * {{{escapeComment description}}}
 	 */
 	{{/if}}
-	private {{convertFirstCharToUpperCase name}} {{{name}}};
+	private {{>type parent=../name}} {{{name}}};
 	{{/each}}
 
 	{{#each properties}}
-	public {{convertFirstCharToUpperCase name}} {{{name_java_get}}}() {
+	public {{>type parent=../name}} {{{name_java_get}}}() {
         return {{name}};
     }
-	public void {{{name_java_set}}}({{convertFirstCharToUpperCase name}} {{name}}) {
+	public void {{{name_java_set}}}({{>type parent=../name}} {{name}}) {
         this.{{name}} = {{name}};
     }
 
@@ -27,12 +27,13 @@ public class {{{name}}} {
 	{{/if}}
     public static enum {{convertFirstCharToUpperCase name}} {
 		{{#each enum}}
-		{{{name}}}({{{value}}}),
+		{{{name}}}({{convertSingleQuotesToDoubleQuotes value}}),
 		{{/each}}
 		;
 
 		private String value;
-        {{name}}(String value) {
+
+        {{convertFirstCharToUpperCase name}}(String value) {
             this.value = value;
         }
 

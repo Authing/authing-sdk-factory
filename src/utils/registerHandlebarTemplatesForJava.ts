@@ -224,6 +224,12 @@ export const registerHandlebarTemplatesForJava = (root: {
     Handlebars.registerHelper('convertFirstCharToUpperCase', (str: string) => {
         return str.charAt(0).toUpperCase() + str.slice(1);
     });
-
+    Handlebars.registerHelper('convertSingleQuotesToDoubleQuotes', (str: string) => {
+        return str.replace(/\'/g, '"');
+    });
+    Handlebars.registerHelper('console', (data: any) => {
+        console.log(data);
+        return data;
+    });
     return templates;
 };
