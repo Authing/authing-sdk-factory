@@ -90,7 +90,7 @@ export const writeClient = async (
     if (exportModels) {
         await rmdir(outputPathModels);
         await mkdir(outputPathModels);
-        await writeClientModels(client.models, templates, outputPathModels, httpClient, useUnionTypes, indent);
+        await writeClientModels(client.models, templates, outputPathModels, httpClient, useUnionTypes, indent, lang!);
     }
 
     // if (isDefined(clientName)) {

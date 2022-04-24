@@ -1,37 +1,20 @@
-{{#if description}}
-/**
- * {{{escapeComment description}}}
- */
-{{/if}}
-export type {{{name}}} = {
+public class {{{name}}} {
 	{{#each properties}}
 	{{#if description}}
 	/**
 	 * {{{escapeComment description}}}
 	 */
 	{{/if}}
-	{{>isReadOnly}}{{{name}}}{{>isRequired}}: {{>type parent=../name}};
+	private {{>type parent=../name}} {{{name}}}
+	{{/each}}
+
+	{{#each properties}}
+	public {{>type parent=../name}} {{{name_java_get}}}() {
+        return {{name}};
+    }
+	public void {{{name_java_set}}}({{>type parent=../name}} {{name}}) {
+        this.{{name}} = {{name}};
+    }
+
 	{{/each}}
 };
-{{#if enums}}
-{{#unless @root.useUnionTypes}}
-
-export namespace {{{name}}} {
-
-	{{#each enums}}
-	{{#if description}}
-	/**
-	 * {{{escapeComment description}}}
-	 */
-	{{/if}}
-	export enum {{{name}}} {
-		{{#each enum}}
-		{{{name}}} = {{{value}}},
-		{{/each}}
-	}
-
-	{{/each}}
-
-}
-{{/unless}}
-{{/if}}

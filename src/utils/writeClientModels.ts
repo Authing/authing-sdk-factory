@@ -23,10 +23,18 @@ export const writeClientModels = async (
     outputPath: string,
     httpClient: HttpClient,
     useUnionTypes: boolean,
-    indent: Indent
+    indent: Indent,
+    lang: string
 ): Promise<void> => {
     for (const model of models) {
-        const file = resolve(outputPath, `${model.name}.ts`);
+        let file;
+        if (lang === 'ts') {
+            file = resolve(outputPath, `${model.name}.ts`);
+        } else if (lang === 'java') {
+            file = resolve(outputPath, `${model.name}.java`);
+        } else {
+            throw new Error('unsupported lang');
+        }
         const templateResult = templates.exports.model({
             ...model,
             httpClient,

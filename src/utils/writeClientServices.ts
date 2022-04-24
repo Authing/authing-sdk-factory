@@ -71,6 +71,8 @@ export const writeManagementClient = async (
     } else if (lang === 'python') {
         await writeFile(file, templateResult.replace(/\t/g, '    '));
         execSync('python3 -m black ' + file);
+    } else if (lang === 'java') {
+        await writeFile(file, formatIndentation(formatCode(templateResult), indent));
     }
 
     // for (const service of services) {

@@ -1,9 +1,8 @@
-{{>header}}
+package dto;
 
 {{#if imports}}
-
 {{#each imports}}
-import type { {{{this}}} } from './{{{this}}}';
+import dto.{{this}};
 {{/each}}
 {{/if}}
 
