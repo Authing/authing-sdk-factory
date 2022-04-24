@@ -8,6 +8,7 @@ const javaTypeMap: any = {
     string: 'String',
     number: 'Integer',
     boolean: 'Boolean',
+    any: 'Object',
 };
 
 export const getModels = (openApi: OpenApi): Model[] => {
