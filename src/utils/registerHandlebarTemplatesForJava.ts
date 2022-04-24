@@ -220,5 +220,10 @@ export const registerHandlebarTemplatesForJava = (root: {
     Handlebars.registerPartial('angular/sendRequest', Handlebars.template(angularSendRequest));
     Handlebars.registerPartial('angular/request', Handlebars.template(angularRequest));
 
+    // Helpers
+    Handlebars.registerHelper('convertFirstCharToUpperCase', (str: string) => {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    });
+
     return templates;
 };

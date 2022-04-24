@@ -5,7 +5,7 @@ public class {{{name}}} {
 	 * {{{escapeComment description}}}
 	 */
 	{{/if}}
-	private {{>type parent=../name}} {{{name}}}
+	private {{>type parent=../name}} {{{name}}};
 	{{/each}}
 
 	{{#each properties}}
@@ -17,4 +17,31 @@ public class {{{name}}} {
     }
 
 	{{/each}}
+
+	{{#if enums}}
+	{{#each enums}}
+	{{#if description}}
+	/**
+	* {{{escapeComment description}}}
+	*/
+	{{/if}}
+    public static enum {{convertFirstCharToUpperCase name}} {
+		{{#each enum}}
+		{{{name}}}({{{value}}}),
+		{{/each}}
+		;
+
+		private String value;
+        {{name}}(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
+    }
+
+	{{/each}}
+	{{/if}}
+
 };

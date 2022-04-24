@@ -6,7 +6,7 @@ import { getType } from './getType';
 
 const javaTypeMap: any = {
     string: 'String',
-    number: 'Int',
+    number: 'Integer',
     boolean: 'Boolean',
 };
 
