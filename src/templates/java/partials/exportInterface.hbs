@@ -5,14 +5,14 @@ public class {{{name}}} {
 	 * {{{escapeComment description}}}
 	 */
 	{{/if}}
-	private {{>type parent=../name}} {{{name}}};
+	private {{convertFirstCharToUpperCase name}} {{{name}}};
 	{{/each}}
 
 	{{#each properties}}
-	public {{>type parent=../name}} {{{name_java_get}}}() {
+	public {{convertFirstCharToUpperCase name}} {{{name_java_get}}}() {
         return {{name}};
     }
-	public void {{{name_java_set}}}({{>type parent=../name}} {{name}}) {
+	public void {{{name_java_set}}}({{convertFirstCharToUpperCase name}} {{name}}) {
         this.{{name}} = {{name}};
     }
 
