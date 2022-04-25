@@ -231,5 +231,15 @@ export const registerHandlebarTemplatesForJava = (root: {
         console.log(data);
         return data;
     });
+
+    const javaTypeMap: any = {
+        string: 'String',
+        number: 'Integer',
+        boolean: 'Boolean',
+        any: 'Object',
+    };
+    Handlebars.registerHelper('convertGenericType', (item: any) => {
+        return javaTypeMap[item] || item;
+    });
     return templates;
 };
