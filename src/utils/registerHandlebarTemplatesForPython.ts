@@ -66,6 +66,8 @@ import partialIsNullable from '../templates/python/partials/isNullable.hbs';
 import partialIsReadOnly from '../templates/python/partials/isReadOnly.hbs';
 import partialIsRequired from '../templates/python/partials/isRequired.hbs';
 import partialParameters from '../templates/python/partials/parameters.hbs';
+import partialParametersGet from '../templates/python/partials/parametersGet.hbs';
+import partialParametersPost from '../templates/python/partials/parametersPost.hbs';
 import partialResult from '../templates/python/partials/result.hbs';
 import partialSchema from '../templates/python/partials/schema.hbs';
 import partialSchemaArray from '../templates/python/partials/schemaArray.hbs';
@@ -147,6 +149,8 @@ export const registerHandlebarTemplatesForPython = (root: {
     Handlebars.registerPartial('isReadOnly', Handlebars.template(partialIsReadOnly));
     Handlebars.registerPartial('isRequired', Handlebars.template(partialIsRequired));
     Handlebars.registerPartial('parameters', Handlebars.template(partialParameters));
+    Handlebars.registerPartial('parametersGet', Handlebars.template(partialParametersGet));
+    Handlebars.registerPartial('parametersPost', Handlebars.template(partialParametersPost));
     Handlebars.registerPartial('result', Handlebars.template(partialResult));
     Handlebars.registerPartial('schema', Handlebars.template(partialSchema));
     Handlebars.registerPartial('schemaArray', Handlebars.template(partialSchemaArray));

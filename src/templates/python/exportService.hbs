@@ -11,23 +11,29 @@ class ManagementClient(object):
 		self.http_client = HttpClient(self.options)
 
 	{{#each operations}}
-	def {{{name}}}(self, {{#each parametersRaw.python}}{{name_underscore}}{{#if isRequired}}{{else}}=None{{/if}}{{#if @last}}{{else}},{{/if}} {{/each}}):
+	def {{{name}}}(self, {{#equals method 'POST' }}{{>parametersPost}}{{else}}{{>parametersGet}}{{/equals}}):
 		"""{{{summary}}}
 
 		{{{description}}}
 
 		Attributes:
+		{{#equals method 'POST' }}
 		{{#each parametersRaw.python}}
 			{{name_underscore}} ({{type_python}}): {{description}}
 		{{/each}}
+		{{else}}
+		{{#each parameters}}
+			{{prop}} ({{type_python}}): {{description}}
+		{{/each}}
+		{{/equals}}
 		"""
 		return self.http_client.request(
 			method='{{{method}}}',
 			url='{{{path}}}',
 			{{#if parametersQuery}}
-			query={
+			params={
 				{{#each parametersQuery}}
-				'{{{prop}}}': {{{name}}},
+				'{{{prop}}}': {{{prop}}},
 				{{/each}}
 			},
 			{{/if}}

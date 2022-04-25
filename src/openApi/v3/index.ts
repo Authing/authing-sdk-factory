@@ -28,30 +28,36 @@ export const parse = (openApi: OpenApi): Client => {
     const services = getServices(openApi);
     services.forEach(service => {
         service.operations.forEach(op => {
-            const { parameters } = op;
+            const { parameters, method } = op;
             if (parameters.length) {
-                const type = parameters[0].type;
-                const model = _.find(models, (m: any) => m.name === type);
-                const properties = (model?.properties || []).sort(p => (p.isRequired ? -1 : 1));
-                properties.forEach(p => {
-                    p.name_underscore = camelToSnakeCase(p.name);
-                    if (p.export === 'generic') {
+                if (method === 'GET') {
+                    parameters.forEach(p => {
                         p.type_python = pythonTypeMap[p.type] || '';
-                    } else if (p.export === 'array') {
-                        p.type_python = 'list';
-                    } else if (p.export === 'enum') {
-                        p.type_python = 'str';
-                    } else if (p.export === 'interface') {
-                        p.type_python = 'dict';
-                    } else if (p.export === 'all-of') {
-                        p.type_python = 'dict';
-                    } else {
-                        p.type_python = pythonTypeMap[p.type] || '';
-                    }
-                });
-                op.parametersRaw = {
-                    python: properties,
-                };
+                    });
+                } else if (method === 'POST') {
+                    const type = parameters[0].type;
+                    const model = _.find(models, (m: any) => m.name === type);
+                    const properties = (model?.properties || []).sort(p => (p.isRequired ? -1 : 1));
+                    properties.forEach(p => {
+                        p.name_underscore = camelToSnakeCase(p.name);
+                        if (p.export === 'generic') {
+                            p.type_python = pythonTypeMap[p.type] || '';
+                        } else if (p.export === 'array') {
+                            p.type_python = 'list';
+                        } else if (p.export === 'enum') {
+                            p.type_python = 'str';
+                        } else if (p.export === 'interface') {
+                            p.type_python = 'dict';
+                        } else if (p.export === 'all-of') {
+                            p.type_python = 'dict';
+                        } else {
+                            p.type_python = pythonTypeMap[p.type] || '';
+                        }
+                    });
+                    op.parametersRaw = {
+                        python: properties,
+                    };
+                }
             }
         });
     });
