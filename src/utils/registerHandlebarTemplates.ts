@@ -66,6 +66,8 @@ import partialIsNullable from '../templates/typescript/partials/isNullable.hbs';
 import partialIsReadOnly from '../templates/typescript/partials/isReadOnly.hbs';
 import partialIsRequired from '../templates/typescript/partials/isRequired.hbs';
 import partialParameters from '../templates/typescript/partials/parameters.hbs';
+import partialParametersGet from '../templates/typescript/partials/parametersGet.hbs';
+import partialParametersPost from '../templates/typescript/partials/parametersPost.hbs';
 import partialResult from '../templates/typescript/partials/result.hbs';
 import partialSchema from '../templates/typescript/partials/schema.hbs';
 import partialSchemaArray from '../templates/typescript/partials/schemaArray.hbs';
@@ -147,6 +149,8 @@ export const registerHandlebarTemplates = (root: {
     Handlebars.registerPartial('isReadOnly', Handlebars.template(partialIsReadOnly));
     Handlebars.registerPartial('isRequired', Handlebars.template(partialIsRequired));
     Handlebars.registerPartial('parameters', Handlebars.template(partialParameters));
+    Handlebars.registerPartial('parametersGet', Handlebars.template(partialParametersGet));
+    Handlebars.registerPartial('parametersPost', Handlebars.template(partialParametersPost));
     Handlebars.registerPartial('result', Handlebars.template(partialResult));
     Handlebars.registerPartial('schema', Handlebars.template(partialSchema));
     Handlebars.registerPartial('schemaArray', Handlebars.template(partialSchemaArray));
@@ -219,6 +223,18 @@ export const registerHandlebarTemplates = (root: {
     Handlebars.registerPartial('angular/getResponseHeader', Handlebars.template(angularGetResponseHeader));
     Handlebars.registerPartial('angular/sendRequest', Handlebars.template(angularSendRequest));
     Handlebars.registerPartial('angular/request', Handlebars.template(angularRequest));
+
+    // Helpers
+    Handlebars.registerHelper('convertFirstCharToUpperCase', (str: string) => {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    });
+    Handlebars.registerHelper('convertSingleQuotesToDoubleQuotes', (str: string) => {
+        return str.replace(/\'/g, '"');
+    });
+    Handlebars.registerHelper('console', (data: any) => {
+        console.log(data);
+        return data;
+    });
 
     return templates;
 };

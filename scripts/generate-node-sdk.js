@@ -9,6 +9,7 @@ const main = async () => {
         input: 'http://localhost:3000/openapi-json',
         output: './generated/typescript/src',
         exportCore: false,
+        useOptions: true,
     });
     execSync('cp -R generated/typescript/* ../authing-node-sdk/');
 };
