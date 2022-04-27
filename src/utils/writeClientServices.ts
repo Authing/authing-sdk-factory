@@ -48,6 +48,8 @@ export const writeManagementClient = async (
         file = path.resolve(outputPath, `ManagementClient.java`);
     } else if (lang === 'python') {
         file = path.resolve(outputPath, `ManagementClient.py`);
+    } else if (lang === 'csharp') {
+        file = path.resolve(outputPath, `ManagementClient.cs`);
     }
 
     if (lang === 'python') {
@@ -71,7 +73,7 @@ export const writeManagementClient = async (
     } else if (lang === 'python') {
         await writeFile(file, templateResult.replace(/\t/g, '    '));
         execSync('python3 -m black ' + file);
-    } else if (lang === 'java') {
+    } else {
         await writeFile(file, formatIndentation(formatCode(templateResult), indent));
     }
 

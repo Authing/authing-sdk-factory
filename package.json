@@ -60,7 +60,8 @@
         "generate": "rm -rf generated && yarn generate:node && yarn generate:java && yarn generate:python",
         "generate:node": "node scripts/generate-node-sdk.js",
         "generate:java": "node scripts/generate-java-sdk.js",
-        "generate:python": "node scripts/generate-python-sdk.js"
+        "generate:python": "node scripts/generate-python-sdk.js",
+        "generate:csharp": "node scripts/generate-csharp-sdk.js"
     },
     "dependencies": {
         "camelcase": "^6.3.0",

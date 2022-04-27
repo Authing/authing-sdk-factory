@@ -7,6 +7,7 @@ import { getOpenApiVersion, OpenApiVersion } from './utils/getOpenApiVersion';
 import { isString } from './utils/isString';
 import { postProcessClient } from './utils/postProcessClient';
 import { registerHandlebarTemplates } from './utils/registerHandlebarTemplates';
+import { registerHandlebarTemplatesForCSharp } from './utils/registerHandlebarTemplatesForCSharp';
 import { registerHandlebarTemplatesForJava } from './utils/registerHandlebarTemplatesForJava';
 import { registerHandlebarTemplatesForPython } from './utils/registerHandlebarTemplatesForPython';
 import { writeClient } from './utils/writeClient';
@@ -86,6 +87,12 @@ export const generate = async ({
         });
     } else if (lang === 'python') {
         templates = registerHandlebarTemplatesForPython({
+            httpClient,
+            useUnionTypes,
+            useOptions,
+        });
+    } else if (lang === 'csharp') {
+        templates = registerHandlebarTemplatesForCSharp({
             httpClient,
             useUnionTypes,
             useOptions,
