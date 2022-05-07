@@ -226,6 +226,8 @@ export const registerHandlebarTemplatesForCSharp = (root: {
 
     // Helpers
     Handlebars.registerHelper('convertFirstCharToUpperCase', (str: string) => {
+
+
         return str.charAt(0).toUpperCase() + str.slice(1);
     });
     Handlebars.registerHelper('convertSingleQuotesToDoubleQuotes', (str: string) => {
@@ -235,6 +237,98 @@ export const registerHandlebarTemplatesForCSharp = (root: {
         console.log(data);
         return data;
     });
+
+    Handlebars.registerHelper('LessThan', function (options) {
+        return "<";
+    });
+
+    const javaTypeMap: any = {
+        string: 'string',
+        number: 'int',
+        boolean: 'bool',
+        any: 'object',
+    };
+    Handlebars.registerHelper('convertGenericType', (item: any) => {
+        return javaTypeMap[item] || item;
+    });
+
+    Handlebars.registerHelper('reverse', (data: any) => {
+
+        let paramStr = "";
+
+        let myArray = SortParams(data);
+
+        for (var i = 0; i < myArray.length; i++) {
+            paramStr += GetParamString(myArray[i]);
+
+            if (i + 1 < myArray.length) {
+                paramStr += ",";
+            }
+        }
+        return paramStr;
+    });
+
+    /**
+     * 将参数列表进行排序，有默认值的排到最后
+     * @param data 参数
+     * @returns 
+     */
+    function SortParams(data: any) {
+        let myArray = new Array();
+
+        let ss = "";
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].default != null || data[i].isRequired == false) {
+                myArray.push(data[i]);
+            }
+            else {
+                myArray.unshift(data[i]);
+            }
+        }
+        return myArray;
+    }
+
+    /**
+     * 根据参数信息，生成参数的字符串
+     * @param obj 每个参数
+     * @returns 
+     */
+    function GetParamString(obj: any) {
+        let param = "";
+
+        param += javaTypeMap[obj.type] + " ";
+
+        if (obj.name === 'namespace') {
+            param += "nameSpace";
+        }
+        else {
+            param += obj.name;
+        }
+
+        if (obj.default != null) {
+            if (obj.type === 'string') {
+                param += "=" + obj.default.replace('\'', "\"").replace('\'', "\"");
+            }
+            else if (obj.type === 'boolean') {
+                param += "=" + obj.default;
+            }
+            else {
+                param += "=" + obj.default;
+            }
+        }
+        else {
+            if (obj.isRequired == false) {
+                if (obj.type === 'string') {
+                    param += "=null";
+                }
+                else if (obj.type === 'number') {
+                    param += "=0";
+                }
+            }
+        }
+
+        return param;
+    }
 
     return templates;
 };

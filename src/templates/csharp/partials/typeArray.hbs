@@ -1,5 +1,12 @@
-{{~#if link~}}
+{{!-- {{~#if link~}}
 Array<{{>type link}}>{{>isNullable}}
 {{~else~}}
 Array<{{>base}}>{{>isNullable}}
+{{~/if~}} --}}
+
+
+{{~#if link~}}
+List<{{>type link}}>{{>isNullable}}
+{{~else~}}
+List<{{>base}}>{{>isNullable}}
 {{~/if~}}

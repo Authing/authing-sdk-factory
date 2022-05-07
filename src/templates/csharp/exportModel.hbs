@@ -1,26 +1,26 @@
 {{>header}}
-
-{{#if imports}}
-
-{{#each imports}}
-import type { {{{this}}} } from './{{{this}}}';
-{{/each}}
-{{/if}}
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 {{#equals export 'interface'}}
-{{>exportInterface}}
+   {{>exportInterface}}
 {{else equals export 'one-of'}}
-{{>exportComposition}}
+  {{>exportComposition}}
 {{else equals export 'any-of'}}
-{{>exportComposition}}
+ {{>exportComposition}}
 {{else equals export 'all-of'}}
-{{>exportComposition}}
+  {{>exportComposition}}
 {{else equals export 'enum'}}
 {{#if @root.useUnionTypes}}
-{{>exportType}}
+ {{>exportType}}
 {{else}}
-{{>exportEnum}}
+  {{>exportEnum}}
 {{/if}}
-{{else}}
-{{>exportType}}
+{{else}} 
+  {{>exportType}}
 {{/equals}}

@@ -1,19 +1,13 @@
 {{#if parameters}}
 {{#if @root.useOptions~}}
-{
 {{#each parameters}}
-{{{name}}}{{#if default}} = {{{default}}}{{/if}},
+    {{#equals name 'namespace'}}
+          {{convertGenericType type}} _nameSpace {{#if default}} = {{{default}}}{{/if}},
+            {{else}}
+             {{convertGenericType type}} {{{name}}} {{#if default}} = {{{default}}}{{/if}},
+    {{/equals}}
 {{/each}}
-}: {
-{{#each parameters}}
-{{#if description}}
-/** {{{escapeComment description}}} **/
-{{/if}}
-{{{name}}}{{>isRequired}}: {{>type}},
-{{/each}}
-}
 {{~else}}
-
 {{#each parameters}}
 {{{name}}}{{>isRequired}}: {{>type}}{{#if default}} = {{{default}}}{{/if}},
 {{/each}}

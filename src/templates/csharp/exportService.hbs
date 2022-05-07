@@ -1,101 +1,61 @@
-{{>header}}
+using Authing.SDK.V3.Extensions;
+using Authing.SDK.V3.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
-{{#equals @root.httpClient 'angular'}}
-{{#if @root.exportClient}}
-import { Injectable } from '@angular/core';
-import type { Observable } from 'rxjs';
-{{else}}
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import type { Observable } from 'rxjs';
-{{/if}}
+namespace Authing.SDK.V3.Services
+{
+	 public class ManagementClient : BaseManagementService
+    {
+	    /// <summary>
+		/// 初始化管理服务
+		/// </summary>
+		/// <param name="accessKeyId ">用户池 ID</param>
+		/// <param name="accessKeySecret ">用户池密钥</param>
+		public  ManagementClient (string accessKeyId ,string accessKeySecret ) :base(accessKeyId, accessKeySecret )
+		{
+		}
 
-{{/equals}}
-{{#if imports}}
-{{#each imports}}
-import type { {{{this}}} } from './models/{{{this}}}';
-{{/each}}
-
-{{/if}}
-{{#notEquals @root.httpClient 'angular'}}
-{{/notEquals}}
-{{#if @root.exportClient}}
-{{#equals @root.httpClient 'angular'}}
-import { BaseHttpRequest } from '../core/BaseHttpRequest';
-{{else}}
-import type { BaseHttpRequest } from '../core/BaseHttpRequest';
-{{/equals}}
-{{else}}
-import { DEFAULT_OPTIONS, ManagementClientOptions } from './ManagementClientOptions';
-import { HttpClient } from './HttpClient';
-import Axios from 'axios';
-
-{{/if}}
-
-{{#equals @root.httpClient 'angular'}}
-@Injectable()
-{{/equals}}
-export class ManagementClient {
-    private httpClient: HttpClient;
-    private options: ManagementClientOptions;
-    constructor(options: ManagementClientOptions) {
-        // @ts-ignore
-        Object.keys(options).forEach((i: any) => !options[i] && delete options[i]);
-        this.options = Object.assign({}, DEFAULT_OPTIONS, options);
-      	Axios.defaults.baseURL = this.options.host;
-        this.httpClient = new HttpClient(this.options);
-
-        if (!this.options.accessKeyId) {
-            throw new Error('accessKeyId is required');
-        }
-
-        if (!this.options.accessKeySecret) {
-            throw new Error(
-                'accessKeySecret is required'
-            );
-        }
-    }
-
-	{{#each operations}}
-	/**
-	{{#if deprecated}}
-	 * @deprecated
-	{{/if}}
-	{{#if summary}}
-	 * @summary {{{escapeComment summary}}}
-	{{/if}}
-	{{#if description}}
-	 * @description {{{escapeComment description}}}
-	{{/if}}
-	{{#unless @root.useOptions}}
-	{{#if parameters}}
-	{{#each parameters}}
-	 * @param {{{name}}} {{#if description}}{{{escapeComment description}}}{{/if}}
-	{{/each}}
-	{{/if}}
-	{{/unless}}
-	{{#each results}}
-	 * @returns {{{type}}} {{#if description}}{{{escapeComment description}}}{{/if}}
-	{{/each}}
-	 */
-	public async {{{name}}}({{#equals method 'GET'}}{{>parametersGet}}{{else}}{{>parametersPost}}{{/equals}}): Promise<{{>result}}> {
-		return await this.httpClient.request({
-			method: '{{{method}}}',
-			url: '{{{path}}}',
+		{{#each operations}}
+		{{#if summary}}
+		///<summary>
+		/// {{{escapeComment summary}}}
+		///</summary>
+		{{/if}}
+		{{#if parameters}}
+		{{#each parameters}}
+		/// <param name="{{#equals name 'namespace'}}nameSpace{{else}}{{{name}}}{{/equals}}">{{#if description}}{{{escapeComment description}}}{{/if}}</param>  
+		{{/each}}
+		{{/if}}
+		{{#each results}}
+		///<returns>{{{type}}}</returns>
+		{{/each}}
+		public async Task<{{>result}}> {{convertFirstCharToUpperCase name}}({{#equals method 'GET'}}{{reverse parameters}}{{else}}{{>parametersPost}}{{/equals}}) 
+		{
 			{{#if parametersQuery}}
-			params: {
+			string httpResponse=await Request("{{{method}}}", "{{{path}}}", new Dictionary<string, object> {
 				{{#each parametersQuery}}
-				'{{{prop}}}': {{{name}}},
+					{{#equals name 'namespace'}}
+							{"{{{prop}}}",nameSpace },
+							{{else}}
+								{"{{{prop}}}",{{{name}}} },
+					{{/equals}}
 				{{/each}}
-			},
+				}).ConfigureAwait(false);
 			{{/if}}
 			{{#if parametersBody}}
-			{{#equals parametersBody.in 'body'}}
-			data: {{{parametersBody.name}}},
-			{{/equals}}
+			string httpResponse=await Request("{{{method}}}", "{{{path}}}",requestBody).ConfigureAwait(false);
 			{{/if}}
-		});
+			{{>result}} result=m_JsonService.DeserializeObject<{{>result}}>(httpResponse);
+			return result;
+		}
+	{{/each}}	
 	}
-
-	{{/each}}
 }
+
+
+
