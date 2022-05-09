@@ -226,10 +226,13 @@ export const registerHandlebarTemplatesForCSharp = (root: {
 
     // Helpers
     Handlebars.registerHelper('convertFirstCharToUpperCase', (str: string) => {
-
-
         return str.charAt(0).toUpperCase() + str.slice(1);
     });
+
+    Handlebars.registerHelper('getEnumMemeber', (str: string) => {
+        return str.replace('\'', "\"").replace('\'', "\""); 
+    });
+
     Handlebars.registerHelper('convertSingleQuotesToDoubleQuotes', (str: string) => {
         return str.replace(/\'/g, '"');
     });
@@ -244,7 +247,7 @@ export const registerHandlebarTemplatesForCSharp = (root: {
 
     const javaTypeMap: any = {
         string: 'string',
-        number: 'int',
+        number: 'long',
         boolean: 'bool',
         any: 'object',
     };

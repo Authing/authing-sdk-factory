@@ -17,16 +17,12 @@ public partial class {{{name}}}
 public	{{>type parent=../name}} {{>isReadOnly}}  {{convertFirstCharToUpperCase name}}    {get;set;}
 	{{/each}}
 }
-
 {{#if enums}}
 {{#unless @root.useUnionTypes}}
-
 public partial class {{{name}}}
  {
-
 	{{#each enums}}
 	{{#if description}}
-	
 	/// {{{{LessThan}}}}{{{{/LessThan}}}}summary>
     ///  {{{escapeComment description}}}
     /// {{{{LessThan}}}}{{{{/LessThan}}}}/summary>
@@ -34,12 +30,11 @@ public partial class {{{name}}}
 	public enum {{{name}}}
 	 {
 		{{#each enum}}
-		{{{name}}} ,
+	 	[EnumMember(Value={{getEnumMemeber value}})]
+		{{{name}}},
 		{{/each}}
 	}
-
 	{{/each}}
-
 }
 {{/unless}}
 {{/if}}
