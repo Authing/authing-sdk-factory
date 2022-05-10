@@ -16,7 +16,7 @@ public class ManagementClient extends BaseClient {
     }
 
 	{{#each operations}}
-	public {{>result}} {{{name}}}({{parametersBody.type}} reqDto) {
+	public {{>result}} {{{name}}}({{#if parametersBody}}{{parametersBody.type}}{{else}}{{console this}}{{/if}} reqDto) {
 		AuthingRequestConfig config = new AuthingRequestConfig();
         config.setUrl("{{{path}}}");
         config.setBody(reqDto);
