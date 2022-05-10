@@ -6,7 +6,7 @@ fs.mkdirSync('./generated/python/src', { recursive: true });
 
 const main = async () => {
     await generate({
-        input: 'http://localhost:3000/openapi-json',
+        input: 'https://console.authing.cn/openapi-json',
         output: './generated/python/src',
         exportCore: false,
         lang: 'python',
