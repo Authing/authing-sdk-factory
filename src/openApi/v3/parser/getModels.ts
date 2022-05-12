@@ -3,6 +3,9 @@ import { camelizeAndFirstCharUpperCase } from '../../../utils/camelize';
 import type { OpenApi } from '../interfaces/OpenApi';
 import { getModel } from './getModel';
 import { getType } from './getType';
+import {OperationParameter} from "../../../client/interfaces/OperationParameter";
+import {getPattern} from "../../../utils/getPattern";
+import {Operation} from "../../../client/interfaces/Operation";
 
 const javaTypeMap: any = {
     string: 'String',
@@ -39,3 +42,72 @@ export const getModels = (openApi: OpenApi): Model[] => {
     }
     return models;
 };
+
+// for java
+export const getModelByParameter = (parameter: OperationParameter): Model => {
+
+    const model: Model = {
+        name: parameter.name,
+        prop: parameter.prop,
+        export: 'interface',
+        type: parameter.type,
+        base: parameter.base,
+        template: null,
+        link: null,
+        description: parameter.description || null,
+        isDefinition: false,
+        isReadOnly: false,
+        isNullable: true,
+        isRequired: false,
+        imports: [],
+        enum: [],
+        enums: [],
+        properties: [],
+        name_java_set: `set${camelizeAndFirstCharUpperCase(parameter.name)}`,
+        name_java_get: `get${camelizeAndFirstCharUpperCase(parameter.name)}`,
+        base_java: '',
+    };
+
+    if (javaTypeMap[parameter.base]) {
+        model.base_java = javaTypeMap[parameter.base];
+    } else {
+        model.base_java = parameter.base;
+    }
+    return model;
+};
+
+// for java
+export const getModelByOperation = (op: Operation): Model => {
+    var path = op.path;
+    path = path.replace(/\/api\/v3\//g, '');
+    var name = `${camelizeAndFirstCharUpperCase(path)}Dto`;
+    name = name.replace(/-/g, '');
+
+    const model: Model = {
+        name: name,
+        export: 'interface',
+        type: 'any',
+        base: 'any',
+        template: null,
+        link: null,
+        description: op.description || null,
+        isDefinition: false,
+        isReadOnly: false,
+        isNullable: true,
+        isRequired: false,
+        imports: [],
+        enum: [],
+        enums: [],
+        properties: [],
+        name_java_set: `set${camelizeAndFirstCharUpperCase(op.name)}`,
+        name_java_get: `get${camelizeAndFirstCharUpperCase(op.name)}`,
+        base_java: '',
+    };
+
+    model.base_java = name,
+    model.base = name;
+
+    return model;
+};
+
+
