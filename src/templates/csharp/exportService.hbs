@@ -16,7 +16,7 @@ namespace Authing.SDK.V3.Services
 		/// </summary>
 		/// <param name="accessKeyId ">用户池 ID</param>
 		/// <param name="accessKeySecret ">用户池密钥</param>
-		public  ManagementClient (string accessKeyId ,string accessKeySecret ) :base(accessKeyId, accessKeySecret )
+		public ManagementClient(ManagementClientOptions options) : base(options)
 		{
 		}
 
