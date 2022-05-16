@@ -3,10 +3,14 @@ import _ from 'lodash';
 import type { Client } from '../../client/interfaces/Client';
 import { camelToSnakeCase } from '../../utils';
 import type { OpenApi } from './interfaces/OpenApi';
-import { getModels } from './parser/getModels';
+import {getModels, getModelByParameter, getModelByOperation} from './parser/getModels';
 import { getServer } from './parser/getServer';
 import { getServices } from './parser/getServices';
 import { getServiceVersion } from './parser/getServiceVersion';
+import {Model} from "../../client/interfaces/Model";
+import {getPattern} from "../../utils/getPattern";
+import {Enum} from "../../client/interfaces/Enum";
+import {Operation} from "../../client/interfaces/Operation";
 
 const pythonTypeMap: Record<string, any> = {
     string: 'str',
@@ -31,9 +35,25 @@ export const parse = (openApi: OpenApi): Client => {
             const { parameters, method } = op;
             if (parameters.length) {
                 if (method === 'GET') {
+                    // for java
+                    let properties:Model[] = [];
                     parameters.forEach(p => {
                         p.type_python = pythonTypeMap[p.type] || '';
+
+                        // for java ---- start ----
+                        const propertiesModel = getModelByParameter(p);
+
+                        properties.push(propertiesModel);
+                        // for java ---- end ----
                     });
+
+
+                    // for java ---- start ----
+                    let addedJavaModel: Model = getModelByOperation(op);
+                    addedJavaModel.properties = properties;
+                    models.push(addedJavaModel);
+                    op.parametersDto = addedJavaModel.name;
+                    // for java ---- end ----
                 } else if (method === 'POST') {
                     const type = parameters[0].type;
                     const model = _.find(models, (m: any) => m.name === type);

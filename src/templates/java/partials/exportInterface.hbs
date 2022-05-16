@@ -5,16 +5,31 @@ public class {{{name}}} {
 	 * {{{escapeComment description}}}
 	 */
 	{{/if}}
-	private {{>type parent=../name}} {{{name}}};
+	{{#if prop}}
+	@JsonProperty("{{prop}}")
+	private {{base_java}} {{{underlineToHump name}}};
+	{{else}}
+	@JsonProperty("{{name}}")
+	private {{>type parent=../name}} {{{underlineToHump name}}};
+	{{/if}}
 	{{/each}}
 
 	{{#each properties}}
-	public {{>type parent=../name}} {{{name_java_get}}}() {
-        return {{name}};
-    }
-	public void {{{name_java_set}}}({{>type parent=../name}} {{name}}) {
-        this.{{name}} = {{name}};
-    }
+	{{#if prop}}
+	public {{base_java}} {{{underlineToHump name_java_get}}}() {
+		return {{underlineToHump name}};
+	}
+	public void {{{underlineToHump name_java_set}}}({{base_java}} {{underlineToHump name}}) {
+		this.{{underlineToHump name}} = {{underlineToHump name}};
+	}
+    {{else}}
+	public {{>type parent=../name}} {{{underlineToHump name_java_get}}}() {
+		return {{underlineToHump name}};
+	}
+	public void {{{underlineToHump name_java_set}}}({{>type parent=../name}} {{underlineToHump name}}) {
+		this.{{underlineToHump name}} = {{underlineToHump name}};
+	}
+    {{/if}}
 
 	{{/each}}
 
@@ -27,6 +42,8 @@ public class {{{name}}} {
 	{{/if}}
     public static enum {{convertFirstCharToUpperCase name}} {
 		{{#each enum}}
+
+		@JsonProperty("{{replaceSingleQuotesToEmptyString value}}")
 		{{{name}}}({{convertSingleQuotesToDoubleQuotes value}}),
 		{{/each}}
 		;

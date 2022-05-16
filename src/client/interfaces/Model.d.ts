@@ -3,6 +3,8 @@ import type { Schema } from './Schema';
 
 export interface Model extends Schema {
     name: string;
+    // for java
+    prop?: string;
     name_underscore?: string;
     name_java_get?: string;
     name_java_set?: string;

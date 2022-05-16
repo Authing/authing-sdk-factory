@@ -227,6 +227,12 @@ export const registerHandlebarTemplatesForJava = (root: {
     Handlebars.registerHelper('convertSingleQuotesToDoubleQuotes', (str: string) => {
         return str.replace(/\'/g, '"');
     });
+    Handlebars.registerHelper('replaceSingleQuotesToEmptyString', (str: string) => {
+        return str.replace(/\'/g, '');
+    });
+    Handlebars.registerHelper('underlineToHump', (str: string) => {
+        return str.replace(/\_(\w)/g, (_, letter) => letter.toUpperCase());
+    });
     Handlebars.registerHelper('console', (data: any) => {
         console.log(data);
         return data;

@@ -12,4 +12,6 @@ export interface OperationParameters {
     parametersCookie: OperationParameter[];
     parametersHeader: OperationParameter[];
     parametersBody: OperationParameter | null;
+    // for java
+    parametersDto?: string;
 }

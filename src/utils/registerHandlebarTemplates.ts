@@ -231,6 +231,9 @@ export const registerHandlebarTemplates = (root: {
     Handlebars.registerHelper('convertSingleQuotesToDoubleQuotes', (str: string) => {
         return str.replace(/\'/g, '"');
     });
+    Handlebars.registerHelper('replaceSingleQuotesToEmptyString', (str: string) => {
+        return str.replace(/\'/g, '');
+    });
     Handlebars.registerHelper('console', (data: any) => {
         console.log(data);
         return data;

@@ -1,21 +1,32 @@
-package client;
+package cn.authing.sdk.java.client;
 
 {{#if imports}}
-{{#each imports}}
-import dto.{{this}};
-{{/each}}
+import cn.hutool.core.util.StrUtil;
+import cn.authing.sdk.java.dto.*;
 
-import model.AuthingRequestConfig;
-import model.ManagementClientOptions;
+import cn.authing.sdk.java.model.AuthingRequestConfig;
+import cn.authing.sdk.java.model.ManagementClientOptions;
 {{/if}}
+import java.util.HashMap;
+import java.util.Collections;
+import java.util.Map;
 
 
 public class ManagementClient extends BaseClient {
+
     public ManagementClient(ManagementClientOptions options) {
-        this.options = options;
+        super(options);
+        // 必要参数校验
+        if (StrUtil.isBlank(options.getAccessKeyId())) {
+            throw new IllegalArgumentException("accessKeyId is required");
+        }
+        if (StrUtil.isBlank(options.getAccessKeySecret())) {
+            throw new IllegalArgumentException("accessKeySecret is required");
+        }
     }
 
 	{{#each operations}}
+    {{#equals method "POST"}}
 	public {{>result}} {{{name}}}({{parametersBody.type}} reqDto) {
 		AuthingRequestConfig config = new AuthingRequestConfig();
         config.setUrl("{{{path}}}");
@@ -24,6 +35,27 @@ public class ManagementClient extends BaseClient {
         String response = request(config);
         return deserialize(response, {{>result}}.class);
 	}
+    {{/equals}}
+    {{#equals method "GET"}}
+    {{!-- {{#equals path "/api/v3/list-group-members"}}{{console this}}{{/equals}} --}}
+    {{!-- {{#equals path "/api/v3/get-user"}}{{console this}}{{/equals}} --}}
+{{!-- 	public {{>result}} {{{name}}}({{#each parameters}}{{#if @first}}{{convertFirstCharToUpperCase type}} {{underlineToHump name}}{{else}}, {{convertFirstCharToUpperCase type}} {{underlineToHump name}}{{/if}}{{/each}}) { --}}
+	public {{>result}} {{{name}}}({{parametersDto}} reqDto) {
+
+{{!--         Map<String, Object> query_params = new HashMap<>(); --}}
+{{!--         {{#each parameters}} --}}
+{{!--         query_params.put("{{prop}}", {{underlineToHump name}}); --}}
+{{!--         {{/each}} --}}
+
+        AuthingRequestConfig config = new AuthingRequestConfig();
+        config.setUrl("{{path}}");
+        config.setBody(reqDto);
+        config.setMethod("{{method}}");
+        String response = request(config);
+        return deserialize(response, {{>result}}.class);
+	}
+    {{/equals}}
+
 
 	{{/each}}
 }
