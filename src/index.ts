@@ -97,6 +97,12 @@ export const generate = async ({
             useUnionTypes,
             useOptions,
         });
+    } else if (lang === 'go') {
+        templates = registerHandlebarTemplatesForGo({
+            httpClient,
+            useUnionTypes,
+            useOptions,
+        });
     } else {
         throw new Error('not supported lang');
     }

@@ -20,6 +20,7 @@ yarn generate:node
 yarn generate:java
 yarn generate:python
 yarn generate:csharp
+yarn generate:go
 ```
 
 配置： `scripts/generate-XXX-sdk.js`
