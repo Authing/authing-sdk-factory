@@ -52,6 +52,8 @@ export const writeManagementClient = async (
         file = path.resolve(outputPath, `ManagementClient.cs`);
     } else if (lang === 'php') {
         file = path.resolve(outputPath, `ManagementClient.php`);
+    } else if (lang === 'go') {
+        file = path.resolve(outputPath, `management_client.go`);
     }
 
     if (lang === 'python') {
