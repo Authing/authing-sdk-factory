@@ -61,7 +61,8 @@
         "generate:node": "node scripts/generate-node-sdk.js",
         "generate:java": "node scripts/generate-java-sdk.js",
         "generate:python": "node scripts/generate-python-sdk.js",
-        "generate:csharp": "node scripts/generate-csharp-sdk.js"
+        "generate:csharp": "node scripts/generate-csharp-sdk.js",
+        "generate:php": "node scripts/generate-php-sdk.js"
     },
     "dependencies": {
         "camelcase": "^6.3.0",

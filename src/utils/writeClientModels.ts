@@ -34,6 +34,8 @@ export const writeClientModels = async (
             file = resolve(outputPath, `${model.name}.java`);
         } else if (lang === 'csharp') {
             file = resolve(outputPath, `${model.name}.cs`);
+        } else if (lang === 'php') {
+            file = resolve(outputPath, `${model.name}.php`);
         } else {
             throw new Error('unsupported lang');
         }
