@@ -36,6 +36,8 @@ export const writeClientModels = async (
             file = resolve(outputPath, `${model.name}.cs`);
         } else if (lang === 'go') {
             file = resolve(outputPath, `${model.name}.go`);
+        } else if (lang === 'php') {
+            file = resolve(outputPath, `${model.name}.php`);
         } else {
             throw new Error('unsupported lang');
         }

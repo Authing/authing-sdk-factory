@@ -10,6 +10,7 @@ import { registerHandlebarTemplates } from './utils/registerHandlebarTemplates';
 import { registerHandlebarTemplatesForCSharp } from './utils/registerHandlebarTemplatesForCSharp';
 import { registerHandlebarTemplatesForGo } from './utils/registerHandlebarTemplatesForGo';
 import { registerHandlebarTemplatesForJava } from './utils/registerHandlebarTemplatesForJava';
+import { registerHandlebarTemplatesForPHP } from './utils/registerHandlebarTemplatesForPHP';
 import { registerHandlebarTemplatesForPython } from './utils/registerHandlebarTemplatesForPython';
 import { writeClient } from './utils/writeClient';
 
@@ -98,8 +99,8 @@ export const generate = async ({
             useUnionTypes,
             useOptions,
         });
-    } else if (lang === 'go') {
-        templates = registerHandlebarTemplatesForGo({
+    } else if (lang === 'php') {
+        templates = registerHandlebarTemplatesForPHP({
             httpClient,
             useUnionTypes,
             useOptions,
