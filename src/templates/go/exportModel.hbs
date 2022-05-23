@@ -1,0 +1,28 @@
+package cn.authing.sdk.java.dto;
+
+import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+{{#if imports}}
+{{#each imports}}
+import cn.authing.sdk.java.dto.{{this}};
+{{/each}}
+{{/if}}
+
+{{#equals export 'interface'}}
+{{>exportInterface}}
+{{else equals export 'one-of'}}
+{{>exportComposition}}
+{{else equals export 'any-of'}}
+{{>exportComposition}}
+{{else equals export 'all-of'}}
+{{>exportComposition}}
+{{else equals export 'enum'}}
+{{#if @root.useUnionTypes}}
+{{>exportType}}
+{{else}}
+{{>exportEnum}}
+{{/if}}
+{{else}}
+{{>exportType}}
+{{/equals}}

@@ -1,0 +1,29 @@
+package client
+
+{{#if imports}}
+
+{{/if}}
+import "authing-go-sdk/dto"
+
+
+{{#each operations}}
+	func (c *Client) {{{convertFirstCharToUpperCase name}}} (reqDto *dto.{{parametersBody.type}}) *dto.{{>result}}  {
+		b, err := c.SendHttpRequest("{{{path}}}", constant.HttpMethodGet, "", nil)
+	if err != nil {
+		return nil, err
+	}
+	var response model.UserDetailResponse
+	jsoniter.Unmarshal(b, &userDetail)
+	return &userDetail.Data, nil
+        config.setUrl("{{{path}}}");
+        config.setBody(reqDto);
+		{{#equals method "POST"}}
+        config.setMethod("{{method}}");
+		{{/equals}}
+		{{#equals method "GET"}}
+		config.setMethod("{{method}}");
+		{{/equals}}
+        String response = request(config);
+        return deserialize(response, {{>result}}.class);
+	}
+{{/each}}

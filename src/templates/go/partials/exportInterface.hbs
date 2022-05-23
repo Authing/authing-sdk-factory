@@ -1,0 +1,65 @@
+public class {{{name}}} {
+	{{#each properties}}
+	{{#if description}}
+	/**
+	 * {{{escapeComment description}}}
+	 */
+	{{/if}}
+	{{#if prop}}
+	@JsonProperty("{{prop}}")
+	private {{base_java}} {{{underlineToHump name}}};
+	{{else}}
+	@JsonProperty("{{name}}")
+	private {{>type parent=../name}} {{{underlineToHump name}}};
+	{{/if}}
+	{{/each}}
+
+	{{#each properties}}
+	{{#if prop}}
+	public {{base_java}} {{{underlineToHump name_java_get}}}() {
+		return {{underlineToHump name}};
+	}
+	public void {{{underlineToHump name_java_set}}}({{base_java}} {{underlineToHump name}}) {
+		this.{{underlineToHump name}} = {{underlineToHump name}};
+	}
+    {{else}}
+	public {{>type parent=../name}} {{{underlineToHump name_java_get}}}() {
+		return {{underlineToHump name}};
+	}
+	public void {{{underlineToHump name_java_set}}}({{>type parent=../name}} {{underlineToHump name}}) {
+		this.{{underlineToHump name}} = {{underlineToHump name}};
+	}
+    {{/if}}
+
+	{{/each}}
+
+	{{#if enums}}
+	{{#each enums}}
+	{{#if description}}
+	/**
+	* {{{escapeComment description}}}
+	*/
+	{{/if}}
+    public static enum {{convertFirstCharToUpperCase name}} {
+		{{#each enum}}
+
+		@JsonProperty("{{replaceSingleQuotesToEmptyString value}}")
+		{{{name}}}({{convertSingleQuotesToDoubleQuotes value}}),
+		{{/each}}
+		;
+
+		private String value;
+
+        {{convertFirstCharToUpperCase name}}(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
+    }
+
+	{{/each}}
+	{{/if}}
+
+}
