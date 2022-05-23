@@ -1,5 +1,3 @@
-{{#if parameters}}
-{{#each parameters}}
-{{{name}}}{{>isRequired}}: {{>type}}{{#if default}} = {{{default}}}{{/if}},
+{{#each parametersRaw.php}}
+${{name}}{{#unless isRequired}} = null{{/unless}}{{#unless @last}},{{/unless}}
 {{/each}}
-{{/if}}

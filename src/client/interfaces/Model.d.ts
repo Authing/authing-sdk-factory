@@ -11,6 +11,7 @@ export interface Model extends Schema {
     export: 'reference' | 'generic' | 'enum' | 'array' | 'dictionary' | 'interface' | 'one-of' | 'any-of' | 'all-of';
     type: string;
     type_python?: string;
+    type_php?: string;
     base: string;
     base_java?: string;
     template: string | null;

@@ -4,6 +4,7 @@ export interface OperationParameters {
     imports: string[];
     parametersRaw?: {
         python?: Model[];
+        php?: Model[];
     };
     parameters: OperationParameter[];
     parametersPath: OperationParameter[];

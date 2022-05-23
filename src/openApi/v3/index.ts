@@ -3,14 +3,14 @@ import _ from 'lodash';
 import type { Client } from '../../client/interfaces/Client';
 import { camelToSnakeCase } from '../../utils';
 import type { OpenApi } from './interfaces/OpenApi';
-import {getModels, getModelByParameter, getModelByOperation} from './parser/getModels';
+import { getModels, getModelByParameter, getModelByOperation } from './parser/getModels';
 import { getServer } from './parser/getServer';
 import { getServices } from './parser/getServices';
 import { getServiceVersion } from './parser/getServiceVersion';
-import {Model} from "../../client/interfaces/Model";
-import {getPattern} from "../../utils/getPattern";
-import {Enum} from "../../client/interfaces/Enum";
-import {Operation} from "../../client/interfaces/Operation";
+import { Model } from "../../client/interfaces/Model";
+import { getPattern } from "../../utils/getPattern";
+import { Enum } from "../../client/interfaces/Enum";
+import { Operation } from "../../client/interfaces/Operation";
 
 const pythonTypeMap: Record<string, any> = {
     string: 'str',
@@ -18,6 +18,14 @@ const pythonTypeMap: Record<string, any> = {
     boolean: 'bool',
     object: 'Object',
     array: 'list',
+};
+
+const phpTypeMap: Record<string, any> = {
+    string: 'string',
+    number: 'integer',
+    boolean: 'boolean',
+    object: 'object',
+    array: 'array',
 };
 
 /**
@@ -36,7 +44,7 @@ export const parse = (openApi: OpenApi): Client => {
             if (parameters.length) {
                 if (method === 'GET') {
                     // for java
-                    let properties:Model[] = [];
+                    let properties: Model[] = [];
                     parameters.forEach(p => {
                         p.type_python = pythonTypeMap[p.type] || '';
 
@@ -62,20 +70,27 @@ export const parse = (openApi: OpenApi): Client => {
                         p.name_underscore = camelToSnakeCase(p.name);
                         if (p.export === 'generic') {
                             p.type_python = pythonTypeMap[p.type] || '';
+                            p.type_php = phpTypeMap[p.type] || '';
                         } else if (p.export === 'array') {
                             p.type_python = 'list';
+                            p.type_php = 'array';
                         } else if (p.export === 'enum') {
                             p.type_python = 'str';
+                            p.type_php = 'string';
                         } else if (p.export === 'interface') {
                             p.type_python = 'dict';
+                            p.type_php = 'array';
                         } else if (p.export === 'all-of') {
                             p.type_python = 'dict';
+                            p.type_php = 'array';
                         } else {
                             p.type_python = pythonTypeMap[p.type] || '';
+                            p.type_php = phpTypeMap[p.type] || '';
                         }
                     });
                     op.parametersRaw = {
                         python: properties,
+                        php: properties,
                     };
                 }
             }

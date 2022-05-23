@@ -1,101 +1,201 @@
-{{>header}}
+<?php
 
-{{#equals @root.httpClient 'angular'}}
-{{#if @root.exportClient}}
-import { Injectable } from '@angular/core';
-import type { Observable } from 'rxjs';
-{{else}}
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import type { Observable } from 'rxjs';
-{{/if}}
+/**
+ * 命名空间
+ */
 
-{{/equals}}
-{{#if imports}}
-{{#each imports}}
-import type { {{{this}}} } from './models/{{{this}}}';
-{{/each}}
+namespace Src;
 
-{{/if}}
-{{#notEquals @root.httpClient 'angular'}}
-{{/notEquals}}
-{{#if @root.exportClient}}
-{{#equals @root.httpClient 'angular'}}
-import { BaseHttpRequest } from '../core/BaseHttpRequest';
-{{else}}
-import type { BaseHttpRequest } from '../core/BaseHttpRequest';
-{{/equals}}
-{{else}}
-import { DEFAULT_OPTIONS, ManagementClientOptions } from './ManagementClientOptions';
-import { HttpClient } from './HttpClient';
-import Axios from 'axios';
+/**
+ * ManagementClient
+ */
 
-{{/if}}
+class ManagementClient
+{
+    public $_url = "https://core.authing.cn";
+    public $_accessToken;
+    public $_userPoolID;
 
-{{#equals @root.httpClient 'angular'}}
-@Injectable()
-{{/equals}}
-export class ManagementClient {
-    private httpClient: HttpClient;
-    private options: ManagementClientOptions;
-    constructor(options: ManagementClientOptions) {
-        // @ts-ignore
-        Object.keys(options).forEach((i: any) => !options[i] && delete options[i]);
-        this.options = Object.assign({}, DEFAULT_OPTIONS, options);
-      	Axios.defaults.baseURL = this.options.host;
-        this.httpClient = new HttpClient(this.options);
+    /**
+     * 构造函数
+     */
+    public function __construct($accessKeyId,  $accessKeySecret)
+    {
+        $this->_userPoolID = $accessKeyId;
+        $this->_accessToken = $this->getManagementToken(array("accessKeyId" => $accessKeyId, "accessKeySecret" => $accessKeySecret))["data"]["access_token"];
+    }
 
-        if (!this.options.accessKeyId) {
-            throw new Error('accessKeyId is required');
+    /**
+     * 是否为JSON数据
+     */
+    static function _isJson($parString)
+    {
+        json_decode($parString);
+        return (json_last_error() == JSON_ERROR_NONE);
+    }
+
+    /**
+     * 规范请求
+     */
+    static function _formatRequest($varRequest)
+    {
+        foreach ($varRequest as $forKey => $forValue) {
+            if ($forValue === null) {
+                unset($varRequest[$forKey]);
+            }
         }
+        return $varRequest;
+    }
 
-        if (!this.options.accessKeySecret) {
-            throw new Error(
-                'accessKeySecret is required'
-            );
+ 	/**
+     * 请求HTTP
+     */
+    static function _request($parUrl, $parGet = [], $parPost = [], $parHeader = [], $parCookie = [])
+    {
+        //配置-其他
+        $varCurlObject = curl_init();
+        curl_setopt($varCurlObject, CURLOPT_URL, $parUrl); //配置URL
+        curl_setopt($varCurlObject, CURLOPT_CONNECTTIMEOUT, 20); //连接前等待时间
+        curl_setopt($varCurlObject, CURLOPT_TIMEOUT, 60); //连接后等待时间
+        curl_setopt($varCurlObject, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4); //使用IPv4协议
+        curl_setopt($varCurlObject, CURLOPT_RETURNTRANSFER, true); //获取的信息以文件流的形式返回
+        curl_setopt($varCurlObject, CURLOPT_HEADER, true); //返回Header
+        curl_setopt($varCurlObject, CURLOPT_ENCODING, ""); //支持所有编码
+        curl_setopt($varCurlObject, CURLOPT_FOLLOWLOCATION, true); //跟踪爬取重定向页面
+        curl_setopt($varCurlObject, CURLOPT_MAXREDIRS, 10); //指定重定向的最大值
+        curl_setopt($varCurlObject, CURLOPT_AUTOREFERER, true); // 自动配置Referer
+        curl_setopt($varCurlObject, CURLOPT_SSL_VERIFYPEER, false); //禁止验证对等证书
+        curl_setopt($varCurlObject, CURLOPT_SSL_VERIFYHOST, false); //禁止检测域名与证书是否一致
+        curl_setopt($varCurlObject, CURLOPT_USERAGENT, "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)"); //配置UserAgent
+        //配置-Get
+        if ($parGet != []) {
+            foreach ($parGet as $forKey => $forValue) {
+                $varGet[] = "$forKey=$forValue";
+            }
+            curl_setopt($varCurlObject, CURLOPT_URL, $parUrl . "?" . implode("&", $varGet));
         }
+        //配置-POST
+        curl_setopt($varCurlObject, CURLOPT_POST, $parPost != [] ? true : false);
+        if ($parPost != []) {
+            curl_setopt($varCurlObject, CURLOPT_POSTFIELDS, http_build_query($parPost));
+        }
+        //配置-Header
+        if ($parHeader != []) {
+            foreach ($parHeader as $forKey => $forValue) {
+                $varHeader[] = "$forKey: $forValue";
+            }
+            $varHeader[] = "Expect:";
+            curl_setopt($varCurlObject, CURLOPT_HTTPHEADER, $varHeader);
+        }
+        //配置-Cookie
+        if ($parCookie != []) {
+            foreach ($parCookie as $forKey => $forValue) {
+                $varCookie[] = "$forKey=$forValue";
+            }
+            curl_setopt($varCurlObject, CURLOPT_COOKIE, implode(";", $varCookie));
+        }
+        //请求
+        $tempCurlRes = curl_exec($varCurlObject);
+        //组装-error
+        $varRes["error"] = curl_error($varCurlObject);
+        //组装-code
+        $varRes["code"] = curl_getinfo($varCurlObject, CURLINFO_HTTP_CODE);
+        //组装-header
+        $tempHeaderSize = curl_getinfo($varCurlObject, CURLINFO_HEADER_SIZE);
+        $varRes["header"]  = trim(substr($tempCurlRes, 0, $tempHeaderSize));
+        //组装-body
+        $tempBody = substr($tempCurlRes, $tempHeaderSize);
+        if (ManagementClient::_isJson($tempBody)) $tempBody = json_decode($tempBody, true);
+        $varRes["body"] = $tempBody;
+        //组装-cookie
+        preg_match_all("/set\-cookie:([^\r\n]*)/i", $varRes["header"], $tempCookie);
+        $tempCookie = implode(";", $tempCookie[1]);
+        $varRes["cookie"] = !empty($tempCookie) ? trim($tempCookie) : "";
+        //返回
+        curl_close($varCurlObject);
+        return $varRes;
+    }
+
+    /**
+     * 构造HTTP
+     */
+    private function _requests($parMethod, $parGet = [], $parPost = [])
+    {
+        $varHearder = array(
+            "Authorization" => "Bearer " . $this->_accessToken,
+            "Content-type: application/json",
+            "x-authing-userpool-id" => $this->_userPoolID,
+            "x-authing-app-id" => "",
+            "x-authing-request-from" => "SDK",
+            "x-authing-sdk-version" => "php:" . phpversion(),
+        );
+        $varReq = ManagementClient::_request($this->_url . $parMethod, $parGet, $parPost, $varHearder);
+        return $varReq;
     }
 
 	{{#each operations}}
 	/**
+	{{#if summary}}
+	* {{{escapeComment summary}}}
+	{{/if}}
 	{{#if deprecated}}
-	 * @deprecated
+	* @deprecated
 	{{/if}}
 	{{#if summary}}
-	 * @summary {{{escapeComment summary}}}
+	* @summary {{{escapeComment summary}}}
 	{{/if}}
 	{{#if description}}
-	 * @description {{{escapeComment description}}}
+	* @description {{{escapeComment description}}}
 	{{/if}}
-	{{#unless @root.useOptions}}
-	{{#if parameters}}
+    {{#equals method 'GET'}}
+    * @param array $option 可选，用于传递参数，如 array("email" => "main@test.com")
+    {{#if parameters}}
 	{{#each parameters}}
-	 * @param {{{name}}} {{#if description}}{{{escapeComment description}}}{{/if}}
+	* @param {{>type}} {{{name}}} {{#if isRequired}}必须{{else}}可选{{/if}}{{#if description}}，{{{escapeComment description}}}{{/if}}{{#if default}}，默认 {{{default}}}{{/if}}
 	{{/each}}
 	{{/if}}
-	{{/unless}}
+    {{else}}
+    {{#if parametersRaw.php}}
+    {{#each parametersRaw.php}}
+	* @param {{>type}} {{{name}}} {{#if isRequired}}必须{{else}}可选{{/if}}{{#if description}}，{{{escapeComment description}}}{{/if}}{{#unless isRequired}}，默认 null{{/unless}}
+    {{/each}}
+    {{/if}}
+    {{/equals}}
 	{{#each results}}
-	 * @returns {{{type}}} {{#if description}}{{{escapeComment description}}}{{/if}}
+	* @return {{{type}}} {{#if description}}{{{escapeComment description}}}{{/if}}
 	{{/each}}
-	 */
-	public async {{{name}}}({{#equals method 'GET'}}{{>parametersGet}}{{else}}{{>parametersPost}}{{/equals}}): Promise<{{>result}}> {
-		return await this.httpClient.request({
-			method: '{{{method}}}',
-			url: '{{{path}}}',
-			{{#if parametersQuery}}
-			params: {
-				{{#each parametersQuery}}
-				'{{{prop}}}': {{{name}}},
-				{{/each}}
-			},
-			{{/if}}
-			{{#if parametersBody}}
-			{{#equals parametersBody.in 'body'}}
-			data: {{{parametersBody.name}}},
-			{{/equals}}
-			{{/if}}
-		});
+	*/
+	public function {{{name}}}($option = array()) {
+		{{#equals method 'GET'}}
+		{{#if parametersQuery}}
+        // 组装请求
+		$varGet = array(
+			{{#each parametersQuery}}
+			"{{{prop}}}" => $option["{{{name}}}"],
+			{{/each}}
+		);
+		{{/if}}
+        // 规范请求
+        $varGet = $this->_formatRequest($varGet);
+        // 发送请求
+		$varReq = $this->_requests("{{{path}}}", $varGet, null);
+		{{else}}
+		{{#if parametersRaw.php}}
+        // 组装请求
+		$varPost = array(
+            {{#each parametersRaw.php}}
+            "{{name}}" => $option["{{{name}}}"],
+            {{/each}}
+		);
+		{{/if}}
+        // 规范请求
+        $varPost = $this->_formatRequest($varPost);
+        // 发送请求
+		$varReq = $this->_requests("{{{path}}}", null, $varPost);
+		{{/equals}}
+        // 返回
+		return $varReq["body"];
 	}
-
+	
 	{{/each}}
 }
