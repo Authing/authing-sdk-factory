@@ -8,6 +8,7 @@ import { isString } from './utils/isString';
 import { postProcessClient } from './utils/postProcessClient';
 import { registerHandlebarTemplates } from './utils/registerHandlebarTemplates';
 import { registerHandlebarTemplatesForCSharp } from './utils/registerHandlebarTemplatesForCSharp';
+import { registerHandlebarTemplatesForGo } from './utils/registerHandlebarTemplatesForGo';
 import { registerHandlebarTemplatesForJava } from './utils/registerHandlebarTemplatesForJava';
 import { registerHandlebarTemplatesForPython } from './utils/registerHandlebarTemplatesForPython';
 import { writeClient } from './utils/writeClient';

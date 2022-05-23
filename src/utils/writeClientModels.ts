@@ -34,6 +34,8 @@ export const writeClientModels = async (
             file = resolve(outputPath, `${model.name}.java`);
         } else if (lang === 'csharp') {
             file = resolve(outputPath, `${model.name}.cs`);
+        } else if (lang === 'go') {
+            file = resolve(outputPath, `${model.name}.go`);
         } else {
             throw new Error('unsupported lang');
         }
