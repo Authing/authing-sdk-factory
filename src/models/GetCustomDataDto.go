@@ -1,0 +1,9 @@
+package dto
+
+
+type GetCustomDataDto struct{
+    TargetType String `json:"target_type,omitempty"`;
+    TargetIdentifier String `json:"target_identifier,omitempty"`;
+    Namespace String `json:"namespace,omitempty"`;
+}
+
