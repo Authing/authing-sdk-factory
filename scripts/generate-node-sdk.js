@@ -11,7 +11,7 @@ const main = async () => {
         exportCore: false,
         useOptions: true,
     });
-    execSync('cp -R generated/typescript/* ../authing-node-sdk/');
+    // execSync('cp -R generated/typescript/* ../authing-node-sdk/', { encoding: 'utf-8' });
 };
 
 main().then(console.log).catch(console.error);

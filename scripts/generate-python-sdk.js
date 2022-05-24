@@ -12,7 +12,7 @@ const main = async () => {
         lang: 'python',
         exportModels: false,
     });
-    execSync('cp -R generated/python/src/* ../authing-py-sdk/authing');
+    // execSync('cp -R generated/python/src/* ../authing-py-sdk/authing', { encoding: 'utf-8' });
 };
 
 main().then(console.log).catch(console.error);

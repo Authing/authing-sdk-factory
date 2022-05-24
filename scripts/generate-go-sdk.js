@@ -11,9 +11,10 @@ const main = async () => {
         exportCore: false,
         lang: 'go',
     });
-    // execSync('cp -R generated/go/src/dto/* ../authing-go-sdk/src/main/java/dto');
+    // execSync('cp -R generated/go/src/dto/* ../authing-go-sdk/src/main/java/dto', { encoding: 'utf-8' });
     // execSync(
     //     'cp -R generated/java/src/ManagementClient.java ../authing-java-sdk/src/main/java/client/ManagementClient.java'
+    //     , { encoding: 'utf-8' }
     // );
 };
 

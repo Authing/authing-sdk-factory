@@ -12,7 +12,7 @@ const main = async () => {
         useOptions: true,
         lang: 'csharp',
     });
-    execSync('cp -R generated/csharp/* ../authing-csharp-sdk/');
+    // execSync('cp -R generated/csharp/* ../authing-csharp-sdk/', { encoding: 'utf-8' });
 };
 
 main().then(console.log).catch(console.error);
