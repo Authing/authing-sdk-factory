@@ -1,4 +1,4 @@
-name: Generate Node.js SDK
+name: Generate Python SDK
 
 # 手动生成各语言 SDK 产物
 # 生成完成后，在各 SDK Repo 中手动执行拉取、测试、发布
@@ -9,7 +9,7 @@ on:
     #         - main
 
 jobs:
-    Typescript:
+    Python:
         runs-on: ubuntu-latest
         strategy:
             matrix:
@@ -27,20 +27,10 @@ jobs:
             - name: Install node_modules
               run: yarn && yarn build
             - name: Build Package
-              run: yarn generate:node
+              run: yarn generate:python
             - name: Deploy
               uses: peaceiris/actions-gh-pages@v3
               with:
                   github_token: ${{ secrets.API_TOKEN_GITHUB }}
-                  publish_dir: ./generated/typescript
-                  publish_branch: temp/node
-            # - name: Pushes to another repository
-            #   uses: cpina/github-action-push-to-another-repository@main
-            #   env:
-            #       API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
-            #   with:
-            #       source-directory: 'generated/typescript'
-            #       destination-github-username: 'authing'
-            #       destination-repository-name: 'authing-node-sdk'
-            #       user-email: willin@willin.org
-            #       target-branch: main
+                  publish_dir: ./generated/python
+                  publish_branch: temp/python
