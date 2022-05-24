@@ -1,29 +1,34 @@
 package client
 
-{{#if imports}}
+{{!-- {{#if imports}}
 
-{{/if}}
+{{/if}} --}}
 import "authing-go-sdk/dto"
 
-
 {{#each operations}}
+    {{#equals method "POST"}}
 	func (c *Client) {{{convertFirstCharToUpperCase name}}} (reqDto *dto.{{parametersBody.type}}) *dto.{{>result}}  {
-		b, err := c.SendHttpRequest("{{{path}}}", constant.HttpMethodGet, "", nil)
-	if err != nil {
-		return nil, err
+        b, err := c.SendHttpRequest("{{{path}}}", constant.HttpMethodPost, "", nil)
+        var response dto.{{parametersBody.type}}
+		if err != nil {
+		    return nil, err
+	    }
+        json.Unmarshal(b, &response)
+	    return &response
 	}
-	var response model.UserDetailResponse
-	jsoniter.Unmarshal(b, &userDetail)
-	return &userDetail.Data, nil
-        config.setUrl("{{{path}}}");
-        config.setBody(reqDto);
-		{{#equals method "POST"}}
-        config.setMethod("{{method}}");
-		{{/equals}}
-		{{#equals method "GET"}}
-		config.setMethod("{{method}}");
-		{{/equals}}
-        String response = request(config);
-        return deserialize(response, {{>result}}.class);
-	}
-{{/each}}
+    {{/equals}}
+    {{#equals method "GET"}}
+
+    func (c *Client) {{{convertFirstCharToUpperCase name}}} (reqDto *dto.{{parametersDto}}) *dto.{{>result}}  {
+        b, err := c.SendHttpRequest("{{{path}}}", constant.HttpMethodGet, "", nil)
+        var response dto.{{parametersBody.type}}
+		if err != nil {
+		    return nil, err
+	    }
+        json.Unmarshal(b, &response)
+	    return &response
+    }
+    {{/equals}}
+
+
+	{{/each}}

@@ -99,6 +99,12 @@ export const generate = async ({
             useUnionTypes,
             useOptions,
         });
+    } else if (lang === 'go') {
+        templates = registerHandlebarTemplatesForGo({
+            httpClient,
+            useUnionTypes,
+            useOptions,
+        });
     } else if (lang === 'php') {
         templates = registerHandlebarTemplatesForPHP({
             httpClient,
