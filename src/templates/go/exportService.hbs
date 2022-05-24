@@ -9,7 +9,7 @@ import "authing-go-sdk/dto"
 	{{#equals method "POST"}}
 {{!--     {{console this}} --}}
 	func (c *Client) {{{convertFirstCharToUpperCase name}}} (reqDto *dto.{{parametersBody.type}}) *dto.{{>result}}  {
-        b, err := c.SendHttpRequest("{{{path}}}", constant.HttpMethodPost, "", nil)
+        b, err := c.SendHttpRequest("{{{path}}}", constant.HttpMethodPost, reqDto)
         var response dto.{{parametersBody.type}}
 		if err != nil {
 		    return nil, err
@@ -20,7 +20,7 @@ import "authing-go-sdk/dto"
     {{/equals}}
     {{#equals method "GET"}}
     func (c *Client) {{{convertFirstCharToUpperCase name}}} (reqDto *dto.{{parametersDto}}) *dto.{{>result}}  {
-        b, err := c.SendHttpRequest("{{{path}}}", constant.HttpMethodGet, "", nil)
+        b, err := c.SendHttpRequest("{{{path}}}", constant.HttpMethodGet, reqDto)
         var response dto.{{parametersDto}}
 		if err != nil {
 		    return nil, err
@@ -29,6 +29,4 @@ import "authing-go-sdk/dto"
 	    return &response
     }
     {{/equals}}
-
-
 	{{/each}}
