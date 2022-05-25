@@ -45,6 +45,9 @@ export const getModels = (openApi: OpenApi): Model[] => {
                         } else {
                             p.base_go = base;
                         }
+                        if (p.enum?.length > 0) {
+                            p.isEnum = true;
+                        }
                     });
                 }
 

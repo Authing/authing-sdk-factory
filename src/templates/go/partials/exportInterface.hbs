@@ -3,12 +3,12 @@ type {{{name}}} struct{
 	{{#if prop}}
 	{{{convertFirstCharToUpperCase (underlineToHump name)}}} {{base_go}} `json:"{{prop}}{{>isRequired}}"`
 	{{else}}
-	{{{convertFirstCharToUpperCase (underlineToHump name)}}} {{>type parent=../name}} `json:"{{name}}{{>isRequired}}"`
+	{{{convertFirstCharToUpperCase (underlineToHump name)}}} {{#if isEnum}} string {{else}} {{>type parent=../name}}{{/if}} `json:"{{name}}{{>isRequired}}"`
 	{{/if}}
 	{{/each}}
 }
 
-{{#if enums}}
+{{!-- {{#if enums}}
 	{{#each enums}}
 	{{#if description}}
 	/**
@@ -23,4 +23,4 @@ type {{{name}}} struct{
 		{{/each}}
 	)
 	{{/each}}
-	{{/if}}
+	{{/if}} --}}

@@ -9,7 +9,29 @@ import (
 
 {{/if}} --}}
 
+
 {{#each operations}}
+/*
+	{{#if deprecated}}
+	 * @deprecated
+	{{/if}}
+	{{#if summary}}
+	 * @summary {{{escapeComment summary}}}
+	{{/if}}
+	{{#if description}}
+	 * @description {{{escapeComment description}}}
+	{{/if}}
+	{{#unless @root.useOptions}}
+	{{#if parameters}}
+	{{#each parameters}}
+	 * @param {{{name}}} {{#if description}}{{{escapeComment description}}}{{/if}}
+	{{/each}}
+	{{/if}}
+	{{/unless}}
+	{{#each results}}
+	 * @returns {{{type}}} {{#if description}}{{{escapeComment description}}}{{/if}}
+	{{/each}}
+	 */
 	{{#equals method "POST"}}
 {{!--     {{console this}} --}}
 	func (c *Client) {{{convertFirstCharToUpperCase name}}} (reqDto *dto.{{parametersBody.type}}) *dto.{{>result}}  {

@@ -22,4 +22,5 @@ export interface Model extends Schema {
     enum: Enum[];
     enums: Model[];
     properties: Model[];
+    isEnum?: boolean;
 }
