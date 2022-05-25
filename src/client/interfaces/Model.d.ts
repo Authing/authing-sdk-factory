@@ -13,6 +13,7 @@ export interface Model extends Schema {
     type_python?: string;
     base: string;
     base_java?: string;
+    base_go?: string;
     template: string | null;
     link: Model | null;
     description: string | null;

@@ -1,18 +1,22 @@
 package client
 
+import (
+	"authing-go-sdk/dto"
+	"encoding/json"
+	"github.com/valyala/fasthttp"
+)
 {{!-- {{#if imports}}
 
 {{/if}} --}}
-import "authing-go-sdk/dto"
 
 {{#each operations}}
 	{{#equals method "POST"}}
 {{!--     {{console this}} --}}
 	func (c *Client) {{{convertFirstCharToUpperCase name}}} (reqDto *dto.{{parametersBody.type}}) *dto.{{>result}}  {
-        b, err := c.SendHttpRequest("{{{path}}}", constant.HttpMethodPost, reqDto)
-        var response dto.{{parametersBody.type}}
+        b, err := c.SendHttpRequest("{{{path}}}", fasthttp.MethodPost, reqDto)
+        var response dto.{{>result}}
 		if err != nil {
-		    return nil, err
+		    return nil
 	    }
         json.Unmarshal(b, &response)
 	    return &response
@@ -20,10 +24,10 @@ import "authing-go-sdk/dto"
     {{/equals}}
     {{#equals method "GET"}}
     func (c *Client) {{{convertFirstCharToUpperCase name}}} (reqDto *dto.{{parametersDto}}) *dto.{{>result}}  {
-        b, err := c.SendHttpRequest("{{{path}}}", constant.HttpMethodGet, reqDto)
-        var response dto.{{parametersDto}}
+        b, err := c.SendHttpRequest("{{{path}}}", fasthttp.MethodGet, reqDto)
+        var response dto.{{>result}}
 		if err != nil {
-		    return nil, err
+		    return nil
 	    }
         json.Unmarshal(b, &response)
 	    return &response

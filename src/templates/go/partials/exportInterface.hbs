@@ -1,9 +1,9 @@
 type {{{name}}} struct{
 	{{#each properties}}
 	{{#if prop}}
-	{{{convertFirstCharToUpperCase (underlineToHump name)}}} {{base_java}} `json:"{{prop}},omitempty"`;
+	{{{convertFirstCharToUpperCase (underlineToHump name)}}} {{base_go}} `json:"{{prop}}{{>isRequired}}"`
 	{{else}}
-	{{{convertFirstCharToUpperCase (underlineToHump name)}}} {{>type parent=../name}} `json:"{{name}},omitempty"`;
+	{{{convertFirstCharToUpperCase (underlineToHump name)}}} {{>type parent=../name}} `json:"{{name}}{{>isRequired}}"`
 	{{/if}}
 	{{/each}}
 }
@@ -19,7 +19,7 @@ type {{{name}}} struct{
 
 	const (
 		{{#each enum}}
-		{{{convertFirstCharToUpperCase (camelCase name)}}} {{convertFirstCharToUpperCase name}} = {{convertSingleQuotesToDoubleQuotes value}}
+		{{{convertFirstCharToUpperCase (camelCase name)}}} {{convertFirstCharToUpperCase ../name}} = {{convertSingleQuotesToDoubleQuotes value}}
 		{{/each}}
 	)
 	{{/each}}

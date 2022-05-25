@@ -239,10 +239,10 @@ export const registerHandlebarTemplatesForGo = (root: {
     });
 
     const javaTypeMap: any = {
-        string: 'String',
-        number: 'Integer',
-        boolean: 'Boolean',
-        any: 'Object',
+        string: 'string',
+        number: 'int',
+        boolean: 'bool',
+        any: 'interface{}',
     };
     Handlebars.registerHelper('convertGenericType', (item: any) => {
         return javaTypeMap[item] || item;
