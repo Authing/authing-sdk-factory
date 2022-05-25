@@ -155,6 +155,7 @@ class ManagementClient
 	{{/each}}
 	{{/if}}
     {{else}}
+    * @param array $option 可选，用于传递参数，如 array("email" => "main@test.com")
     {{#if parametersRaw.php}}
     {{#each parametersRaw.php}}
 	* @param {{>type}} {{{name}}} {{#if isRequired}}必须{{else}}可选{{/if}}{{#if description}}，{{{escapeComment description}}}{{/if}}{{#unless isRequired}}，默认 null{{/unless}}
