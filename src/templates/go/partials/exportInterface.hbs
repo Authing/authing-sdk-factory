@@ -1,65 +1,26 @@
-public class {{{name}}} {
+type {{{name}}} struct{
 	{{#each properties}}
-	{{#if description}}
-	/**
-	 * {{{escapeComment description}}}
-	 */
-	{{/if}}
 	{{#if prop}}
-	@JsonProperty("{{prop}}")
-	private {{base_java}} {{{underlineToHump name}}};
+	{{{convertFirstCharToUpperCase (underlineToHump name)}}} {{base_java}} `json:"{{prop}},omitempty"`;
 	{{else}}
-	@JsonProperty("{{name}}")
-	private {{>type parent=../name}} {{{underlineToHump name}}};
+	{{{convertFirstCharToUpperCase (underlineToHump name)}}} {{>type parent=../name}} `json:"{{name}},omitempty"`;
 	{{/if}}
 	{{/each}}
+}
 
-	{{#each properties}}
-	{{#if prop}}
-	public {{base_java}} {{{underlineToHump name_java_get}}}() {
-		return {{underlineToHump name}};
-	}
-	public void {{{underlineToHump name_java_set}}}({{base_java}} {{underlineToHump name}}) {
-		this.{{underlineToHump name}} = {{underlineToHump name}};
-	}
-    {{else}}
-	public {{>type parent=../name}} {{{underlineToHump name_java_get}}}() {
-		return {{underlineToHump name}};
-	}
-	public void {{{underlineToHump name_java_set}}}({{>type parent=../name}} {{underlineToHump name}}) {
-		this.{{underlineToHump name}} = {{underlineToHump name}};
-	}
-    {{/if}}
-
-	{{/each}}
-
-	{{#if enums}}
+{{#if enums}}
 	{{#each enums}}
 	{{#if description}}
 	/**
 	* {{{escapeComment description}}}
 	*/
 	{{/if}}
-    public static enum {{convertFirstCharToUpperCase name}} {
+    type  {{convertFirstCharToUpperCase name}} string
+
+	const (
 		{{#each enum}}
-
-		@JsonProperty("{{replaceSingleQuotesToEmptyString value}}")
-		{{{name}}}({{convertSingleQuotesToDoubleQuotes value}}),
+		{{{convertFirstCharToUpperCase (camelCase name)}}} {{convertFirstCharToUpperCase name}} = {{convertSingleQuotesToDoubleQuotes value}}
 		{{/each}}
-		;
-
-		private String value;
-
-        {{convertFirstCharToUpperCase name}}(String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return value;
-        }
-    }
-
+	)
 	{{/each}}
 	{{/if}}
-
-}

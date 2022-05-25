@@ -1,0 +1,36 @@
+name: Generate C# SDK
+
+# 手动生成各语言 SDK 产物
+# 生成完成后，在各 SDK Repo 中手动执行拉取、测试、发布
+on:
+    workflow_dispatch:
+    # push:
+    #     branches:
+    #         - main
+
+jobs:
+    Csharp:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [16.x]
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v2
+              with:
+                  node-version: ${{ matrix.node-version }}
+            - uses: actions/cache@v2
+              with:
+                  path: '**/node_modules'
+                  key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+            - name: Install node_modules
+              run: yarn && yarn build
+            - name: Build Package
+              run: yarn generate:csharp
+            - name: Deploy
+              uses: peaceiris/actions-gh-pages@v3
+              with:
+                  github_token: ${{ secrets.API_TOKEN_GITHUB }}
+                  publish_dir: ./generated/csharp
+                  publish_branch: temp/csharp
