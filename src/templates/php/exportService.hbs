@@ -4,7 +4,7 @@
  * 命名空间
  */
 
-namespace Src;
+namespace Authing;
 
 /**
  * ManagementClient
@@ -12,15 +12,16 @@ namespace Src;
 
 class ManagementClient
 {
-    public $_url = "https://core.authing.cn";
+    public $_url;
     public $_accessToken;
     public $_userPoolID;
 
     /**
      * 构造函数
      */
-    public function __construct($accessKeyId,  $accessKeySecret)
+    public function __construct($accessKeyId,  $accessKeySecret, $host = "https://api.authing.cn")
     {
+        $this->_url = $host;
         $this->_userPoolID = $accessKeyId;
         $this->_accessToken = $this->getManagementToken(array("accessKeyId" => $accessKeyId, "accessKeySecret" => $accessKeySecret))["data"]["access_token"];
     }
@@ -125,7 +126,6 @@ class ManagementClient
             "Authorization" => "Bearer " . $this->_accessToken,
             "Content-type: application/json",
             "x-authing-userpool-id" => $this->_userPoolID,
-            "x-authing-app-id" => "",
             "x-authing-request-from" => "SDK",
             "x-authing-sdk-version" => "php:" . phpversion(),
         );
