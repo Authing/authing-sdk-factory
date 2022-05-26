@@ -447,10 +447,10 @@ public async listArchivedUsers({
 /**
  * @summary 强制下线用户
  * @description 强制下线用户
- * @returns IsUserExistsRespDto
+ * @returns IsSuccessRespDto
  */
 public async kickUsers(requestBody: KickUsersDto,
-): Promise<IsUserExistsRespDto> {
+): Promise<IsSuccessRespDto> {
     return await this.httpClient.request({
         method: 'POST',
         url: '/api/v3/kick-users',
