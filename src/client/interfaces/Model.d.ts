@@ -5,6 +5,7 @@ export interface Model extends Schema {
     name: string;
     // for java
     prop?: string;
+    prop_underscore?: string;
     name_underscore?: string;
     name_java_get?: string;
     name_java_set?: string;

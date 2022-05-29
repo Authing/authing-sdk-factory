@@ -50,7 +50,7 @@ class ManagementClient(object):
 			{{#if parametersQuery}}
 			params={
 				{{#each parametersQuery}}
-				'{{{prop}}}': {{{prop}}},
+				'{{{prop}}}': {{{prop_underscore}}},
 				{{/each}}
 			},
 			{{/if}}

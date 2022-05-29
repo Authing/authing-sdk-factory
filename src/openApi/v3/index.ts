@@ -3,14 +3,14 @@ import _ from 'lodash';
 import type { Client } from '../../client/interfaces/Client';
 import { camelToSnakeCase } from '../../utils';
 import type { OpenApi } from './interfaces/OpenApi';
-import {getModels, getModelByParameter, getModelByOperation} from './parser/getModels';
+import { getModels, getModelByParameter, getModelByOperation } from './parser/getModels';
 import { getServer } from './parser/getServer';
 import { getServices } from './parser/getServices';
 import { getServiceVersion } from './parser/getServiceVersion';
-import {Model} from "../../client/interfaces/Model";
-import {getPattern} from "../../utils/getPattern";
-import {Enum} from "../../client/interfaces/Enum";
-import {Operation} from "../../client/interfaces/Operation";
+import { Model } from '../../client/interfaces/Model';
+import { getPattern } from '../../utils/getPattern';
+import { Enum } from '../../client/interfaces/Enum';
+import { Operation } from '../../client/interfaces/Operation';
 
 const pythonTypeMap: Record<string, any> = {
     string: 'str',
@@ -36,17 +36,18 @@ export const parse = (openApi: OpenApi): Client => {
             if (parameters.length) {
                 if (method === 'GET') {
                     // for java
-                    let properties:Model[] = [];
+                    let properties: Model[] = [];
                     parameters.forEach(p => {
                         p.type_python = pythonTypeMap[p.type] || '';
-
+                        if (p.prop) {
+                            p.prop_underscore = camelToSnakeCase(p.prop);
+                        }
                         // for java ---- start ----
                         const propertiesModel = getModelByParameter(p);
 
                         properties.push(propertiesModel);
                         // for java ---- end ----
                     });
-
 
                     // for java ---- start ----
                     let addedJavaModel: Model = getModelByOperation(op);
