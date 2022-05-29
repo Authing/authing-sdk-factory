@@ -16,7 +16,7 @@ const main = async () => {
         './generated/typescript/src/models/index.ts',
         files.map(file => `export * from './${file.replace(/\.ts$/, '')}';`).join('\n')
     );
-    // execSync('cp -R generated/typescript/* ../authing-node-sdk/', { encoding: 'utf-8' });
+    execSync('cp -R generated/typescript/* ../authing-node-sdk/', { encoding: 'utf-8' });
 };
 
 main().then(console.log).catch(console.error);
