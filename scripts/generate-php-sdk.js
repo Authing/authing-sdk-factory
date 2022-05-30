@@ -11,6 +11,7 @@ const main = async () => {
         exportCore: false,
         useOptions: true,
         lang: 'php',
+        exportModels: false,
     });
     // execSync('cp -R generated/php/* ../authing-php-sdk/', { encoding: 'utf-8' });
 };
