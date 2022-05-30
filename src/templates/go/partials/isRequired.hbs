@@ -1,0 +1,5 @@
+{{~#if @root.useOptions~}}
+{{#unless isRequired}},omitempty{{else if default}},omitempty{{/unless}}
+{{~else~}}
+{{#unless isRequired}}{{#unless default}},omitempty{{/unless}}{{/unless}}
+{{~/if~}}

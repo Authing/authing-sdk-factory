@@ -12,7 +12,7 @@ const main = async () => {
         useOptions: true,
         lang: 'php',
     });
-    execSync('cp -R generated/php/* ../authing-php-sdk/');
+    // execSync('cp -R generated/php/* ../authing-php-sdk/', { encoding: 'utf-8' });
 };
 
 main().then(console.log).catch(console.error);

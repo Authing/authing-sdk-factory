@@ -1,0 +1,26 @@
+type {{{name}}} struct{
+	{{#each properties}}
+	{{#if prop}}
+	{{{convertFirstCharToUpperCase (underlineToHump name)}}} {{base_go}} `json:"{{prop}}{{>isRequired}}"`
+	{{else}}
+	{{{convertFirstCharToUpperCase (underlineToHump name)}}} {{#if isEnum}} string {{else}} {{>type parent=../name}}{{/if}} `json:"{{name}}{{>isRequired}}"`
+	{{/if}}
+	{{/each}}
+}
+
+{{!-- {{#if enums}}
+	{{#each enums}}
+	{{#if description}}
+	/**
+	* {{{escapeComment description}}}
+	*/
+	{{/if}}
+    type  {{convertFirstCharToUpperCase name}} string
+
+	const (
+		{{#each enum}}
+		{{{convertFirstCharToUpperCase (camelCase name)}}} {{convertFirstCharToUpperCase ../name}} = {{convertSingleQuotesToDoubleQuotes value}}
+		{{/each}}
+	)
+	{{/each}}
+	{{/if}} --}}

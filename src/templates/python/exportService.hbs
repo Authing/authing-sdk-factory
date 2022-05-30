@@ -1,14 +1,31 @@
 # coding: utf-8
 
-from .ManagementClientOptions import ManagementClientOptions
 from .HttpClient import HttpClient
 
 class ManagementClient(object):
     """Authing Management Client"""
-    def __init__(self, options):
-        # type:(ManagementClientOptions) -> ManagementClient
-        self.options = options
-		self.http_client = HttpClient(self.options)
+    def __init__(
+        self,
+        access_key_id,
+        access_key_secret,
+        host=None,
+        timeout=10.0,
+        lang=None,
+        use_unverified_ssl=False,
+    ):
+        self.access_key_id = access_key_id
+        self.access_key_secret = access_key_secret
+        self.host = host or "https://api.authing.cn"
+        self.timeout = timeout
+        self.lang = lang
+        self.use_unverified_ssl = use_unverified_ssl
+        self.http_client = HttpClient(
+            host=self.host,
+            lang=self.lang,
+            use_unverified_ssl=self.use_unverified_ssl,
+            access_key_id=self.access_key_id,
+            access_key_secret=self.access_key_secret
+        )
 
 	{{#each operations}}
 	def {{{name}}}(self, {{#equals method 'POST' }}{{>parametersPost}}{{else}}{{>parametersGet}}{{/equals}}):
@@ -33,7 +50,7 @@ class ManagementClient(object):
 			{{#if parametersQuery}}
 			params={
 				{{#each parametersQuery}}
-				'{{{prop}}}': {{{prop}}},
+				'{{{prop}}}': {{{prop_underscore}}},
 				{{/each}}
 			},
 			{{/if}}

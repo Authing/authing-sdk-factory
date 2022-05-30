@@ -5,6 +5,7 @@ export interface Model extends Schema {
     name: string;
     // for java
     prop?: string;
+    prop_underscore?: string;
     name_underscore?: string;
     name_java_get?: string;
     name_java_set?: string;
@@ -14,6 +15,7 @@ export interface Model extends Schema {
     type_php?: string;
     base: string;
     base_java?: string;
+    base_go?: string;
     template: string | null;
     link: Model | null;
     description: string | null;
@@ -22,4 +24,5 @@ export interface Model extends Schema {
     enum: Enum[];
     enums: Model[];
     properties: Model[];
+    isEnum?: boolean;
 }

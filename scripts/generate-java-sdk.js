@@ -11,10 +11,11 @@ const main = async () => {
         exportCore: false,
         lang: 'java',
     });
-    execSync('cp -R generated/java/src/models/* ../authing-java-sdk/src/main/java/dto');
-    execSync(
-        'cp -R generated/java/src/ManagementClient.java ../authing-java-sdk/src/main/java/client/ManagementClient.java'
-    );
+    // execSync('cp -R generated/java/src/models/* ../authing-java-sdk/src/main/java/dto', { encoding: 'utf-8' });
+    // execSync(
+    //     'cp -R generated/java/src/ManagementClient.java ../authing-java-sdk/src/main/java/client/ManagementClient.java'
+    //     , { encoding: 'utf-8' }
+    // );
 };
 
 main().then(console.log).catch(console.error);

@@ -1,2 +1,2 @@
 {{!-- {{console this}} --}}
-{{#each parameters}}{{prop}}{{#if isRequired}}{{else}}=None{{/if}}{{#if @last}}{{else}},{{/if}} {{/each}}
+{{#each parameters}}{{prop_underscore}}{{#if isRequired}}{{else}}=None{{/if}}{{#if @last}}{{else}},{{/if}} {{/each}}

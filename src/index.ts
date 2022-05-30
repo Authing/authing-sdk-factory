@@ -8,6 +8,7 @@ import { isString } from './utils/isString';
 import { postProcessClient } from './utils/postProcessClient';
 import { registerHandlebarTemplates } from './utils/registerHandlebarTemplates';
 import { registerHandlebarTemplatesForCSharp } from './utils/registerHandlebarTemplatesForCSharp';
+import { registerHandlebarTemplatesForGo } from './utils/registerHandlebarTemplatesForGo';
 import { registerHandlebarTemplatesForJava } from './utils/registerHandlebarTemplatesForJava';
 import { registerHandlebarTemplatesForPHP } from './utils/registerHandlebarTemplatesForPHP';
 import { registerHandlebarTemplatesForPython } from './utils/registerHandlebarTemplatesForPython';
@@ -94,6 +95,12 @@ export const generate = async ({
         });
     } else if (lang === 'csharp') {
         templates = registerHandlebarTemplatesForCSharp({
+            httpClient,
+            useUnionTypes,
+            useOptions,
+        });
+    } else if (lang === 'go') {
+        templates = registerHandlebarTemplatesForGo({
             httpClient,
             useUnionTypes,
             useOptions,
