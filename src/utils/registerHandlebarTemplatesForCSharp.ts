@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import Handlebars from 'handlebars/runtime';
 
 import { HttpClient } from '../HttpClient';
@@ -226,11 +227,12 @@ export const registerHandlebarTemplatesForCSharp = (root: {
 
     // Helpers
     Handlebars.registerHelper('convertFirstCharToUpperCase', (str: string) => {
+        console.log(str);
         return str.charAt(0).toUpperCase() + str.slice(1);
     });
 
     Handlebars.registerHelper('getEnumMemeber', (str: string) => {
-        return str.replace('\'', "\"").replace('\'', "\""); 
+        return str.replace('\'', "\"").replace('\'', "\"");
     });
 
     Handlebars.registerHelper('convertSingleQuotesToDoubleQuotes', (str: string) => {
@@ -259,9 +261,9 @@ export const registerHandlebarTemplatesForCSharp = (root: {
 
         let paramStr = "";
 
-        let myArray = SortParams(data);
+        const myArray = SortParams(data);
 
-        for (var i = 0; i < myArray.length; i++) {
+        for (let i = 0; i < myArray.length; i++) {
             paramStr += GetParamString(myArray[i]);
 
             if (i + 1 < myArray.length) {
@@ -274,13 +276,12 @@ export const registerHandlebarTemplatesForCSharp = (root: {
     /**
      * 将参数列表进行排序，有默认值的排到最后
      * @param data 参数
-     * @returns 
+     * @returns
      */
     function SortParams(data: any) {
-        let myArray = new Array();
+        const myArray = new Array();
 
-        let ss = "";
-        for (var i = 0; i < data.length; i++) {
+        for (let i = 0; i < data.length; i++) {
             if (data[i].default != null || data[i].isRequired == false) {
                 myArray.push(data[i]);
             }
@@ -294,7 +295,7 @@ export const registerHandlebarTemplatesForCSharp = (root: {
     /**
      * 根据参数信息，生成参数的字符串
      * @param obj 每个参数
-     * @returns 
+     * @returns
      */
     function GetParamString(obj: any) {
         let param = "";
@@ -334,4 +335,5 @@ export const registerHandlebarTemplatesForCSharp = (root: {
     }
 
     return templates;
+
 };
