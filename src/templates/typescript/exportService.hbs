@@ -43,7 +43,7 @@ export class ManagementClient {
         // @ts-ignore
         Object.keys(options).forEach((i: any) => !options[i] && delete options[i]);
         this.options = Object.assign({}, DEFAULT_OPTIONS, options);
-      	Axios.defaults.baseURL = domainC14n(this.options.host);
+      	Axios.defaults.baseURL = domainC14n(String(this.options.host));
         this.httpClient = new ManagementHttpClient(this.options);
 
         if (!this.options.accessKeyId) {
