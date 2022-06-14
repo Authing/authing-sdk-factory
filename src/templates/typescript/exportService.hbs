@@ -27,7 +27,8 @@ import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 {{/equals}}
 {{else}}
 import { DEFAULT_OPTIONS, ManagementClientOptions } from './ManagementClientOptions';
-import { HttpClient } from './HttpClient';
+import { ManagementHttpClient } from './ManagementHttpClient';
+import { domainC14n } from './utils';
 import Axios from 'axios';
 
 {{/if}}
@@ -36,14 +37,14 @@ import Axios from 'axios';
 @Injectable()
 {{/equals}}
 export class ManagementClient {
-    private httpClient: HttpClient;
+    private httpClient: ManagementHttpClient;
     private options: ManagementClientOptions;
     constructor(options: ManagementClientOptions) {
         // @ts-ignore
         Object.keys(options).forEach((i: any) => !options[i] && delete options[i]);
         this.options = Object.assign({}, DEFAULT_OPTIONS, options);
-      	Axios.defaults.baseURL = this.options.host;
-        this.httpClient = new HttpClient(this.options);
+      	Axios.defaults.baseURL = domainC14n(String(this.options.host));
+        this.httpClient = new ManagementHttpClient(this.options);
 
         if (!this.options.accessKeyId) {
             throw new Error('accessKeyId is required');
@@ -85,7 +86,7 @@ export class ManagementClient {
 			{{#if parametersQuery}}
 			params: {
 				{{#each parametersQuery}}
-				'{{{prop}}}': {{{name}}},
+				{{{prop}}}: {{{name}}},
 				{{/each}}
 			},
 			{{/if}}
