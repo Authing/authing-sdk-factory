@@ -97,19 +97,20 @@ import type { UserPaginatedRespDto } from './models/UserPaginatedRespDto';
 import type { UserSingleRespDto } from './models/UserSingleRespDto';
 
 import { DEFAULT_OPTIONS, ManagementClientOptions } from './ManagementClientOptions';
-import { HttpClient } from './HttpClient';
+import { ManagementHttpClient } from './ManagementHttpClient';
+import { domainC14n } from './utils';
 import Axios from 'axios';
 
 
 export class ManagementClient {
-    private httpClient: HttpClient;
+    private httpClient: ManagementHttpClient;
     private options: ManagementClientOptions;
     constructor(options: ManagementClientOptions) {
         // @ts-ignore
         Object.keys(options).forEach((i: any) => !options[i] && delete options[i]);
         this.options = Object.assign({}, DEFAULT_OPTIONS, options);
-        Axios.defaults.baseURL = this.options.host;
-        this.httpClient = new HttpClient(this.options);
+        Axios.defaults.baseURL = domainC14n(String(this.options.host));
+        this.httpClient = new ManagementHttpClient(this.options);
 
         if (!this.options.accessKeyId) {
             throw new Error('accessKeyId is required');
@@ -172,14 +173,14 @@ public async getUser({
         method: 'GET',
         url: '/api/v3/get-user',
         params: {
-            'withCustomData': withCustomData,
-            'withIdentities': withIdentities,
-            'withDepartmentIds': withDepartmentIds,
-            'userId': userId,
-            'phone': phone,
-            'email': email,
-            'username': username,
-            'externalId': externalId,
+            withCustomData: withCustomData,
+            withIdentities: withIdentities,
+            withDepartmentIds: withDepartmentIds,
+            userId: userId,
+            phone: phone,
+            email: email,
+            username: username,
+            externalId: externalId,
         },
     });
 }
@@ -208,10 +209,10 @@ public async getUserBatch({
         method: 'GET',
         url: '/api/v3/get-user-batch',
         params: {
-            'withCustomData': withCustomData,
-            'withIdentities': withIdentities,
-            'withDepartmentIds': withDepartmentIds,
-            'userIds': userIds,
+            withCustomData: withCustomData,
+            withIdentities: withIdentities,
+            withDepartmentIds: withDepartmentIds,
+            userIds: userIds,
         },
     });
 }
@@ -243,11 +244,11 @@ public async listUsers({
         method: 'GET',
         url: '/api/v3/list-users',
         params: {
-            'page': page,
-            'limit': limit,
-            'withCustomData': withCustomData,
-            'withIdentities': withIdentities,
-            'withDepartmentIds': withDepartmentIds,
+            page: page,
+            limit: limit,
+            withCustomData: withCustomData,
+            withIdentities: withIdentities,
+            withDepartmentIds: withDepartmentIds,
         },
     });
 }
@@ -267,7 +268,7 @@ public async getUserIdentities({
         method: 'GET',
         url: '/api/v3/get-user-identities',
         params: {
-            'userId': userId,
+            userId: userId,
         },
     });
 }
@@ -290,8 +291,8 @@ public async getUserRoles({
         method: 'GET',
         url: '/api/v3/get-user-roles',
         params: {
-            'userId': userId,
-            'namespace': namespace,
+            userId: userId,
+            namespace: namespace,
         },
     });
 }
@@ -311,7 +312,7 @@ public async getUserPrincipalAuthenticationInfo({
         method: 'GET',
         url: '/api/v3/get-user-principal-authentication-info',
         params: {
-            'userId': userId,
+            userId: userId,
         },
     });
 }
@@ -345,7 +346,7 @@ public async getUserDepartments({
         method: 'GET',
         url: '/api/v3/get-user-departments',
         params: {
-            'userId': userId,
+            userId: userId,
         },
     });
 }
@@ -379,7 +380,7 @@ public async getUserGroups({
         method: 'GET',
         url: '/api/v3/get-user-groups',
         params: {
-            'userId': userId,
+            userId: userId,
         },
     });
 }
@@ -413,7 +414,7 @@ public async getUserMfaInfo({
         method: 'GET',
         url: '/api/v3/get-user-mfa-info',
         params: {
-            'userId': userId,
+            userId: userId,
         },
     });
 }
@@ -436,8 +437,8 @@ public async listArchivedUsers({
         method: 'GET',
         url: '/api/v3/list-archived-users',
         params: {
-            'page': page,
-            'limit': limit,
+            page: page,
+            limit: limit,
         },
     });
 }
@@ -527,7 +528,7 @@ public async getUserAccessibleApps({
         method: 'GET',
         url: '/api/v3/get-user-accessible-apps',
         params: {
-            'userId': userId,
+            userId: userId,
         },
     });
 }
@@ -547,7 +548,7 @@ public async getUserAuthorizedApps({
         method: 'GET',
         url: '/api/v3/get-user-authorized-apps',
         params: {
-            'userId': userId,
+            userId: userId,
         },
     });
 }
@@ -599,13 +600,13 @@ public async getUserLoginHistory({
         method: 'GET',
         url: '/api/v3/get-user-login-history',
         params: {
-            'userId': userId,
-            'appId': appId,
-            'clientIp': clientIp,
-            'start': start,
-            'end': end,
-            'page': page,
-            'limit': limit,
+            userId: userId,
+            appId: appId,
+            clientIp: clientIp,
+            start: start,
+            end: end,
+            page: page,
+            limit: limit,
         },
     });
 }
@@ -625,7 +626,7 @@ public async getUserLoggedInApps({
         method: 'GET',
         url: '/api/v3/get-user-loggedin-apps',
         params: {
-            'userId': userId,
+            userId: userId,
         },
     });
 }
@@ -645,7 +646,7 @@ public async getUserLoggedInIdentities({
         method: 'GET',
         url: '/api/v3/get-user-logged-in-identities',
         params: {
-            'userId': userId,
+            userId: userId,
         },
     });
 }
@@ -671,9 +672,9 @@ public async getUserAuthorizedResources({
         method: 'GET',
         url: '/api/v3/get-user-authorized-resources',
         params: {
-            'userId': userId,
-            'namespace': namespace,
-            'resourceType': resourceType,
+            userId: userId,
+            namespace: namespace,
+            resourceType: resourceType,
         },
     });
 }
@@ -693,7 +694,7 @@ public async getGroup({
         method: 'GET',
         url: '/api/v3/get-group',
         params: {
-            'code': code,
+            code: code,
         },
     });
 }
@@ -716,8 +717,8 @@ public async listGroups({
         method: 'GET',
         url: '/api/v3/list-groups',
         params: {
-            'page': page,
-            'limit': limit,
+            page: page,
+            limit: limit,
         },
     });
 }
@@ -836,12 +837,12 @@ public async listGroupMembers({
         method: 'GET',
         url: '/api/v3/list-group-members',
         params: {
-            'code': code,
-            'page': page,
-            'limit': limit,
-            'withCustomData': withCustomData,
-            'withIdentities': withIdentities,
-            'withDepartmentIds': withDepartmentIds,
+            code: code,
+            page: page,
+            limit: limit,
+            withCustomData: withCustomData,
+            withIdentities: withIdentities,
+            withDepartmentIds: withDepartmentIds,
         },
     });
 }
@@ -867,9 +868,9 @@ public async getGroupAuthorizedResources({
         method: 'GET',
         url: '/api/v3/get-group-authorized-resources',
         params: {
-            'code': code,
-            'namespace': namespace,
-            'resourceType': resourceType,
+            code: code,
+            namespace: namespace,
+            resourceType: resourceType,
         },
     });
 }
@@ -892,8 +893,8 @@ public async getRole({
         method: 'GET',
         url: '/api/v3/get-role',
         params: {
-            'code': code,
-            'namespace': namespace,
+            code: code,
+            namespace: namespace,
         },
     });
 }
@@ -947,9 +948,9 @@ public async getRoleAuthorizedResources({
         method: 'GET',
         url: '/api/v3/get-role-authorized-resources',
         params: {
-            'code': code,
-            'namespace': namespace,
-            'resourceType': resourceType,
+            code: code,
+            namespace: namespace,
+            resourceType: resourceType,
         },
     });
 }
@@ -987,13 +988,13 @@ public async listRoleMembers({
         method: 'GET',
         url: '/api/v3/list-role-members',
         params: {
-            'page': page,
-            'limit': limit,
-            'withCustomData': withCustomData,
-            'withIdentities': withIdentities,
-            'withDepartmentIds': withDepartmentIds,
-            'code': code,
-            'namespace': namespace,
+            page: page,
+            limit: limit,
+            withCustomData: withCustomData,
+            withIdentities: withIdentities,
+            withDepartmentIds: withDepartmentIds,
+            code: code,
+            namespace: namespace,
         },
     });
 }
@@ -1022,10 +1023,10 @@ public async listRoleDepartments({
         method: 'GET',
         url: '/api/v3/list-role-departments',
         params: {
-            'code': code,
-            'namespace': namespace,
-            'page': page,
-            'limit': limit,
+            code: code,
+            namespace: namespace,
+            page: page,
+            limit: limit,
         },
     });
 }
@@ -1065,9 +1066,9 @@ public async listRoles({
         method: 'GET',
         url: '/api/v3/list-roles',
         params: {
-            'namespace': namespace,
-            'page': page,
-            'limit': limit,
+            namespace: namespace,
+            page: page,
+            limit: limit,
         },
     });
 }
@@ -1135,9 +1136,9 @@ public async listOrganizations({
         method: 'GET',
         url: '/api/v3/list-organizations',
         params: {
-            'page': page,
-            'limit': limit,
-            'fetchAll': fetchAll,
+            page: page,
+            limit: limit,
+            fetchAll: fetchAll,
         },
     });
 }
@@ -1205,9 +1206,9 @@ public async getDepartment({
         method: 'GET',
         url: '/api/v3/get-department',
         params: {
-            'organizationCode': organizationCode,
-            'departmentId': departmentId,
-            'departmentIdType': departmentIdType,
+            organizationCode: organizationCode,
+            departmentId: departmentId,
+            departmentIdType: departmentIdType,
         },
     });
 }
@@ -1289,9 +1290,9 @@ public async listChildrenDepartments({
         method: 'GET',
         url: '/api/v3/list-children-departments',
         params: {
-            'departmentId': departmentId,
-            'departmentIdType': departmentIdType,
-            'organizationCode': organizationCode,
+            departmentId: departmentId,
+            departmentIdType: departmentIdType,
+            organizationCode: organizationCode,
         },
     });
 }
@@ -1335,15 +1336,15 @@ public async listDepartmentMembers({
         method: 'GET',
         url: '/api/v3/list-department-members',
         params: {
-            'organizationCode': organizationCode,
-            'departmentId': departmentId,
-            'departmentIdType': departmentIdType,
-            'includeChildrenDepartments': includeChildrenDepartments,
-            'page': page,
-            'limit': limit,
-            'withCustomData': withCustomData,
-            'withIdentities': withIdentities,
-            'withDepartmentIds': withDepartmentIds,
+            organizationCode: organizationCode,
+            departmentId: departmentId,
+            departmentIdType: departmentIdType,
+            includeChildrenDepartments: includeChildrenDepartments,
+            page: page,
+            limit: limit,
+            withCustomData: withCustomData,
+            withIdentities: withIdentities,
+            withDepartmentIds: withDepartmentIds,
         },
     });
 }
@@ -1369,9 +1370,9 @@ public async listDepartmentMemberIds({
         method: 'GET',
         url: '/api/v3/list-department-member-ids',
         params: {
-            'organizationCode': organizationCode,
-            'departmentId': departmentId,
-            'departmentIdType': departmentIdType,
+            organizationCode: organizationCode,
+            departmentId: departmentId,
+            departmentIdType: departmentIdType,
         },
     });
 }
@@ -1425,9 +1426,9 @@ public async getParentDepartment({
         method: 'GET',
         url: '/api/v3/get-parent-department',
         params: {
-            'organizationCode': organizationCode,
-            'departmentId': departmentId,
-            'departmentIdType': departmentIdType,
+            organizationCode: organizationCode,
+            departmentId: departmentId,
+            departmentIdType: departmentIdType,
         },
     });
 }
@@ -1447,7 +1448,7 @@ public async listExtIdp({
         method: 'GET',
         url: '/api/v3/list-ext-idp',
         params: {
-            'tenantId': tenantId,
+            tenantId: tenantId,
         },
     });
 }
@@ -1470,8 +1471,8 @@ public async getExtIdp({
         method: 'GET',
         url: '/api/v3/get-ext-idp',
         params: {
-            'tenantId': tenantId,
-            'id': id,
+            tenantId: tenantId,
+            id: id,
         },
     });
 }
@@ -1589,7 +1590,7 @@ public async getCustomFields({
         method: 'GET',
         url: '/api/v3/get-custom-fields',
         params: {
-            'targetType': targetType,
+            targetType: targetType,
         },
     });
 }
@@ -1643,9 +1644,9 @@ public async getCustomData({
         method: 'GET',
         url: '/api/v3/get-custom-data',
         params: {
-            'targetType': targetType,
-            'targetIdentifier': targetIdentifier,
-            'namespace': namespace,
+            targetType: targetType,
+            targetIdentifier: targetIdentifier,
+            namespace: namespace,
         },
     });
 }
@@ -1696,8 +1697,8 @@ public async getResource({
         method: 'GET',
         url: '/api/v3/get-resource',
         params: {
-            'code': code,
-            'namespace': namespace,
+            code: code,
+            namespace: namespace,
         },
     });
 }
@@ -1720,8 +1721,8 @@ public async getResourcesBatch({
         method: 'GET',
         url: '/api/v3/get-resources-batch',
         params: {
-            'namespace': namespace,
-            'codeList': codeList,
+            namespace: namespace,
+            codeList: codeList,
         },
     });
 }
@@ -1750,10 +1751,10 @@ public async listResources({
         method: 'GET',
         url: '/api/v3/list-resources',
         params: {
-            'namespace': namespace,
-            'type': type,
-            'page': page,
-            'limit': limit,
+            namespace: namespace,
+            type: type,
+            page: page,
+            limit: limit,
         },
     });
 }
@@ -1843,7 +1844,7 @@ public async getNamespace({
         method: 'GET',
         url: '/api/v3/get-namespace',
         params: {
-            'code': code,
+            code: code,
         },
     });
 }
@@ -1863,7 +1864,7 @@ public async getNamespacesBatch({
         method: 'GET',
         url: '/api/v3/get-namespaces-batch',
         params: {
-            'codeList': codeList,
+            codeList: codeList,
         },
     });
 }
@@ -1951,11 +1952,11 @@ public async getTargetAuthorizedResources({
         method: 'GET',
         url: '/api/v3/get-authorized-resources',
         params: {
-            'namespace': namespace,
-            'targetType': targetType,
-            'targetIdentifier': targetIdentifier,
-            'resourceType': resourceType,
-            'withDenied': withDenied,
+            namespace: namespace,
+            targetType: targetType,
+            targetIdentifier: targetIdentifier,
+            resourceType: resourceType,
+            withDenied: withDenied,
         },
     });
 }
