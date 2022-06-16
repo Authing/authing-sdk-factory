@@ -39,16 +39,16 @@ class ManagementClient
     }
 
     /**
-     * 规范请求
+     * 规范数据
      */
-    private static function _formatRequest($varRequest)
+    private static function _formatData($varData)
     {
-        foreach ($varRequest as $forKey => $forValue) {
+        foreach ($varData as $forKey => $forValue) {
             if ($forValue === null) {
-                unset($varRequest[$forKey]);
+                unset($varData[$forKey]);
             }
         }
-        return $varRequest;
+        return $varData;
     }
 
     /**
@@ -137,7 +137,10 @@ class ManagementClient
             $this->_accessTokenTime = null;
             $this->_getAccessToken($this->_accessKey["id"],  $this->_accessKey["secret"]);
         }
-        //请求
+        //处理
+        if ($parGet != []) $parGet = $this->_formatData($parGet);
+        if ($parPost != []) $parPost = $this->_formatData($parPost);
+        //头部
         $varHearder = array(
             "Authorization" => "Bearer " . $this->_accessToken,
             "Content-Type" => "application/json",
@@ -145,6 +148,7 @@ class ManagementClient
             "x-authing-request-from" => "SDK",
             "x-authing-sdk-version" => "php:" . phpversion(),
         );
+        //请求
         $varReq = ManagementClient::_request($this->_url . $parMethod, $parGet, $parPost, $varHearder);
         return $varReq;
     }
@@ -202,8 +206,6 @@ class ManagementClient
 			{{/each}}
 		);
 		{{/if}}
-        // 规范请求
-        $varGet = $this->_formatRequest($varGet);
         // 发送请求
 		$varReq = $this->_requests("{{{path}}}", $varGet, null);
 		{{else}}
@@ -215,8 +217,6 @@ class ManagementClient
             {{/each}}
 		);
 		{{/if}}
-        // 规范请求
-        $varPost = $this->_formatRequest($varPost);
         // 发送请求
 		$varReq = $this->_requests("{{{path}}}", null, $varPost);
 		{{/equals}}
