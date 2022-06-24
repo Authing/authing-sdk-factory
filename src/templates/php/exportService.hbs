@@ -52,8 +52,8 @@ class ManagementClient
             $this->_getAccessToken($this->_accessKey["id"],  $this->_accessKey["secret"]);
         }
         //处理
-        if ($parGet != []) $parGet = \Tool::formatData($parGet);
-        if ($parPost != []) $parPost = \Tool::formatData($parPost);
+        if ($parGet != []) $parGet = Util\Tool::formatData($parGet);
+        if ($parPost != []) $parPost = Util\Tool::formatData($parPost);
         //头部
         $varHeader = array(
             "Authorization" => "Bearer " . $this->_accessToken,
@@ -63,7 +63,7 @@ class ManagementClient
             "x-authing-sdk-version" => "php:5.0.0",
         );
         //请求
-        $varReq = \Tool::request($this->_url . $parMethod, $parGet, $parPost, $varHeader);
+        $varReq = Util\Tool::request($this->_url . $parMethod, $parGet, $parPost, $varHeader);
         return $varReq;
     }
 
