@@ -117,7 +117,7 @@ class ManagementClient
         // 组装请求
 		$varGet = array(
 			{{#each parametersQuery}}
-			"{{{prop}}}" => isset($option["{{{name}}}"]) ? $option["{{{name}}}"] : null,
+			"{{{prop}}}" => Util\Tool::getSet($option["{{{name}}}"]),
 			{{/each}}
 		);
 		{{/if}}
@@ -128,7 +128,7 @@ class ManagementClient
         // 组装请求
 		$varPost = array(
             {{#each parametersRaw.php}}
-            "{{{name}}}" => isset($option["{{{name}}}"]) ? $option["{{{name}}}"] : null,
+            "{{{name}}}" => Util\Tool::getSet($option["{{{name}}}"]),
             {{/each}}
 		);
 		{{/if}}
