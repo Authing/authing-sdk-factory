@@ -25,6 +25,15 @@ public class ManagementClient extends BaseClient {
         }
     }
 
+	public Object makeRequest(MakeRequestReqDto reqDto) {
+        AuthingRequestConfig config = new AuthingRequestConfig();
+        config.setUrl(reqDto.getUrl());
+        config.setBody(reqDto.getData());
+        config.setMethod(reqDto.getMethod());
+        String response = request(config);
+        return deserialize(response, Object.class);
+    }
+
 	{{#each operations}}
     {{#equals method "POST"}}
 	public {{>result}} {{{name}}}({{parametersBody.type}} reqDto) {
@@ -41,12 +50,10 @@ public class ManagementClient extends BaseClient {
     {{!-- {{#equals path "/api/v3/get-user"}}{{console this}}{{/equals}} --}}
 {{!-- 	public {{>result}} {{{name}}}({{#each parameters}}{{#if @first}}{{convertFirstCharToUpperCase type}} {{underlineToHump name}}{{else}}, {{convertFirstCharToUpperCase type}} {{underlineToHump name}}{{/if}}{{/each}}) { --}}
 	public {{>result}} {{{name}}}({{parametersDto}} reqDto) {
-
 {{!--         Map<String, Object> query_params = new HashMap<>(); --}}
 {{!--         {{#each parameters}} --}}
 {{!--         query_params.put("{{prop}}", {{underlineToHump name}}); --}}
 {{!--         {{/each}} --}}
-
         AuthingRequestConfig config = new AuthingRequestConfig();
         config.setUrl("{{path}}");
         config.setBody(reqDto);
