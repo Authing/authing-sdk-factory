@@ -3,9 +3,9 @@
 /* eslint-disable */
 
 /**
- * 获取部门成员列表
+ * 搜索部门下的成员
  */
-export type ListDepartmentMembersDto = {
+export type SearchDepartmentMembersDto = {
     /**
      * 组织 code
      */
@@ -15,13 +15,9 @@ export type ListDepartmentMembersDto = {
      */
     departmentId?: any;
     /**
-     * 此次调用中使用的部门 ID 的类型
+     * 搜索关键词
      */
-    departmentIdType?: any;
-    /**
-     * 是否包含子部门的成员
-     */
-    includeChildrenDepartments?: any;
+    keywords?: any;
     /**
      * 当前页数，从 1 开始
      */
@@ -30,6 +26,14 @@ export type ListDepartmentMembersDto = {
      * 每页数目，最大不能超过 50，默认为 10
      */
     limit?: any;
+    /**
+     * 此次调用中使用的部门 ID 的类型
+     */
+    departmentIdType?: any;
+    /**
+     * 是否包含子部门的成员
+     */
+    includeChildrenDepartments?: any;
     /**
      * 是否获取自定义数据
      */
@@ -42,12 +46,4 @@ export type ListDepartmentMembersDto = {
      * 是否获取部门 ID 列表
      */
     withDepartmentIds?: any;
-    /**
-     * 排序依据
-     */
-    sortBy?: any;
-    /**
-     * 增序还是倒序
-     */
-    orderBy?: any;
 };

@@ -3,9 +3,13 @@
 /* eslint-disable */
 
 /**
- * 获取部门信息
+ * 判断用户是否在某个部门下
  */
-export type GetDepartmentDto = {
+export type IsUserInDepartmentDto = {
+    /**
+     * 用户 ID
+     */
+    userId?: any;
     /**
      * 组织 code
      */
@@ -15,15 +19,11 @@ export type GetDepartmentDto = {
      */
     departmentId?: any;
     /**
-     * 部门 code。departmentId 和 departmentCode 必传其一。
-     */
-    departmentCode?: any;
-    /**
      * 此次调用中使用的部门 ID 的类型
      */
     departmentIdType?: any;
     /**
-     * 是否获取自定义数据
+     * 是否包含子部门
      */
-    withCustomData?: any;
+    includeChildrenDepartments?: any;
 };

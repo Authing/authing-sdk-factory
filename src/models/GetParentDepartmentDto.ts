@@ -18,4 +18,8 @@ export type GetParentDepartmentDto = {
      * 此次调用中使用的部门 ID 的类型
      */
     departmentIdType?: any;
+    /**
+     * 是否获取自定义数据
+     */
+    withCustomData?: any;
 };

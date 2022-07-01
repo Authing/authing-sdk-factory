@@ -70,6 +70,10 @@ export type UserDto = {
      */
     phoneVerified: boolean;
     /**
+     * 用户上次密码修改时间
+     */
+    passwordLastSetAt?: string;
+    /**
      * 出生日期
      */
     birthdate?: string;
@@ -102,6 +106,10 @@ export type UserDto = {
      */
     externalId?: string;
     /**
+     * 下次登录要求重置密码
+     */
+    resetPasswordOnNextLogin?: boolean;
+    /**
      * 用户所属部门 ID 列表
      */
     departmentIds?: Array<string>;
@@ -110,7 +118,7 @@ export type UserDto = {
      */
     identities?: Array<IdentityDto>;
     /**
-     * 自定义数据，传入的对象中的 key 必须先在用户池定义相关自定义字段
+     * 用户的扩展字段数据
      */
     customData?: any;
 };
@@ -121,7 +129,6 @@ export namespace UserDto {
      * 账户当前状态
      */
     export enum status {
-        DELETED = 'Deleted',
         SUSPENDED = 'Suspended',
         RESIGNED = 'Resigned',
         ACTIVATED = 'Activated',
