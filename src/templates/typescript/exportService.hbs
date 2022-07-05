@@ -29,7 +29,7 @@ import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 import { DEFAULT_OPTIONS, ManagementClientOptions } from './ManagementClientOptions';
 import { ManagementHttpClient } from './ManagementHttpClient';
 import { domainC14n } from './utils';
-import Axios from 'axios';
+import Axios, { AxiosRequestConfig } from "axios";
 
 {{/if}}
 
@@ -56,6 +56,11 @@ export class ManagementClient {
             );
         }
     }
+
+	public async makeRequest(params: AxiosRequestConfig) {
+      return await this.httpClient.request(params);
+  	}
+
 
 	{{#each operations}}
 	/**
