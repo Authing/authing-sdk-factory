@@ -1,21 +1,33 @@
 # Authing SDK Factory
 
-## 安装使用
+<div align=center>
+  <img width="250" src="https://files.authing.co/authing-console/authing-logo-new-20210924.svg" />
+</div>
 
-基础要求：
+<div align="center">
+    <a href="https://forum.authing.cn/" target="_blank"><img src="https://img.shields.io/badge/chat-forum-blue" /></a>
+    <a href="https://opensource.org/licenses/MIT" target="_blank"><img src="https://img.shields.io/badge/License-MIT-success" alt="License"></a>
+</div>
+
+**English** | [简体中文](./README.zh_CN.md)
+
+
+## Install
+
+Basic requirements:
 
 -   Node.js： 16.x
 -   Yarn
--   Python （如需生成对应 sdk）
+-   Python (To generate the corresponding sdk)
 
 ```bash
-# 安装依赖
+# Installing dependencies
 yarn
 yarn build
-# 生成所有 SDK
+# Generate all SDKs
 yarn generate
 
-# 生成单个 SDK
+# Generate a single SDK
 yarn generate:node
 yarn generate:java
 yarn generate:python
@@ -23,14 +35,36 @@ yarn generate:csharp
 yarn generate:go
 ```
 
-配置： `scripts/generate-XXX-sdk.js`
+Configuration: `scripts/generate-XXX-sdk.js`
 
-修改 OPEN API 链接： `https://console.authing.cn/openapi-json`
+Modify OPEN API link: `https://console.authing.cn/openapi-json`
 
-## 修改模板
+## Modify template
 
-目录： `src/templates/XXX`
+Catalog: `src/templates/XXX`
 
-模板语言使用的是 [Handlebars](https://handlebarsjs.com/)
+The template language used is [Handlebars](https://handlebarsjs.com/)
 
-修改完模板后执行生成： `yarn build` 再进行 SDK 生成。
+After modifying the template, execute the following generation. `yarn build` and then do the SDK generation.
+
+## Questions
+
+For questions and support please use the [official forum](https://forum.authing.cn/). The issue list of this repo is exclusively for bug reports and feature requests.
+
+## Contribution
+
+- Fork it
+- Create your feature branch (git checkout -b my-new-feature)
+- Commit your changes (git commit -am 'Add some feature')
+- Push to the branch (git push -u origin my-new-feature)
+- Create new Pull Request
+## Contribute
+
+https://github.com/Authing/.github/blob/main/CONTRIBUTING.md#English
+
+
+## License
+
+[MIT](https://opensource.org/licenses/MIT)
+
+Copyright (c) 2019-present, Authing
