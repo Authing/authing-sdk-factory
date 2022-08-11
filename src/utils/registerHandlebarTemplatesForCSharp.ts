@@ -227,7 +227,7 @@ export const registerHandlebarTemplatesForCSharp = (root: {
 
     // Helpers
     Handlebars.registerHelper('convertFirstCharToUpperCase', (str: string) => {
-        console.log(str);
+        str=str.replace('\'','').replace('\'','').replace("-",'');
         return str.charAt(0).toUpperCase() + str.slice(1);
     });
 
@@ -235,11 +235,14 @@ export const registerHandlebarTemplatesForCSharp = (root: {
         return str.replace('\'', "\"").replace('\'', "\"");
     });
 
+    Handlebars.registerHelper('removeQuot', (str: string) => {
+        return str.replace('\'', "").replace('\'', "").replace('\"', "").replace('\"', "");
+    });
+
     Handlebars.registerHelper('convertSingleQuotesToDoubleQuotes', (str: string) => {
         return str.replace(/\'/g, '"');
     });
     Handlebars.registerHelper('console', (data: any) => {
-        console.log(data);
         return data;
     });
 
@@ -271,6 +274,17 @@ export const registerHandlebarTemplatesForCSharp = (root: {
             }
         }
         return paramStr;
+    });
+
+    Handlebars.registerHelper('keywordHelper',(str:any)=>
+    {
+        if(str==="operator"){
+            return "@operator";
+        }
+        else{
+            return str;
+        }
+
     });
 
     /**

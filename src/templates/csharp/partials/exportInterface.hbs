@@ -11,7 +11,7 @@ public partial class {{{name}}}
     ///  {{{escapeComment description}}}
     /// {{{{LessThan}}}}{{{{/LessThan}}}}/summary>
 	{{/if}}
-[JsonProperty("{{{name}}}")]
+[JsonProperty("{{{removeQuot name}}}")]
 public	{{>type parent=../name}} {{>isReadOnly}}  {{convertFirstCharToUpperCase name}}    {get;set;}
 	{{/each}}
 }
@@ -25,7 +25,7 @@ public partial class {{{name}}}
     ///  {{{escapeComment description}}}
     /// {{{{LessThan}}}}{{{{/LessThan}}}}/summary>
 	{{/if}}
-	public enum {{{name}}}
+	public enum {{{keywordHelper name}}}
 	 {
 		{{#each enum}}
 	 	[EnumMember(Value={{getEnumMemeber value}})]
