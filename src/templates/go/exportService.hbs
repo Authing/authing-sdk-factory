@@ -51,8 +51,12 @@ import (
 	}
     {{/equals}}
     {{#equals method "GET"}}
-    func (c *Client) {{{convertFirstCharToUpperCase name}}} (reqDto *dto.{{parametersDto}}) *dto.{{>result}}  {
+    func (c *Client) {{{convertFirstCharToUpperCase name}}} ({{#if parametersDto}}reqDto *dto.{{parametersDto}}{{/if}}) *dto.{{>result}}  {
+		{{#if parametersDto}}
         b, err := c.SendHttpRequest("{{{path}}}", fasthttp.MethodGet, reqDto)
+        {{else}}
+        b, err := c.SendHttpRequest("{{{path}}}", fasthttp.MethodGet, nil)
+        {{/if}}
         var response dto.{{>result}}
 		if err != nil {
 			fmt.Println(err)
