@@ -33,23 +33,42 @@ import { writeManagementClient } from './writeClientServices';
  * @param clientName Custom client class name
  * @param request Path to custom request file
  */
-export const writeClient = async (
-    client: Client,
-    templates: Templates,
-    output: string,
-    httpClient: HttpClient,
-    useOptions: boolean,
-    useUnionTypes: boolean,
-    exportCore: boolean,
-    exportServices: boolean,
-    exportModels: boolean,
-    exportSchemas: boolean,
-    indent: Indent,
-    postfix: string,
-    clientName?: string,
-    request?: string,
-    lang?: string
-): Promise<void> => {
+export const writeClient = async (params: {
+    client: Client;
+    templates: Templates;
+    output: string;
+    httpClient: HttpClient;
+    useOptions: boolean;
+    useUnionTypes: boolean;
+    exportCore: boolean;
+    exportServices: boolean;
+    exportModels: boolean;
+    exportSchemas: boolean;
+    indent: Indent;
+    postfix: string;
+    clientName?: string;
+    request?: string;
+    lang?: string;
+    isAuthClient?: boolean;
+}): Promise<void> => {
+    const {
+        client,
+        templates,
+        output,
+        httpClient,
+        useOptions,
+        useUnionTypes,
+        exportCore,
+        exportModels,
+        exportSchemas,
+        exportServices,
+        indent,
+        postfix,
+        clientName,
+        request,
+        lang,
+        isAuthClient = false,
+    } = params;
     const outputPath = resolve(process.cwd(), output);
     const outputPathCore = resolve(outputPath, 'core');
     const outputPathModels = resolve(outputPath, 'models');
@@ -67,8 +86,8 @@ export const writeClient = async (
     if (exportServices) {
         // await rmdir(outputPathServices);
         // await mkdir(outputPathServices);
-        await writeManagementClient(
-            client.services,
+        await writeManagementClient({
+            services: client.services,
             templates,
             outputPath,
             httpClient,
@@ -77,8 +96,9 @@ export const writeClient = async (
             indent,
             postfix,
             clientName,
-            lang
-        );
+            lang,
+            isAuthClient,
+        });
     }
 
     // if (exportSchemas) {

@@ -33,6 +33,7 @@ export type Options = {
     request?: string;
     write?: boolean;
     lang?: 'ts' | 'java' | 'python';
+    isAuthClient?: boolean;
 };
 
 /**
@@ -70,6 +71,7 @@ export const generate = async ({
     request,
     write = true,
     lang = 'ts',
+    isAuthClient = false,
 }: Options): Promise<void> => {
     const openApi = isString(input) ? await getOpenApiSpec(input) : input;
     const openApiVersion = getOpenApiVersion(openApi);
@@ -116,35 +118,12 @@ export const generate = async ({
     }
 
     switch (openApiVersion) {
-        case OpenApiVersion.V2: {
-            const client = parseV2(openApi);
-            const clientFinal = postProcessClient(client);
-            if (!write) break;
-            await writeClient(
-                clientFinal,
-                templates,
-                output,
-                httpClient,
-                useOptions,
-                useUnionTypes,
-                exportCore,
-                exportServices,
-                exportModels,
-                exportSchemas,
-                indent,
-                postfix,
-                clientName,
-                request
-            );
-            break;
-        }
-
         case OpenApiVersion.V3: {
             const client = parseV3(openApi);
             const clientFinal = postProcessClient(client);
             if (!write) break;
-            await writeClient(
-                clientFinal,
+            await writeClient({
+                client: clientFinal,
                 templates,
                 output,
                 httpClient,
@@ -158,8 +137,9 @@ export const generate = async ({
                 postfix,
                 clientName,
                 request,
-                lang
-            );
+                lang,
+                isAuthClient,
+            });
             break;
         }
     }

@@ -1,6 +1,8 @@
 import Handlebars from 'handlebars/runtime';
 
 import { HttpClient } from '../HttpClient';
+import templateauthImports from '../templates/typescript/authImports.hbs';
+import templateauthMethods from '../templates/typescript/authMethods.hbs';
 import templateClient from '../templates/typescript/client.hbs';
 import angularGetHeaders from '../templates/typescript/core/angular/getHeaders.hbs';
 import angularGetRequestBody from '../templates/typescript/core/angular/getRequestBody.hbs';
@@ -94,6 +96,8 @@ export interface Templates {
         model: Handlebars.TemplateDelegate;
         schema: Handlebars.TemplateDelegate;
         service: Handlebars.TemplateDelegate;
+        authMethods?: Handlebars.TemplateDelegate;
+        authImports?: Handlebars.TemplateDelegate;
     };
     core: {
         settings: Handlebars.TemplateDelegate;
@@ -126,6 +130,8 @@ export const registerHandlebarTemplates = (root: {
             model: Handlebars.template(templateExportModel),
             schema: Handlebars.template(templateExportSchema),
             service: Handlebars.template(templateExportService),
+            authMethods: Handlebars.template(templateauthMethods),
+            authImports: Handlebars.template(templateauthImports),
         },
         core: {
             settings: Handlebars.template(templateCoreSettings),

@@ -24,18 +24,32 @@ import { removeDuplicates } from './unique';
  * @param postfix Service name postfix
  * @param clientName Custom client class name
  */
-export const writeManagementClient = async (
-    services: Service[],
-    templates: Templates,
-    outputPath: string,
-    httpClient: HttpClient,
-    useUnionTypes: boolean,
-    useOptions: boolean,
-    indent: Indent,
-    postfix: string,
-    clientName?: string,
-    lang?: string
-): Promise<void> => {
+export const writeManagementClient = async (params: {
+    services: Service[];
+    templates: Templates;
+    outputPath: string;
+    httpClient: HttpClient;
+    useUnionTypes: boolean;
+    useOptions: boolean;
+    indent: Indent;
+    postfix: string;
+    clientName?: string;
+    lang?: string;
+    isAuthClient?: boolean;
+}): Promise<void> => {
+    const {
+        services,
+        templates,
+        outputPath,
+        httpClient,
+        useUnionTypes,
+        useOptions,
+        indent,
+        postfix,
+        clientName,
+        lang,
+        isAuthClient = false,
+    } = params;
     const service = {
         name: 'ManagementClient',
         operations: services.map(s => s.operations).flat(),
@@ -77,8 +91,58 @@ export const writeManagementClient = async (
     } else if (lang === 'python') {
         await writeFile(file, templateResult.replace(/\t/g, '    '));
         // execSync('python3 -m black ' + file, { encoding: 'utf-8' });
+    }
+    if (isAuthClient) {
+        const authMethodsTemplateResult = templates.exports.authMethods!({
+            ...service,
+            httpClient,
+            useUnionTypes,
+            useOptions,
+            postfix,
+            exportClient: isDefined(clientName),
+        });
+        const authImportsTemplateResult = templates.exports.authImports!({
+            ...service,
+            httpClient,
+            useUnionTypes,
+            useOptions,
+            postfix,
+            exportClient: isDefined(clientName),
+        });
+        if (lang === 'ts') {
+            await writeFile(
+                path.resolve(outputPath, `AuthMethods.ts`),
+                formatIndentation(formatCode(authMethodsTemplateResult), indent)
+            );
+            await writeFile(
+                path.resolve(outputPath, `AuthImports.ts`),
+                formatIndentation(formatCode(authImportsTemplateResult), indent)
+            );
+        } else if (lang === 'python') {
+            await writeFile(file, authMethodsTemplateResult.replace(/\t/g, '    '));
+            execSync('python3 -m black ' + file, { encoding: 'utf-8' });
+        } else {
+            await writeFile(file, formatIndentation(formatCode(authMethodsTemplateResult), indent));
+            await writeFile(file, formatIndentation(formatCode(authImportsTemplateResult), indent));
+        }
     } else {
-        await writeFile(file, formatIndentation(formatCode(templateResult), indent));
+        const templateService = templates.exports.service;
+        const templateResult = templateService!({
+            ...service,
+            httpClient,
+            useUnionTypes,
+            useOptions,
+            postfix,
+            exportClient: isDefined(clientName),
+        });
+        if (lang === 'ts') {
+            await writeFile(file, formatIndentation(formatCode(templateResult), indent));
+        } else if (lang === 'python') {
+            await writeFile(file, templateResult.replace(/\t/g, '    '));
+            execSync('python3 -m black ' + file, { encoding: 'utf-8' });
+        } else {
+            await writeFile(file, formatIndentation(formatCode(templateResult), indent));
+        }
     }
 
     // for (const service of services) {
