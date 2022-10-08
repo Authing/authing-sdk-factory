@@ -1,0 +1,26 @@
+{{#each operations}}
+{{#equals method "POST"}}
+public {{>result}} {{{name}}}({{#if parametersBody}}{{parametersBody.type}} reqDto{{/if}}) {
+	AuthingRequestConfig config = new AuthingRequestConfig();
+	config.setUrl("{{{path}}}");
+	config.setBody(reqDto);
+	config.setMethod("{{method}}");
+	String response = request(config);
+	return deserialize(response, {{>result}}.class);
+}
+{{/equals}}
+{{#equals method "GET"}}
+public {{>result}} {{{name}}}({{#if parametersDto}}{{parametersDto}} reqDto{{/if}}) {
+	AuthingRequestConfig config = new AuthingRequestConfig();
+	config.setUrl("{{path}}");
+	{{#if parametersDto}}
+	config.setBody(reqDto);
+	{{else}}
+	config.setBody(new Object());
+	{{/if}}
+	config.setMethod("{{method}}");
+	String response = request(config);
+	return deserialize(response, {{>result}}.class);
+}
+{{/equals}}
+{{/each}}

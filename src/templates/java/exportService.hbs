@@ -36,7 +36,7 @@ public class ManagementClient extends BaseClient {
 
 	{{#each operations}}
     {{#equals method "POST"}}
-	public {{>result}} {{{name}}}({{parametersBody.type}} reqDto) {
+	public {{>result}} {{{name}}}({{#if parametersBody}}{{parametersBody.type}} reqDto{{/if}}) {
 		AuthingRequestConfig config = new AuthingRequestConfig();
         config.setUrl("{{{path}}}");
         config.setBody(reqDto);
@@ -46,15 +46,7 @@ public class ManagementClient extends BaseClient {
 	}
     {{/equals}}
     {{#equals method "GET"}}
-{{!--     {{console this}} --}}
-    {{!-- {{#equals path "/api/v3/list-group-members"}}{{console this}}{{/equals}} --}}
-    {{!-- {{#equals path "/api/v3/get-user"}}{{console this}}{{/equals}} --}}
-{{!-- 	public {{>result}} {{{name}}}({{#each parameters}}{{#if @first}}{{convertFirstCharToUpperCase type}} {{underlineToHump name}}{{else}}, {{convertFirstCharToUpperCase type}} {{underlineToHump name}}{{/if}}{{/each}}) { --}}
 	public {{>result}} {{{name}}}({{#if parametersDto}}{{parametersDto}} reqDto{{/if}}) {
-{{!--         Map<String, Object> query_params = new HashMap<>(); --}}
-{{!--         {{#each parameters}} --}}
-{{!--         query_params.put("{{prop}}", {{underlineToHump name}}); --}}
-{{!--         {{/each}} --}}
         AuthingRequestConfig config = new AuthingRequestConfig();
         config.setUrl("{{path}}");
         {{#if parametersDto}}
@@ -67,7 +59,5 @@ public class ManagementClient extends BaseClient {
         return deserialize(response, {{>result}}.class);
 	}
     {{/equals}}
-
-
 	{{/each}}
 }

@@ -93,23 +93,23 @@ export const writeManagementClient = async (params: {
         // execSync('python3 -m black ' + file, { encoding: 'utf-8' });
     }
     if (isAuthClient) {
-        const authMethodsTemplateResult = templates.exports.authMethods!({
-            ...service,
-            httpClient,
-            useUnionTypes,
-            useOptions,
-            postfix,
-            exportClient: isDefined(clientName),
-        });
-        const authImportsTemplateResult = templates.exports.authImports!({
-            ...service,
-            httpClient,
-            useUnionTypes,
-            useOptions,
-            postfix,
-            exportClient: isDefined(clientName),
-        });
         if (lang === 'ts') {
+            const authMethodsTemplateResult = templates.exports.authMethods!({
+                ...service,
+                httpClient,
+                useUnionTypes,
+                useOptions,
+                postfix,
+                exportClient: isDefined(clientName),
+            });
+            const authImportsTemplateResult = templates.exports.authImports!({
+                ...service,
+                httpClient,
+                useUnionTypes,
+                useOptions,
+                postfix,
+                exportClient: isDefined(clientName),
+            });
             await writeFile(
                 path.resolve(outputPath, `AuthMethods.ts`),
                 formatIndentation(formatCode(authMethodsTemplateResult), indent)
@@ -119,11 +119,23 @@ export const writeManagementClient = async (params: {
                 formatIndentation(formatCode(authImportsTemplateResult), indent)
             );
         } else if (lang === 'python') {
-            await writeFile(file, authMethodsTemplateResult.replace(/\t/g, '    '));
+            // await writeFile(file, authMethodsTemplateResult.replace(/\t/g, '    '));
             execSync('python3 -m black ' + file, { encoding: 'utf-8' });
-        } else {
-            await writeFile(file, formatIndentation(formatCode(authMethodsTemplateResult), indent));
-            await writeFile(file, formatIndentation(formatCode(authImportsTemplateResult), indent));
+        } else if (lang === 'java') {
+            const authMethodsTemplateResult = templates.exports.authMethods!({
+                ...service,
+                httpClient,
+                useUnionTypes,
+                useOptions,
+                postfix,
+                exportClient: isDefined(clientName),
+            });
+            await writeFile(
+                path.resolve(outputPath, `AuthMethods.java`),
+                formatIndentation(formatCode(authMethodsTemplateResult), indent)
+            );
+            // await writeFile(file, formatIndentation(formatCode(authMethodsTemplateResult), indent));
+            // await writeFile(file, formatIndentation(formatCode(authImportsTemplateResult), indent));
         }
     } else {
         const templateService = templates.exports.service;
