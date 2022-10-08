@@ -238,7 +238,6 @@ export const registerHandlebarTemplatesForPHP = (root: {
     });
     Handlebars.registerHelper('console', (data: any) => {
         console.log(data);
-        return data;
     });
 
     Handlebars.registerHelper('LessThan', function (options) {

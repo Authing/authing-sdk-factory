@@ -231,11 +231,13 @@ export const registerHandlebarTemplatesForJava = (root: {
         return str.replace(/\'/g, '');
     });
     Handlebars.registerHelper('underlineToHump', (str: string) => {
-        return str.replace(/\_(\w)/g, (_, letter) => letter.toUpperCase());
+        return str
+            .replace(/\_(\w)/g, (_, letter) => letter.toUpperCase())
+            .replace(/-/g, '')
+            .replace(/'/g, '');
     });
     Handlebars.registerHelper('console', (data: any) => {
         console.log(data);
-        return data;
     });
 
     const javaTypeMap: any = {

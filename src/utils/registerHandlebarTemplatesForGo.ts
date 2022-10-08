@@ -235,7 +235,6 @@ export const registerHandlebarTemplatesForGo = (root: {
     });
     Handlebars.registerHelper('console', (data: any) => {
         console.log(data);
-        return data;
     });
 
     const javaTypeMap: any = {

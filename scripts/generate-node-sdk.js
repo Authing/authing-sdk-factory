@@ -6,7 +6,7 @@ fs.mkdirSync('./generated/typescript/src', { recursive: true });
 
 const main = async () => {
     await generate({
-        input: 'https://api.authing.cn/openapi-json',
+        input: 'http://localhost:3000/openapi-json',
         output: './generated/typescript/src',
         exportCore: false,
         useOptions: true,

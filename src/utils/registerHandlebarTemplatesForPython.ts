@@ -233,7 +233,7 @@ export const registerHandlebarTemplatesForPython = (root: {
     });
     Handlebars.registerHelper('console', (data: any) => {
         console.log(data);
-        return data;
+        // return data;
     });
 
     return templates;

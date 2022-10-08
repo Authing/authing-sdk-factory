@@ -243,6 +243,7 @@ export const registerHandlebarTemplatesForCSharp = (root: {
         return str.replace(/\'/g, '"');
     });
     Handlebars.registerHelper('console', (data: any) => {
+        console.log(data);
         return data;
     });
 
