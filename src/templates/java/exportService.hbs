@@ -35,11 +35,22 @@ public class ManagementClient extends BaseClient {
     }
 
 	{{#each operations}}
+	/**
+	{{#if deprecated}}
+	 * @deprecated
+	{{/if}}
+	{{#if summary}}
+	 * @summary {{{escapeComment summary}}}
+	{{/if}}
+	{{#if description}}
+	 * @description {{{escapeComment description}}}
+	{{/if}}
+	**/
     {{#equals method "POST"}}
 	public {{>result}} {{{name}}}({{#if parametersBody}}{{parametersBody.type}} reqDto{{/if}}) {
 		AuthingRequestConfig config = new AuthingRequestConfig();
         config.setUrl("{{{path}}}");
-        config.setBody(reqDto);
+		{{#if parametersBody}}config.setBody(reqDto);{{/if}}
         config.setMethod("{{method}}");
         String response = request(config);
         return deserialize(response, {{>result}}.class);
