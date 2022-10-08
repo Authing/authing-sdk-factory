@@ -27,6 +27,9 @@ export const writeClientModels = async (
     lang: string
 ): Promise<void> => {
     for (const model of models) {
+        if (lang === 'ts' && model.name.startsWith('/')) {
+            continue;
+        }
         let file;
         if (lang === 'ts') {
             file = resolve(outputPath, `${model.name}.ts`);
