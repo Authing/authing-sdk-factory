@@ -1,0 +1,61 @@
+
+{{#each operations}}
+/*
+{{#if deprecated}}
+	* @deprecated
+{{/if}}
+{{#if summary}}
+	* @summary {{{escapeComment summary}}}
+{{/if}}
+{{#if description}}
+	* @description {{{escapeComment description}}}
+{{/if}}
+{{#unless @root.useOptions}}
+{{#if parameters}}
+{{#each parameters}}
+	* @param {{{name}}} {{#if description}}{{{escapeComment description}}}{{/if}}
+{{/each}}
+{{/if}}
+{{/unless}}
+{{#each results}}
+	* @returns {{{type}}} {{#if description}}{{{escapeComment description}}}{{/if}}
+{{/each}}
+	*/
+{{#equals method "POST"}}
+{{!--     {{console this}} --}}
+func (c *Client) {{{convertFirstCharToUpperCase name}}} (reqDto *dto.{{parametersBody.type}}) *dto.{{>result}}  {
+	b, err := c.SendHttpRequest("{{{path}}}", fasthttp.MethodPost, reqDto)
+	var response dto.{{>result}}
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+	err = json.Unmarshal(b, &response)
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+	return &response
+}
+{{/equals}}
+{{#equals method "GET"}}
+func (c *Client) {{{convertFirstCharToUpperCase name}}} ({{#if parametersDto}}reqDto *dto.{{parametersDto}}{{/if}}) *dto.{{>result}}  {
+	{{#if parametersDto}}
+	b, err := c.SendHttpRequest("{{{path}}}", fasthttp.MethodGet, reqDto)
+	{{else}}
+	b, err := c.SendHttpRequest("{{{path}}}", fasthttp.MethodGet, nil)
+	{{/if}}
+	var response dto.{{>result}}
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+	err = json.Unmarshal(b, &response)
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+	return &response
+}
+{{/equals}}
+{{/each}}
