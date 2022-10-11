@@ -46,9 +46,10 @@ namespace Authing.CSharp.SDK.Services
 					{{/equals}}
 				{{/each}}
 				}).ConfigureAwait(false);
-			{{/if}}
-			{{#if parametersBody}}
+			{{else if parametersBody}}
 			string httpResponse=await Request("{{{method}}}", "{{{path}}}",requestBody).ConfigureAwait(false);
+			{{else}}
+			string httpResponse=await Request("{{{method}}}", "{{{path}}}").ConfigureAwait(false);
 			{{/if}}
 			{{>result}} result=m_JsonService.DeserializeObject<{{>result}}>(httpResponse);
 			return result;
