@@ -6,13 +6,22 @@ fs.mkdirSync('./generated/csharp/src', { recursive: true });
 
 const main = async () => {
     await generate({
-        input: 'https://console.authing.cn/openapi-json',
+        input: 'http://localhost:3000/openapi-json',
         output: './generated/csharp/src',
         exportCore: false,
         useOptions: true,
         lang: 'csharp',
     });
-    // execSync('cp -R generated/csharp/* ../authing-csharp-sdk/', { encoding: 'utf-8' });
+    execSync(
+        'cp -R generated/csharp/src/ManagementClient.cs ../authing-csharp-sdk/Authing.CSharp.SDK/Authing.CSharp.SDK/Services',
+        { encoding: 'utf-8' }
+    );
+    execSync(
+        'cp -R generated/csharp/src/models/* ../authing-csharp-sdk/Authing.CSharp.SDK/Authing.CSharp.SDK/Models/Management',
+        {
+            encoding: 'utf-8',
+        }
+    );
 };
 
 main().then(console.log).catch(console.error);
