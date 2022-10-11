@@ -1,10 +1,10 @@
 const { execSync } = require('child_process');
 const fs = require('fs');
 const { generate } = require('../dist');
-
+fs.rmSync('./generated/typescript', { recursive: true, force: true });
 fs.mkdirSync('./generated/typescript/src', { recursive: true });
 
-const main = async () => {
+const generateAuthenticationClient = async () => {
     await generate({
         input: 'http://localhost:3000/auth-openapi-json',
         output: './generated/typescript/src',
@@ -23,10 +23,10 @@ const main = async () => {
     fs.unlinkSync('./generated/typescript/src/AuthMethods.ts');
     fs.unlinkSync('./generated/typescript/src/AuthImports.ts');
 
-    execSync('cp -R generated/typescript/* ../authing-browser-sdk/', { encoding: 'utf-8' });
+    execSync('cp -R generated/typescript/* ../authing-node-sdk/', { encoding: 'utf-8' });
 
     // 替换原来 Authing.ts 中的内容
-    const authingTsFile = '../authing-browser-sdk/src/Authing.ts';
+    const authingTsFile = '../authing-node-sdk/src/AuthenticationClient.ts';
     const originalAuthingTsContent = fs.readFileSync(authingTsFile, 'utf-8');
     fs.writeFileSync(
         authingTsFile,
@@ -54,4 +54,4 @@ const main = async () => {
     );
 };
 
-main().then(console.log).catch(console.error);
+generateAuthenticationClient().then(console.log).catch(console.error);

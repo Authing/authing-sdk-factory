@@ -1,6 +1,7 @@
 import Handlebars from 'handlebars/runtime';
 
 import { HttpClient } from '../HttpClient';
+import templateauthMethods from '../templates/python/authMethods.hbs';
 import templateClient from '../templates/python/client.hbs';
 import angularGetHeaders from '../templates/python/core/angular/getHeaders.hbs';
 import angularGetRequestBody from '../templates/python/core/angular/getRequestBody.hbs';
@@ -94,6 +95,7 @@ export interface Templates {
         model: Handlebars.TemplateDelegate;
         schema: Handlebars.TemplateDelegate;
         service: Handlebars.TemplateDelegate;
+        authMethods?: Handlebars.TemplateDelegate;
     };
     core: {
         settings: Handlebars.TemplateDelegate;
@@ -126,6 +128,7 @@ export const registerHandlebarTemplatesForPython = (root: {
             model: Handlebars.template(templateExportModel),
             schema: Handlebars.template(templateExportSchema),
             service: Handlebars.template(templateExportService),
+            authMethods: Handlebars.template(templateauthMethods),
         },
         core: {
             settings: Handlebars.template(templateCoreSettings),

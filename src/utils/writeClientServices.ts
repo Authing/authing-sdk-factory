@@ -51,7 +51,7 @@ export const writeManagementClient = async (params: {
         isAuthClient = false,
     } = params;
     const service = {
-        name: 'ManagementClient',
+        name: isAuthClient ? 'AuthenticationClient' : 'ManagementClient',
         operations: services.map(s => s.operations).flat(),
         imports: removeDuplicates(services.map(s => s.imports).flat()),
     };
@@ -77,21 +77,6 @@ export const writeManagementClient = async (params: {
         });
     }
 
-    const templateResult = templates.exports.service({
-        ...service,
-        httpClient,
-        useUnionTypes,
-        useOptions,
-        postfix,
-        exportClient: isDefined(clientName),
-    });
-
-    if (lang === 'ts') {
-        await writeFile(file, formatIndentation(formatCode(templateResult), indent));
-    } else if (lang === 'python') {
-        await writeFile(file, templateResult.replace(/\t/g, '    '));
-        // execSync('python3 -m black ' + file, { encoding: 'utf-8' });
-    }
     if (isAuthClient) {
         if (lang === 'ts') {
             const authMethodsTemplateResult = templates.exports.authMethods!({
@@ -119,8 +104,25 @@ export const writeManagementClient = async (params: {
                 formatIndentation(formatCode(authImportsTemplateResult), indent)
             );
         } else if (lang === 'python') {
-            // await writeFile(file, authMethodsTemplateResult.replace(/\t/g, '    '));
-            execSync('python3 -m black ' + file, { encoding: 'utf-8' });
+            const authImportsTemplateResult = templates.exports.authMethods!({
+                ...service,
+                httpClient,
+                useUnionTypes,
+                useOptions,
+                postfix,
+                exportClient: isDefined(clientName),
+            });
+            await writeFile(path.resolve(outputPath, `AuthMethods.py`), authImportsTemplateResult);
+        } else if (lang === 'go') {
+            const authImportsTemplateResult = templates.exports.authMethods!({
+                ...service,
+                httpClient,
+                useUnionTypes,
+                useOptions,
+                postfix,
+                exportClient: isDefined(clientName),
+            });
+            await writeFile(path.resolve(outputPath, `AuthMethods.go`), authImportsTemplateResult);
         } else if (lang === 'java') {
             const authMethodsTemplateResult = templates.exports.authMethods!({
                 ...service,
@@ -134,8 +136,6 @@ export const writeManagementClient = async (params: {
                 path.resolve(outputPath, `AuthMethods.java`),
                 formatIndentation(formatCode(authMethodsTemplateResult), indent)
             );
-            // await writeFile(file, formatIndentation(formatCode(authMethodsTemplateResult), indent));
-            // await writeFile(file, formatIndentation(formatCode(authImportsTemplateResult), indent));
         }
     } else {
         const templateService = templates.exports.service;
