@@ -8,7 +8,7 @@ public partial class {{{name}}}
 	{{#each properties}}
 	{{#if description}}
 	/// {{{{LessThan}}}}{{{{/LessThan}}}}summary>
-    ///  {{{escapeComment description}}}
+    ///  {{{escapeCsharpComment description}}}
     /// {{{{LessThan}}}}{{{{/LessThan}}}}/summary>
 	{{/if}}
 [JsonProperty("{{{removeQuot name}}}")]
@@ -22,7 +22,7 @@ public partial class {{{name}}}
 	{{#each enums}}
 	{{#if description}}
 	/// {{{{LessThan}}}}{{{{/LessThan}}}}summary>
-    ///  {{{escapeComment description}}}
+    ///  {{{escapeCsharpComment description}}}
     /// {{{{LessThan}}}}{{{{/LessThan}}}}/summary>
 	{{/if}}
 	public enum {{{keywordHelper name}}}

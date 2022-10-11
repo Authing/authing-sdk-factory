@@ -89,6 +89,13 @@ export const registerHandlebarHelpers = (root: {
             .replace(/\r?\n(.*)/g, (_, w) => `${EOL} * ${w.trim()}`);
     });
 
+    Handlebars.registerHelper('escapeCsharpComment', function (value: string): string {
+        return value
+            .replace(/\*\//g, '*')
+            .replace(/\/\*/g, '*')
+            .replace(/\r?\n(.*)/g, (_, w) => `${EOL} /// ${w.trim()}`);
+    });
+
     Handlebars.registerHelper('escapeDescription', function (value: string): string {
         return value.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\${/g, '\\${');
     });

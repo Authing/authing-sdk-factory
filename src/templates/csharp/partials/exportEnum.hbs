@@ -1,13 +1,13 @@
 {{#if description}}
 /**
- * {{{escapeComment description}}}
+ * {{{escapeCsharpComment description}}}
  */
 {{/if}}
 export enum {{{name}}} {
 	{{#each enum}}
 	{{#if description}}
 	/**
-	 * {{{escapeComment description}}}
+	 * {{{escapeCsharpComment description}}}
 	 */
 	{{/if}}
 	{{#containsSpaces name}}

@@ -23,18 +23,18 @@ namespace Authing.CSharp.SDK.Services
 		{{#each operations}}
 		{{#if summary}}
 		///<summary>
-		/// {{{escapeComment summary}}}
+		/// {{{escapeCsharpComment summary}}}
 		///</summary>
 		{{/if}}
 		{{#if parameters}}
 		{{#each parameters}}
-		/// <param name="{{#equals name 'namespace'}}nameSpace{{else}}{{{name}}}{{/equals}}">{{#if description}}{{{escapeComment description}}}{{/if}}</param>  
+		/// <param name="{{#equals name 'namespace'}}nameSpace{{else}}{{{name}}}{{/equals}}">{{#if description}}{{{escapeCsharpComment description}}}{{/if}}</param>
 		{{/each}}
 		{{/if}}
 		{{#each results}}
 		///<returns>{{{type}}}</returns>
 		{{/each}}
-		public async Task<{{>result}}> {{convertFirstCharToUpperCase name}}({{#equals method 'GET'}}{{reverse parameters}}{{else}}{{>parametersPost}}{{/equals}}) 
+		public async Task<{{>result}}> {{convertFirstCharToUpperCase name}}({{#equals method 'GET'}}{{reverse parameters}}{{else}}{{>parametersPost}}{{/equals}})
 		{
 			{{#if parametersQuery}}
 			string httpResponse=await Request("{{{method}}}", "{{{path}}}", new Dictionary<string, object> {
@@ -53,7 +53,7 @@ namespace Authing.CSharp.SDK.Services
 			{{>result}} result=m_JsonService.DeserializeObject<{{>result}}>(httpResponse);
 			return result;
 		}
-	{{/each}}	
+	{{/each}}
 	}
 }
 

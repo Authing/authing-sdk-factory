@@ -7,7 +7,7 @@
 }: {
 {{#each parameters}}
 {{#if description}}
-/** {{{escapeComment description}}} **/
+/** {{{escapeCsharpComment description}}} **/
 {{/if}}
 {{{name}}}{{>isRequired}}: {{>type}},
 {{/each}}
