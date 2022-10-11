@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 import Handlebars from 'handlebars/runtime';
+import { upperFirst } from 'lodash';
 
 import { HttpClient } from '../HttpClient';
 import templateauthMethods from '../templates/csharp/authMethods.hbs';
@@ -299,14 +300,32 @@ export const registerHandlebarTemplatesForCSharp = (root: {
     function SortParams(data: any) {
         const myArray = [];
 
+        const topArray=new Array();
+
         for (let i = 0; i < data.length; i++) {
-            if (data[i].default != null || data[i].isRequired == false) {
-                myArray.push(data[i]);
+            if(data[i].isRequired==false){
+                if (data[i].default != null ) {
+                    myArray.push(data[i]);
+                }
+                else{
+                    myArray.unshift(data[i]);
+                }
             }
             else {
-                myArray.unshift(data[i]);
+                if(data[i].default!=null){
+                    myArray.push(data[i]);
+                }
+                else{
+                    topArray.unshift(data[i]);
+                }
             }
         }
+
+        for(let i=0;i<topArray.length;i++)
+        {
+            myArray.unshift(topArray[i]);
+        }
+
         return myArray;
     }
 
@@ -345,6 +364,9 @@ export const registerHandlebarTemplatesForCSharp = (root: {
                 }
                 else if (obj.type === 'number') {
                     param += "=0";
+                }
+                else if(obj.type==='boolean'){
+                    param+="=false";
                 }
             }
         }
