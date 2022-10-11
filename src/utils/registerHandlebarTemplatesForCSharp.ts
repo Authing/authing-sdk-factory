@@ -2,6 +2,7 @@
 import Handlebars from 'handlebars/runtime';
 
 import { HttpClient } from '../HttpClient';
+import templateauthMethods from '../templates/csharp/authMethods.hbs';
 import templateClient from '../templates/csharp/client.hbs';
 import angularGetHeaders from '../templates/csharp/core/angular/getHeaders.hbs';
 import angularGetRequestBody from '../templates/csharp/core/angular/getRequestBody.hbs';
@@ -95,6 +96,7 @@ export interface Templates {
         model: Handlebars.TemplateDelegate;
         schema: Handlebars.TemplateDelegate;
         service: Handlebars.TemplateDelegate;
+        authMethods: Handlebars.TemplateDelegate;
     };
     core: {
         settings: Handlebars.TemplateDelegate;
@@ -127,6 +129,7 @@ export const registerHandlebarTemplatesForCSharp = (root: {
             model: Handlebars.template(templateExportModel),
             schema: Handlebars.template(templateExportSchema),
             service: Handlebars.template(templateExportService),
+            authMethods: Handlebars.template(templateauthMethods),
         },
         core: {
             settings: Handlebars.template(templateCoreSettings),
@@ -294,7 +297,7 @@ export const registerHandlebarTemplatesForCSharp = (root: {
      * @returns
      */
     function SortParams(data: any) {
-        const myArray = new Array();
+        const myArray = [];
 
         for (let i = 0; i < data.length; i++) {
             if (data[i].default != null || data[i].isRequired == false) {

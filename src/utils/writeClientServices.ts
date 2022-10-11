@@ -136,6 +136,19 @@ export const writeManagementClient = async (params: {
                 path.resolve(outputPath, `AuthMethods.java`),
                 formatIndentation(formatCode(authMethodsTemplateResult), indent)
             );
+        } else if (lang === 'csharp') {
+            const authMethodsTemplateResult = templates.exports.authMethods!({
+                ...service,
+                httpClient,
+                useUnionTypes,
+                useOptions,
+                postfix,
+                exportClient: isDefined(clientName),
+            });
+            await writeFile(
+                path.resolve(outputPath, `AuthMethods.cs`),
+                formatIndentation(formatCode(authMethodsTemplateResult), indent)
+            );
         }
     } else {
         const templateService = templates.exports.service;

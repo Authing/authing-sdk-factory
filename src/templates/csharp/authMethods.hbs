@@ -1,0 +1,35 @@
+{{#each operations}}
+{{#if summary}}
+///<summary>
+/// {{{escapeCsharpComment summary}}}
+///</summary>
+{{/if}}
+{{#if parameters}}
+{{#each parameters}}
+/// <param name="{{#equals name 'namespace'}}nameSpace{{else}}{{{name}}}{{/equals}}">{{#if description}}{{{escapeCsharpComment description}}}{{/if}}</param>
+{{/each}}
+{{/if}}
+{{#each results}}
+///<returns>{{{type}}}</returns>
+{{/each}}
+public async Task<{{>result}}> {{convertFirstCharToUpperCase name}}({{#equals method 'GET'}}{{reverse parameters}}{{else}}{{>parametersPost}}{{/equals}})
+{
+	{{#if parametersQuery}}
+	string httpResponse=await Request("{{{method}}}", "{{{path}}}", new Dictionary<string, object> {
+		{{#each parametersQuery}}
+			{{#equals name 'namespace'}}
+					{"{{{prop}}}",nameSpace },
+					{{else}}
+						{"{{{prop}}}",{{{name}}} },
+			{{/equals}}
+		{{/each}}
+		}).ConfigureAwait(false);
+	{{else if parametersBody}}
+	string httpResponse=await Request("{{{method}}}", "{{{path}}}",requestBody).ConfigureAwait(false);
+	{{else}}
+	string httpResponse=await Request("{{{method}}}", "{{{path}}}").ConfigureAwait(false);
+	{{/if}}
+	{{>result}} result=m_JsonService.DeserializeObject<{{>result}}>(httpResponse);
+	return result;
+}
+{{/each}}
