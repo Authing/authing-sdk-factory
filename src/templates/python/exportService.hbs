@@ -1,9 +1,10 @@
 # coding: utf-8
 
-from .HttpClient import HttpClient
+from .http.ManagementHttpClient import ManagementHttpClient
 
 class ManagementClient(object):
     """Authing Management Client"""
+
     def __init__(
         self,
         access_key_id,
@@ -19,12 +20,12 @@ class ManagementClient(object):
         self.timeout = timeout
         self.lang = lang
         self.use_unverified_ssl = use_unverified_ssl
-        self.http_client = HttpClient(
+        self.http_client = ManagementHttpClient(
             host=self.host,
             lang=self.lang,
             use_unverified_ssl=self.use_unverified_ssl,
             access_key_id=self.access_key_id,
-            access_key_secret=self.access_key_secret
+            access_key_secret=self.access_key_secret,
         )
 
 	{{#each operations}}

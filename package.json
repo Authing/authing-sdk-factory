@@ -60,8 +60,8 @@
         "generate": "rm -rf generated && run-p generate:*",
         "generate:node": "node scripts/generate-node-sdk.js && node scripts/generate-node-auth-sdk.js",
         "generate:java": "node scripts/generate-java-sdk.js",
-        "generate:python": "node scripts/generate-python-sdk.js",
-        "generate:csharp": "node scripts/generate-csharp-sdk.js",
+        "generate:python": "node scripts/generate-python-sdk.js && node scripts/generate-python-auth-sdk.js",
+        "generate:csharp": "node scripts/generate-csharp-sdk.js && node node scripts/generate-csharp-auth-sdk.js",
         "generate:php": "node scripts/generate-php-sdk.js",
         "generate:go": "node scripts/generate-go-sdk.js"
     },
