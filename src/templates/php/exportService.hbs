@@ -63,15 +63,15 @@ class ManagementClient
             "x-authing-sdk-version" => "php:5.0.0",
         );
         //请求
-        $varReq = Util\Tool::request($this->_url . $parMethod, $parGet, $parPost, $varHeader);
+        $varRes = Util\Tool::request($this->_url . $parMethod, $parGet, $parPost, $varHeader);
         //错误
-        if ($varReq["error"]) {
-            throw new \Exception("请求错误：" . $varReq["error"], $varReq["code"]);
-        } else if ($varReq["body"]["statusCode"] != 200) {
-            throw new \Exception("错误：" . $varReq["body"]["message"], $varReq["body"]["statusCode"]);
+        if ($varRes["error"]) {
+            throw new \Exception("请求错误：" . $varRes["error"], $varRes["code"]);
+        } else if ($varRes["body"]["statusCode"] != 200) {
+            throw new \Exception("错误：" . $varRes["body"]["message"], $varRes["body"]["statusCode"]);
         }
         //返回
-        return $varReq;
+        return $varRes;
     }
 
     /**
@@ -84,67 +84,73 @@ class ManagementClient
         $this->_accessTokenTime = time() + $tempAccessToken["expires_in"];
     }
 
-	{{#each operations}}
-	/**
-	{{#if summary}}
-	* {{{escapeComment summary}}}
-	{{/if}}
-	{{#if deprecated}}
-	* @deprecated
-	{{/if}}
-	{{#if summary}}
-	* @summary {{{escapeComment summary}}}
-	{{/if}}
-	{{#if description}}
-	* @description {{{escapeComment description}}}
-	{{/if}}
+    {{#each operations}}
+    /**
+    {{#if summary}}
+    * {{{escapeComment summary}}}
+    {{/if}}
+    {{#if deprecated}}
+    * @deprecated
+    {{/if}}
+    {{#if summary}}
+    * @summary {{{escapeComment summary}}}
+    {{/if}}
+    {{#if description}}
+    * @description {{{escapeComment description}}}
+    {{/if}}
     {{#equals method 'GET'}}
     * @param array $option 用于传递参数，如 array("email" => "main@test.com")
     {{#if parameters}}
-	{{#each parameters}}
-	* @param {{>type}} {{{name}}} {{#if isRequired}}必须{{else}}可选{{/if}}{{#if description}}，{{{escapeComment description}}}{{/if}}{{#if default}}，默认 {{{default}}}{{/if}}
-	{{/each}}
-	{{/if}}
+    {{#each parameters}}
+    * @param {{>type}} {{{name}}} {{#if isRequired}}必须{{else}}可选{{/if}}{{#if description}}，{{{escapeComment description}}}{{/if}}{{#if default}}，默认 {{{default}}}{{/if}}
+    {{/each}}
+    {{/if}}
     {{else}}
     * @param array $option 用于传递参数，如 array("email" => "main@test.com")
     {{#if parametersRaw.php}}
     {{#each parametersRaw.php}}
-	* @param {{>type}} {{{name}}} {{#if isRequired}}必须{{else}}可选{{/if}}{{#if description}}，{{{escapeComment description}}}{{/if}}{{#unless isRequired}}，默认 null{{/unless}}
+    * @param {{>type}} {{{name}}} {{#if isRequired}}必须{{else}}可选{{/if}}{{#if description}}，{{{escapeComment description}}}{{/if}}{{#unless isRequired}}，默认 null{{/unless}}
     {{/each}}
     {{/if}}
     {{/equals}}
-	{{#each results}}
-	* @return {{{type}}} {{#if description}}{{{escapeComment description}}}{{/if}}
-	{{/each}}
-	*/
-	public function {{{name}}}($option = array())
+    {{#each results}}
+    * @return {{{type}}} {{#if description}}{{{escapeComment description}}}{{/if}}
+    {{/each}}
+    */
+    public function {{{name}}}($option = array())
     {
-		{{#equals method 'GET'}}
-		{{#if parametersQuery}}
+        {{#equals method 'GET'}}
+        {{#if parametersQuery}}
         // 组装请求
-		$varGet = array(
-			{{#each parametersQuery}}
-			"{{{prop}}}" => Util\Tool::getSet($option["{{{name}}}"]),
-			{{/each}}
-		);
-		{{/if}}
-        // 发送请求
-		$varReq = $this->_requests("{{{path}}}", $varGet, null);
-		{{else}}
-		{{#if parametersRaw.php}}
-        // 组装请求
-		$varPost = array(
-            {{#each parametersRaw.php}}
-            "{{{name}}}" => Util\Tool::getSet($option["{{{name}}}"]),
+        $varGet = array(
+            {{#each parametersQuery}}
+            "{{{prop}}}" => Util\Tool::getOrDefault($option, "{{{name}}}", null),
             {{/each}}
-		);
-		{{/if}}
+        );
         // 发送请求
-		$varReq = $this->_requests("{{{path}}}", null, $varPost);
-		{{/equals}}
+        $varRes = $this->_requests("{{{path}}}", $varGet, null);
+        {{else}}
+        // 发送请求
+        $varRes = $this->_requests("{{{path}}}", null, null);
+        {{/if}}
+        {{else}}
+        {{#if parametersRaw.php}}
+        // 组装请求
+        $varPost = array(
+            {{#each parametersRaw.php}}
+            "{{{name}}}" => Util\Tool::getOrDefault($option, "{{{name}}}", null),
+            {{/each}}
+        );
+        // 发送请求
+        $varRes = $this->_requests("{{{path}}}", null, $varPost);
+        {{else}}
+        // 发送请求
+        $varRes = $this->_requests("{{{path}}}", null, null);
+        {{/if}}
+        {{/equals}}
         // 返回
-		return $varReq["body"];
-	}
+        return $varRes["body"];
+    }
 
-	{{/each}}
+    {{/each}}
 }

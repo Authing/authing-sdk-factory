@@ -47,6 +47,8 @@ export const getOperation = (
         responseHeader: null,
         // @ts-ignore
         isLoginApi: op['x-authing-signin-api'],
+        // @ts-ignore
+        hidden: op['x-authing-hidden-from-sdk']
     };
 
     // Parse the operation parameters (path, query, body, etc).

@@ -2,6 +2,7 @@ const { execSync } = require('child_process');
 const fs = require('fs');
 const { generate } = require('../dist');
 
+fs.rmSync('./generated/go', { recursive: true, force: true });
 fs.mkdirSync('./generated/go/src', { recursive: true });
 
 const generateManagementClient = async () => {

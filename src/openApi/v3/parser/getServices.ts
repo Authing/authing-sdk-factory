@@ -41,8 +41,10 @@ export const getServices = (openApi: OpenApi): Service[] => {
                                 };
 
                                 // Push the operation in the service
-                                service.operations.push(operation);
-                                service.imports.push(...operation.imports);
+                                if (!operation.hidden) {
+                                    service.operations.push(operation);
+                                    service.imports.push(...operation.imports);
+                                }
                                 services.set(operation.service, service);
                             });
                             break;

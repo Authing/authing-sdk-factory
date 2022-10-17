@@ -14,4 +14,5 @@ export interface Operation extends OperationParameters {
     results: OperationResponse[];
     responseHeader: string | null;
     isLoginApi?: boolean;
+    hidden?: boolean;
 }
