@@ -1,2 +1,1 @@
-{{!-- {{#enumerator enum parent name}}{{convertFirstCharToUpperCase this}}{{/enumerator}}{{>isNullable}} --}}
-{{convertFirstCharToUpperCase name}}
+{{#if name}}{{convertFirstCharToUpperCase name}}{{else}}string{{/if}}
