@@ -1,0 +1,70 @@
+
+{{#each operations}}
+/**
+{{#if summary}}
+* {{{escapeComment summary}}}
+{{/if}}
+{{#if deprecated}}
+* @deprecated
+{{/if}}
+{{#if summary}}
+* @summary {{{escapeComment summary}}}
+{{/if}}
+{{#if description}}
+* @description {{{escapeComment description}}}
+{{/if}}
+{{#equals method 'GET'}}
+* @param array $option 用于传递参数，如 array("email" => "main@test.com")
+{{#if parameters}}
+{{#each parameters}}
+* @param {{>type}} {{{name}}} {{#if isRequired}}必须{{else}}可选{{/if}}{{#if description}}，{{{escapeComment description}}}{{/if}}{{#if default}}，默认 {{{default}}}{{/if}}
+{{/each}}
+{{/if}}
+{{else}}
+* @param array $option 用于传递参数，如 array("email" => "main@test.com")
+{{#if parametersRaw.php}}
+{{#each parametersRaw.php}}
+* @param {{>type}} {{{name}}} {{#if isRequired}}必须{{else}}可选{{/if}}{{#if description}}，{{{escapeComment description}}}{{/if}}{{#unless isRequired}}，默认 null{{/unless}}
+{{/each}}
+{{/if}}
+{{/equals}}
+{{#each results}}
+* @return {{{type}}} {{#if description}}{{{escapeComment description}}}{{/if}}
+{{/each}}
+*/
+public function {{{name}}}($option = array())
+{
+	{{#equals method 'GET'}}
+	{{#if parametersQuery}}
+	// 组装请求
+	$varGet = array(
+		{{#each parametersQuery}}
+		"{{{prop}}}" => Util\Tool::getOrDefault($option, "{{{name}}}", null),
+		{{/each}}
+	);
+	// 发送请求
+	$varRes = $this->_requests("{{{path}}}", $varGet, null);
+	{{else}}
+	// 发送请求
+	$varRes = $this->_requests("{{{path}}}", null, null);
+	{{/if}}
+	{{else}}
+	{{#if parametersRaw.php}}
+	// 组装请求
+	$varPost = array(
+		{{#each parametersRaw.php}}
+		"{{{name}}}" => Util\Tool::getOrDefault($option, "{{{name}}}", null),
+		{{/each}}
+	);
+	// 发送请求
+	$varRes = $this->_requests("{{{path}}}", null, $varPost);
+	{{else}}
+	// 发送请求
+	$varRes = $this->_requests("{{{path}}}", null, null);
+	{{/if}}
+	{{/equals}}
+	// 返回
+	return $varRes["body"];
+}
+
+{{/each}}

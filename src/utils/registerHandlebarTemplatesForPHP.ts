@@ -2,6 +2,7 @@ import Handlebars from 'handlebars/runtime';
 
 import { HttpClient } from '../HttpClient';
 import templateClient from '../templates/php/client.hbs';
+import templateauthMethods from '../templates/php/authMethods.hbs';
 import angularGetHeaders from '../templates/php/core/angular/getHeaders.hbs';
 import angularGetRequestBody from '../templates/php/core/angular/getRequestBody.hbs';
 import angularGetResponseBody from '../templates/php/core/angular/getResponseBody.hbs';
@@ -94,6 +95,7 @@ export interface Templates {
         model: Handlebars.TemplateDelegate;
         schema: Handlebars.TemplateDelegate;
         service: Handlebars.TemplateDelegate;
+        authMethods:  Handlebars.TemplateDelegate;
     };
     core: {
         settings: Handlebars.TemplateDelegate;
@@ -126,6 +128,7 @@ export const registerHandlebarTemplatesForPHP = (root: {
             model: Handlebars.template(templateExportModel),
             schema: Handlebars.template(templateExportSchema),
             service: Handlebars.template(templateExportService),
+            authMethods: Handlebars.template(templateauthMethods),
         },
         core: {
             settings: Handlebars.template(templateCoreSettings),
