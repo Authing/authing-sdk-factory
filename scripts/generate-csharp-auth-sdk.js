@@ -6,7 +6,7 @@ fs.mkdirSync('./generated/csharp/src', { recursive: true });
 
 const generateAuthenticationClient = async () => {
     await generate({
-        input: 'http://localhost:3000/auth-openapi-json',
+        input: 'http://8.142.39.176:3000/auth-openapi-json',
         output: './generated/csharp/src',
         exportCore: false,
         useOptions: true,

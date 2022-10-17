@@ -1,4 +1,1 @@
-{{#if parameters}}
-{{#each parameters}} {{>type}} {{{name}}}{{>isRequired}}  {{#if default}} = {{{default}}}{{/if}}
-{{/each}}
-{{/if}}
+{{#if parameters}}{{#each parameters}}{{>type}} {{{name}}}{{>isRequired}}{{#if default}}={{{default}}}{{/if}}{{/each}}{{/if}}

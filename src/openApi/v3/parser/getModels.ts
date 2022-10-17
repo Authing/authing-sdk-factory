@@ -21,6 +21,13 @@ const goTypeMap: any = {
     any: 'interface{}',
 };
 
+const csharpTypeMap: any = {
+    string: 'string',
+    number: 'long',
+    boolean: 'bool',
+    any: 'object',
+};
+
 export const getModels = (openApi: OpenApi): Model[] => {
     const models: Model[] = [];
     if (openApi.components) {
@@ -44,6 +51,11 @@ export const getModels = (openApi: OpenApi): Model[] => {
                             p.base_go = goTypeMap[base];
                         } else {
                             p.base_go = base;
+                        }
+                        if(csharpTypeMap[base]){
+                            p.base_csharp=csharpTypeMap[base];
+                        }else{
+                            p.base_csharp=base;
                         }
                         if (p.enum?.length > 0) {
                             p.isEnum = true;
@@ -82,6 +94,7 @@ export const getModelByParameter = (parameter: OperationParameter): Model => {
         name_java_get: `get${camelizeAndFirstCharUpperCase(parameter.name)}`,
         base_java: '',
         base_go: '',
+        base_csharp:'',
     };
 
     if (javaTypeMap[parameter.base]) {
@@ -95,6 +108,13 @@ export const getModelByParameter = (parameter: OperationParameter): Model => {
     } else {
         model.base_go = parameter.base;
     }
+
+    if (csharpTypeMap[parameter.base]) {
+        model.base_csharp = csharpTypeMap[parameter.base];
+    } else {
+        model.base_csharp = parameter.base;
+    }
+
     return model;
 };
 
@@ -124,11 +144,13 @@ export const getModelByOperation = (op: Operation): Model => {
         name_java_set: `set${camelizeAndFirstCharUpperCase(op.name)}`,
         name_java_get: `get${camelizeAndFirstCharUpperCase(op.name)}`,
         base_java: '',
+        base_csharp:'',
     };
 
     model.base_java = name;
     model.base_go = name;
     model.base = name;
+    model.base_csharp=name;
 
     return model;
 };

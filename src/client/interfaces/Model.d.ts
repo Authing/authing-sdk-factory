@@ -1,3 +1,4 @@
+import { String } from 'lodash';
 import type { Enum } from './Enum';
 import type { Schema } from './Schema';
 
@@ -25,4 +26,5 @@ export interface Model extends Schema {
     enums: Model[];
     properties: Model[];
     isEnum?: boolean;
+    base_csharp?:string;
 }

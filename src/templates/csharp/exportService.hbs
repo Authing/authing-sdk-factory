@@ -1,5 +1,5 @@
 using Authing.CSharp.SDK.Extensions;
-using Authing.CSharp.SDK.Models;
+using Authing.CSharp.SDK.Models.Management;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,26 +34,29 @@ namespace Authing.CSharp.SDK.Services
 		{{#each results}}
 		///<returns>{{{type}}}</returns>
 		{{/each}}
-		public async Task<{{>result}}> {{convertFirstCharToUpperCase name}}({{#equals method 'GET'}}{{reverse parameters}}{{else}}{{>parametersPost}}{{/equals}})
+		{{#equals method "POST"}}
+		public async Task<{{>result}}> {{convertFirstCharToUpperCase name}}({{>parametersPost}})
 		{
-			{{#if parametersQuery}}
-			string httpResponse=await Request("{{{method}}}", "{{{path}}}", new Dictionary<string, object> {
-				{{#each parametersQuery}}
-					{{#equals name 'namespace'}}
-							{"{{{prop}}}",nameSpace },
-							{{else}}
-								{"{{{prop}}}",{{{name}}} },
-					{{/equals}}
-				{{/each}}
-				}).ConfigureAwait(false);
-			{{else if parametersBody}}
 			string httpResponse=await Request("{{{method}}}", "{{{path}}}",requestBody).ConfigureAwait(false);
-			{{else}}
-			string httpResponse=await Request("{{{method}}}", "{{{path}}}").ConfigureAwait(false);
-			{{/if}}
+
 			{{>result}} result=m_JsonService.DeserializeObject<{{>result}}>(httpResponse);
 			return result;
 		}
+		{{/equals}}
+		{{#equals method "GET"}}
+		public async Task<{{>result}}> {{convertFirstCharToUpperCase name}}({{#if parametersDto}}{{parametersDto}} reqDto{{/if}})
+		{
+			{{#if parammetersDto}}
+			string httpResponse=await Request("{{{method}}}", "{{{path}}}",reqDto).ConfigureAwait(false);
+			{{else}}
+			string httpResponse=await Request("{{{method}}}", "{{{path}}}").ConfigureAwait(false);
+			{{/if}}
+
+			{{>result}} result=m_JsonService.DeserializeObject<{{>result}}>(httpResponse);
+			return result;
+
+		}
+		{{/equals}}
 		{{/each}}
 	}
 }
