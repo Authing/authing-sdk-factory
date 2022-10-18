@@ -29,15 +29,40 @@ class ManagementClient
     //用户池ID
     public $_userPoolID;
 
+
     /**
      * 构造函数
+     * @param array $option 必须，用于传递参数，如 array("accessKeyId" => "AUTHING_USERPOOL_ID", "appSecret" => "AUTHING_USERPOOL_SECRET", "host" => "https://api.authing.cn")
+     * @param string accessKeyId 必须，应用 ID
+     * @param string accessKeySecret 必须，应用 Secret
+     * @param string host 必须，应用域名，例如 example.authing.cn
+     * @param integer timeout 可选，超时时间，单位为毫秒，默认为 10000（10 秒）
+     * @throws \Exception
      */
-    public function __construct($accessKeyId, $accessKeySecret, $host = "https://api.authing.cn")
+    public function __construct($option)
     {
-        $this->_url = $host;
-        $this->_accessKey = array("id" => $accessKeyId, "secret" => $accessKeySecret);
-        $this->_userPoolID = $accessKeyId;
-        $this->_getAccessToken($this->_accessKey["id"],  $this->_accessKey["secret"]);
+        if (
+            !isset($option["accessKeyId"])
+        ) {
+            throw new \Exception('请在初始化 ManagementClient 时传入 accessKeyId');
+        }
+
+        if (
+            !isset($option["accessKeySecret"])
+        ) {
+            throw new \Exception('请在初始化 ManagementClient 时传入 accessKeySecret');
+        }
+
+        if (
+            !isset($option["host"])
+        ) {
+            $option["host"] = "https://api.authing.cn";
+        }
+
+        $this->_url = $option["host"];
+        $this->_accessKey = array("id" => $option["accessKeyId"], "secret" => $option["accessKeySecret"]);
+        $this->_userPoolID = $option["accessKeyId"];
+        $this->_getAccessToken($this->_accessKey["id"], $this->_accessKey["secret"]);
     }
 
     /**
@@ -49,7 +74,7 @@ class ManagementClient
         if (!empty($this->_accessTokenTime) and time() >= $this->_accessTokenTime) {
             $this->_accessToken = null;
             $this->_accessTokenTime = null;
-            $this->_getAccessToken($this->_accessKey["id"],  $this->_accessKey["secret"]);
+            $this->_getAccessToken($this->_accessKey["id"], $this->_accessKey["secret"]);
         }
         //处理
         if ($parGet != []) $parGet = Util\Tool::formatData($parGet);
@@ -74,15 +99,29 @@ class ManagementClient
         return $varRes;
     }
 
+    public function getManagementToken($option = array())
+    {
+        // 组装请求
+        $varPost = array(
+            "accessKeySecret" => $option["accessKeySecret"],
+            "accessKeyId" => $option["accessKeyId"],
+        );
+        // 发送请求
+        $varRes = $this->_requests("/api/v3/get-management-token", null, $varPost);
+        // 返回
+        return $varRes["body"];
+    }
+    
     /**
      * 获取 Access Token
      */
-    private function _getAccessToken($accessKeyId,  $accessKeySecret)
+    private function _getAccessToken($accessKeyId, $accessKeySecret)
     {
         $tempAccessToken = $this->getManagementToken(array("accessKeyId" => $accessKeyId, "accessKeySecret" => $accessKeySecret))["data"];
         $this->_accessToken = $tempAccessToken["access_token"];
         $this->_accessTokenTime = time() + $tempAccessToken["expires_in"];
     }
+
 
     {{#each operations}}
     /**

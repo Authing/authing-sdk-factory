@@ -12,8 +12,8 @@ const generateManagementClient = async () => {
         exportCore: false,
         lang: 'go',
     });
-    execSync('cp -R generated/go/src/models/* ../authing-golang-sdk/dto', { encoding: 'utf-8' });
-    execSync('cp -R generated/go/src/management_client.go ../authing-golang-sdk/management/management_client.go', {
+    execSync('cp -R generated/go/src/models/* ../go/authing-golang-sdk/dto', { encoding: 'utf-8' });
+    execSync('cp -R generated/go/src/management_client.go ../go/authing-golang-sdk/management/management_client.go', {
         encoding: 'utf-8',
     });
 };
@@ -30,10 +30,10 @@ const generateAuthenticationClient = async () => {
     const authMethodsContent = fs.readFileSync('./generated/go/src/AuthMethods.go');
     fs.unlinkSync('./generated/go/src/AuthMethods.go');
 
-    execSync('cp -R generated/go/src/models/* ../authing-golang-sdk/dto', { encoding: 'utf-8' });
+    execSync('cp -R generated/go/src/models/* ../go/authing-golang-sdk/dto', { encoding: 'utf-8' });
 
     // 替换原来 Authing.ts 中的内容
-    const authingTsFile = '../authing-golang-sdk/authentication/authentication_client.go';
+    const authingTsFile = '../go/authing-golang-sdk/authentication/authentication_client.go';
     const originalAuthingTsContent = fs.readFileSync(authingTsFile, 'utf-8');
     fs.writeFileSync(
         authingTsFile,

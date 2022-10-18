@@ -31,7 +31,7 @@ const generateAuthenticationClient = async () => {
     const authMethodsContent = fs.readFileSync('./generated/php/src/AuthMethods.php', 'utf-8');
     fs.unlinkSync('./generated/php/src/AuthMethods.php');
     // 替换原来 Authing.ts 中的内容
-    const authingTsFile = '../../authing-php-sdk/src/AuthenticationClient.php';
+    const authingTsFile = '../authing-php-sdk/src/AuthenticationClient.php';
     const originalAuthingTsContent = fs.readFileSync(authingTsFile, 'utf-8');
     fs.writeFileSync(
         authingTsFile,
