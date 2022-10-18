@@ -46,7 +46,7 @@ namespace Authing.CSharp.SDK.Services
 		{{#equals method "GET"}}
 		public async Task<{{>result}}> {{convertFirstCharToUpperCase name}}({{#if parametersDto}}{{parametersDto}} reqDto{{/if}})
 		{
-			{{#if parammetersDto}}
+			{{#if parametersDto}}
 			string httpResponse=await Request("{{{method}}}", "{{{path}}}",reqDto).ConfigureAwait(false);
 			{{else}}
 			string httpResponse=await Request("{{{method}}}", "{{{path}}}").ConfigureAwait(false);
