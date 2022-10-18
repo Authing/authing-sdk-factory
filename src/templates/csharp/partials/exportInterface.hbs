@@ -13,7 +13,7 @@ public partial class {{{name}}}
 	{{/if}}
 	{{#if prop}}
 	[JsonProperty("{{{removeQuot prop}}}")]
-	public {{base_csharp}} {{>isReadOnly}} {{convertFirstCharToUpperCase name}} {get;set;}
+	public {{base_csharp}} {{>isReadOnly}} {{convertFirstCharToUpperCase name}} {get;set;} {{#equals name 'page'}}=1;{{/equals}}{{#equals name 'limit'}}=10;{{/equals}}
 	{{else}}
 	[JsonProperty("{{{removeQuot name}}}")]
 	public {{>type parent=../name}} {{>isReadOnly}} {{convertFirstCharToUpperCase name}} {get;set;}
