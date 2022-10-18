@@ -6,7 +6,7 @@ fs.mkdirSync('./generated/java/src', { recursive: true });
 
 const generateManagementClient = async () => {
     await generate({
-        input: 'http://localhost:3000/openapi-json',
+        input: 'http://8.142.39.176:3000/openapi-json',
         output: './generated/java/src',
         exportCore: false,
         lang: 'java',

@@ -1,4 +1,4 @@
-namespace Authing.CSharp.SDK.Models
+namespace Authing.CSharp.SDK.Models.Management
 {
 /// {{{{LessThan}}}}{{{{/LessThan}}}}summary>
 /// {{name}} 的模型
@@ -11,8 +11,13 @@ public partial class {{{name}}}
     ///  {{{escapeCsharpComment description}}}
     /// {{{{LessThan}}}}{{{{/LessThan}}}}/summary>
 	{{/if}}
-[JsonProperty("{{{removeQuot name}}}")]
-public	{{>type parent=../name}} {{>isReadOnly}}  {{convertFirstCharToUpperCase name}}    {get;set;}
+	{{#if prop}}
+	[JsonProperty("{{{removeQuot prop}}}")]
+	public {{base_csharp}} {{>isReadOnly}} {{convertFirstCharToUpperCase name}} {get;set;}
+	{{else}}
+	[JsonProperty("{{{removeQuot name}}}")]
+	public {{>type parent=../name}} {{>isReadOnly}} {{convertFirstCharToUpperCase name}} {get;set;}
+	{{/if}}
 	{{/each}}
 }
 {{#if enums}}

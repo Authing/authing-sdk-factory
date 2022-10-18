@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
+using Authing.CSharp.SDK.Models.Management;
 
 {{#equals export 'interface'}}
    {{>exportInterface}}
@@ -22,6 +23,6 @@ using System.Runtime.Serialization;
 {{else}}
   {{>exportEnum}}
 {{/if}}
-{{else}} 
+{{else}}
   {{>exportType}}
 {{/equals}}
