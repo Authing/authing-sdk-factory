@@ -28,7 +28,8 @@ class ManagementClient
     public $_accessTokenTime;
     //用户池ID
     public $_userPoolID;
-
+    // 超时时间
+    public $_timeout;
 
     /**
      * 构造函数
@@ -36,7 +37,7 @@ class ManagementClient
      * @param string accessKeyId 必须，应用 ID
      * @param string accessKeySecret 必须，应用 Secret
      * @param string host 必须，应用域名，例如 example.authing.cn
-     * @param integer timeout 可选，超时时间，单位为毫秒，默认为 10000（10 秒）
+     * @param integer timeout 可选，超时时间，单位为秒，默认为 10
      * @throws \Exception
      */
     public function __construct($option)
@@ -59,16 +60,23 @@ class ManagementClient
             $option["host"] = "https://api.authing.cn";
         }
 
+        if (
+            !isset($option["timeout"])
+        ) {
+            $option["timeout"] = 10;
+        }
+
         $this->_url = $option["host"];
         $this->_accessKey = array("id" => $option["accessKeyId"], "secret" => $option["accessKeySecret"]);
         $this->_userPoolID = $option["accessKeyId"];
+        $this->_timeout = $option["timeout"];
         $this->_getAccessToken($this->_accessKey["id"], $this->_accessKey["secret"]);
     }
 
     /**
      * 构造请求
      */
-    private function _requests($parMethod, $parGet = [], $parPost = [])
+    private function request($parMethod, $parPath, $parGet = [], $parPost = [])
     {
         //过期
         if (!empty($this->_accessTokenTime) and time() >= $this->_accessTokenTime) {
@@ -88,14 +96,7 @@ class ManagementClient
             "x-authing-sdk-version" => "php:5.0.0",
         );
         //请求
-        $varRes = Util\Tool::request($this->_url . $parMethod, $parGet, $parPost, $varHeader);
-        //错误
-        if ($varRes["error"]) {
-            throw new \Exception("请求错误：" . $varRes["error"], $varRes["code"]);
-        } else if ($varRes["body"]["statusCode"] != 200) {
-            throw new \Exception("错误：" . $varRes["body"]["message"], $varRes["body"]["statusCode"]);
-        }
-        //返回
+        $varRes = Util\Tool::request($parMethod,$this->_url . $parPath, $parGet, $parPost, $varHeader, $this->_timeout);
         return $varRes;
     }
 
@@ -107,7 +108,7 @@ class ManagementClient
             "accessKeyId" => $option["accessKeyId"],
         );
         // 发送请求
-        $varRes = $this->_requests("/api/v3/get-management-token", null, $varPost);
+        $varRes = $this->request("POST", "/api/v3/get-management-token", null, $varPost);
         // 返回
         return $varRes["body"];
     }
@@ -167,10 +168,10 @@ class ManagementClient
             {{/each}}
         );
         // 发送请求
-        $varRes = $this->_requests("{{{path}}}", $varGet, null);
+        $varRes = $this->request("GET", "{{{path}}}", $varGet, null);
         {{else}}
         // 发送请求
-        $varRes = $this->_requests("{{{path}}}", null, null);
+        $varRes = $this->request("GET", "{{{path}}}", null, null);
         {{/if}}
         {{else}}
         {{#if parametersRaw.php}}
@@ -181,10 +182,10 @@ class ManagementClient
             {{/each}}
         );
         // 发送请求
-        $varRes = $this->_requests("{{{path}}}", null, $varPost);
+        $varRes = $this->request("POST", "{{{path}}}", null, $varPost);
         {{else}}
         // 发送请求
-        $varRes = $this->_requests("{{{path}}}", null, null);
+        $varRes = $this->request("POST", "{{{path}}}", null, null);
         {{/if}}
         {{/equals}}
         // 返回

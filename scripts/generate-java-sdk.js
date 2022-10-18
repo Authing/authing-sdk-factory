@@ -2,6 +2,7 @@ const { execSync } = require('child_process');
 const fs = require('fs');
 const { generate } = require('../dist');
 
+fs.rmSync('./generated/java', { recursive: true, force: true });
 fs.mkdirSync('./generated/java/src', { recursive: true });
 
 const generateManagementClient = async () => {
@@ -53,4 +54,4 @@ const generateAuthenticationClient = async () => {
 };
 
 generateManagementClient().then(console.log).catch(console.error);
-generateAuthenticationClient().then(console.log).catch(console.error);
+// generateAuthenticationClient().then(console.log).catch(console.error);

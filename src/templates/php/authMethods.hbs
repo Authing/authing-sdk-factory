@@ -43,10 +43,10 @@ public function {{{name}}}($option = array())
 		{{/each}}
 	);
 	// 发送请求
-	$varRes = $this->_requests("{{{path}}}", $varGet, null);
+	$varRes = $this->request("GET", "{{{path}}}", $varGet, null);
 	{{else}}
 	// 发送请求
-	$varRes = $this->_requests("{{{path}}}", null, null);
+	$varRes = $this->request("GET", "{{{path}}}", null, null);
 	{{/if}}
 	{{else}}
 	{{#if parametersRaw.php}}
@@ -57,10 +57,10 @@ public function {{{name}}}($option = array())
 		{{/each}}
 	);
 	// 发送请求
-	$varRes = $this->_requests("{{{path}}}", null, $varPost);
+	$varRes = $this->request("POST", "{{{path}}}", null, $varPost);
 	{{else}}
 	// 发送请求
-	$varRes = $this->_requests("{{{path}}}", null, null);
+	$varRes = $this->request("POST", "{{{path}}}", null, null);
 	{{/if}}
 	{{/equals}}
 	// 返回

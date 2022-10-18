@@ -14,7 +14,7 @@ const generateManagementClient = async () => {
         lang: 'php',
         exportModels: false,
     });
-    execSync('cp -R generated/php/* ../../authing-php-sdk/', { encoding: 'utf-8' });
+    execSync('cp -R generated/php/* ../authing-php-sdk/', { encoding: 'utf-8' });
 };
 
 const generateAuthenticationClient = async () => {

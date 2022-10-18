@@ -43,6 +43,7 @@ public class {{{name}}} {
     public static enum {{convertFirstCharToUpperCase name}} {
 		{{#each enum}}
 
+		{{console this}}
 		@JsonProperty("{{replaceSingleQuotesToEmptyString value}}")
 		{{{name}}}({{convertSingleQuotesToDoubleQuotes value}}),
 		{{/each}}
