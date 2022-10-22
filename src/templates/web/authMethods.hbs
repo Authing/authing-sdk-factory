@@ -1,0 +1,47 @@
+{{#each operations}}
+/**
+{{#if deprecated}}
+	* @deprecated
+{{/if}}
+{{#if summary}}
+	* @summary {{{escapeComment summary}}}
+{{/if}}
+{{#if description}}
+	* @description {{{escapeComment description}}}
+{{/if}}
+{{#unless @root.useOptions}}
+{{#if parameters}}
+{{#each parameters}}
+	* @param {{{name}}} {{#if description}}{{{escapeComment description}}}{{/if}}
+{{/each}}
+{{/if}}
+{{/unless}}
+{{#each results}}
+	* @returns {{{type}}} {{#if description}}{{{escapeComment description}}}{{/if}}
+{{/each}}
+	*/
+public async {{{name}}}({{#equals method 'GET'}}{{>parametersGet}}{{else}}{{>parametersPost}}{{/equals}}): Promise<{{>result}}> {
+	const result = await this.request({
+		method: '{{{method}}}',
+		url: '{{{path}}}',
+		{{#if parametersQuery}}
+		params: {
+			{{#each parametersQuery}}
+			{{{prop}}}: {{{name}}},
+			{{/each}}
+		},
+		{{/if}}
+		{{#if parametersBody}}
+		{{#equals parametersBody.in 'body'}}
+		data: {{{parametersBody.name}}},
+		{{/equals}}
+		{{/if}}
+	});
+	{{!-- {{#if isLoginApi}}
+	if (result.statusCode === 200) {
+      this.saveAccessToken(result.data.access_token)
+    }
+	{{/if }} --}}
+	return result;
+}
+{{/each}}
