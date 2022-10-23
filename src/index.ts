@@ -12,6 +12,7 @@ import { registerHandlebarTemplatesForGo } from './utils/registerHandlebarTempla
 import { registerHandlebarTemplatesForJava } from './utils/registerHandlebarTemplatesForJava';
 import { registerHandlebarTemplatesForPHP } from './utils/registerHandlebarTemplatesForPHP';
 import { registerHandlebarTemplatesForPython } from './utils/registerHandlebarTemplatesForPython';
+import { registerHandlebarTemplatesForWeb } from './utils/registerHandlebarTemplatesWeb';
 import { writeClient } from './utils/writeClient';
 
 export { HttpClient } from './HttpClient';
@@ -109,6 +110,12 @@ export const generate = async ({
         });
     } else if (lang === 'php') {
         templates = registerHandlebarTemplatesForPHP({
+            httpClient,
+            useUnionTypes,
+            useOptions,
+        });
+    } else if (lang === 'web') {
+        templates = registerHandlebarTemplatesForWeb({
             httpClient,
             useUnionTypes,
             useOptions,
