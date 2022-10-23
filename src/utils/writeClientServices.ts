@@ -177,7 +177,7 @@ export const writeManagementClient = async (params: {
             await writeFile(file, formatIndentation(formatCode(templateResult), indent));
         } else if (lang === 'python') {
             await writeFile(file, templateResult.replace(/\t/g, '    '));
-            execSync('python3 -m black ' + file, { encoding: 'utf-8' });
+            // execSync('python3 -m black ' + file, { encoding: 'utf-8' });
         } else {
             await writeFile(file, formatIndentation(formatCode(templateResult), indent));
         }
