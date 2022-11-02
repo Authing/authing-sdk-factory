@@ -103,6 +103,31 @@ export const writeManagementClient = async (params: {
                 path.resolve(outputPath, `AuthImports.ts`),
                 formatIndentation(formatCode(authImportsTemplateResult), indent)
             );
+        } else if (lang === 'web') {
+            const authMethodsTemplateResult = templates.exports.authMethods!({
+                ...service,
+                httpClient,
+                useUnionTypes,
+                useOptions,
+                postfix,
+                exportClient: isDefined(clientName),
+            });
+            const authImportsTemplateResult = templates.exports.authImports!({
+                ...service,
+                httpClient,
+                useUnionTypes,
+                useOptions,
+                postfix,
+                exportClient: isDefined(clientName),
+            });
+            await writeFile(
+                path.resolve(outputPath, `AuthMethods.ts`),
+                formatIndentation(formatCode(authMethodsTemplateResult), indent)
+            );
+            await writeFile(
+                path.resolve(outputPath, `AuthImports.ts`),
+                formatIndentation(formatCode(authImportsTemplateResult), indent)
+            );
         } else if (lang === 'python') {
             const authImportsTemplateResult = templates.exports.authMethods!({
                 ...service,
@@ -177,7 +202,7 @@ export const writeManagementClient = async (params: {
             await writeFile(file, formatIndentation(formatCode(templateResult), indent));
         } else if (lang === 'python') {
             await writeFile(file, templateResult.replace(/\t/g, '    '));
-            execSync('python3 -m black ' + file, { encoding: 'utf-8' });
+            // execSync('python3 -m black ' + file, { encoding: 'utf-8' });
         } else {
             await writeFile(file, formatIndentation(formatCode(templateResult), indent));
         }
