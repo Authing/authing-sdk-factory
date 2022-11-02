@@ -6,7 +6,7 @@ fs.mkdirSync('./generated/csharp/src', { recursive: true });
 
 const main = async () => {
     await generate({
-        input: 'https://console.test2.authing-inc.co/openapi-json',
+        input: 'https://console.authing.co/openapi-json',
         output: './generated/csharp/src',
         exportCore: false,
         useOptions: true,

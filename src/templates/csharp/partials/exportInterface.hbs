@@ -1,44 +1,44 @@
 namespace Authing.CSharp.SDK.Models
 {
-/// {{{{LessThan}}}}{{{{/LessThan}}}}summary>
-/// {{name}} 的模型
-/// {{{{LessThan}}}}{{{{/LessThan}}}}/summary>
-public partial class {{{name}}}
-{
-	{{#each properties}}
-	{{#if description}}
 	/// {{{{LessThan}}}}{{{{/LessThan}}}}summary>
-    ///  {{{escapeCsharpComment description}}}
-    /// {{{{LessThan}}}}{{{{/LessThan}}}}/summary>
-	{{/if}}
-	{{#if prop}}
-	[JsonProperty("{{{removeQuot prop}}}")]
-	public {{base_csharp}} {{>isReadOnly}} {{convertFirstCharToUpperCase name}} {get;set;} {{#equals name 'page'}}=1;{{/equals}}{{#equals name 'limit'}}=10;{{/equals}}
-	{{else}}
-	[JsonProperty("{{{removeQuot name}}}")]
-	public {{>type parent=../name}} {{>isReadOnly}} {{convertFirstCharToUpperCase name}} {get;set;}
-	{{/if}}
-	{{/each}}
-}
-{{#if enums}}
-{{#unless @root.useUnionTypes}}
-public partial class {{{name}}}
- {
-	{{#each enums}}
-	{{#if description}}
-	/// {{{{LessThan}}}}{{{{/LessThan}}}}summary>
-    ///  {{{escapeCsharpComment description}}}
-    /// {{{{LessThan}}}}{{{{/LessThan}}}}/summary>
-	{{/if}}
-	public enum {{{keywordHelper name}}}
-	 {
-		{{#each enum}}
-	 	[EnumMember(Value={{getEnumMemeber value}})]
-		{{{name}}},
+	/// {{name}} 的模型
+	/// {{{{LessThan}}}}{{{{/LessThan}}}}/summary>
+	public partial class {{{name}}}
+	{
+		{{#each properties}}
+		{{#if description}}
+		/// {{{{LessThan}}}}{{{{/LessThan}}}}summary>
+		///  {{{escapeCsharpComment description}}}
+		/// {{{{LessThan}}}}{{{{/LessThan}}}}/summary>
+		{{/if}}
+		{{#if prop}}
+		[JsonProperty("{{{removeQuot prop}}}")]
+		public {{base_csharp}} {{>isReadOnly}} {{convertFirstCharToUpperCase name}} {get;set;} {{#equals name 'page'}}=1;{{/equals}}{{#equals name 'limit'}}=10;{{/equals}}
+		{{else}}
+		[JsonProperty("{{{removeQuot name}}}")]
+		public {{>type parent=../name}} {{>isReadOnly}} {{convertFirstCharToUpperCase name}} {get;set;}
+		{{/if}}
 		{{/each}}
 	}
-	{{/each}}
-}
-{{/unless}}
-{{/if}}
+	{{#if enums}}
+	{{#unless @root.useUnionTypes}}
+	public partial class {{{name}}}
+	{
+		{{#each enums}}
+		{{#if description}}
+		/// {{{{LessThan}}}}{{{{/LessThan}}}}summary>
+		///  {{{escapeCsharpComment description}}}
+		/// {{{{LessThan}}}}{{{{/LessThan}}}}/summary>
+		{{/if}}
+		public enum {{{keywordHelper name}}}
+		{
+			{{#each enum}}
+			[EnumMember(Value={{getEnumMemeber value}})]
+			{{{name}}},
+			{{/each}}
+		}
+		{{/each}}
+	}
+	{{/unless}}
+	{{/if}}
 }

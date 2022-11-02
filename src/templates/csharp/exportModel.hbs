@@ -7,10 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
-using Authing.CSharp.SDK.Models;
 
 {{#equals export 'interface'}}
-   {{>exportInterface}}
+{{>exportInterface}}
 {{else equals export 'one-of'}}
   {{>exportComposition}}
 {{else equals export 'any-of'}}
