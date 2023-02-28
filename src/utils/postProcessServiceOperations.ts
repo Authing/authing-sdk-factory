@@ -4,8 +4,9 @@ import { flatMap } from './flatMap';
 
 export const postProcessServiceOperations = (service: Service): Operation[] => {
     const names = new Map<string, number>();
+    const result: Operation[] = [];
 
-    return service.operations.map(operation => {
+    service.operations.forEach(operation => {
         const clone = { ...operation };
 
         // Parse the service parameters and results, very similar to how we parse
@@ -18,9 +19,12 @@ export const postProcessServiceOperations = (service: Service): Operation[] => {
         const index = names.get(name) || 0;
         if (index > 0) {
             clone.name = `${name}${index}`;
+        } else {
+            result.push(clone);
         }
         names.set(name, index + 1);
 
-        return clone;
+        // return clone;
     });
+    return result;
 };
