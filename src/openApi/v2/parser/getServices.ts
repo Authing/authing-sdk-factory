@@ -28,7 +28,7 @@ export const getServices = (openApi: OpenApi): Service[] => {
                         case 'patch':
                             // Each method contains an OpenAPI operation, we parse the operation
                             const op = path[method]!;
-                            const tags = op.tags?.length ? op.tags.filter(unique) : ['Default'];
+                            const tags = ['Default']; // op.tags?.length ? op.tags.filter(unique) : ['Default']
                             tags.forEach(tag => {
                                 const operation = getOperation(openApi, url, method, tag, op, pathParams);
 
