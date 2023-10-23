@@ -5,7 +5,7 @@ fs.mkdirSync('./generated/python/src', { recursive: true });
 
 const generateAuthenticationClient = async () => {
     await generate({
-        input: 'http://localhost:3000/auth-openapi-json',
+        input: 'http://localhost:3888/auth-openapi-json',
         output: './generated/python/src',
         exportCore: false,
         useOptions: true,

@@ -11,7 +11,7 @@ const { generate } = require('./dist');
 
 const main = async () => {
     await generate({
-        input: 'http://localhost:3000/openapi-json',
+        input: 'http://localhost:3888/openapi-json',
         output: './example',
     });
 };

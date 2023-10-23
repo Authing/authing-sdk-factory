@@ -23,7 +23,7 @@ const generateManagementClient = async () => {
 
 const generateAuthenticationClient = async () => {
     await generate({
-        input: 'http://localhost:3000/auth-openapi-json',
+        input: 'http://localhost:3888/auth-openapi-json',
         output: './generated/java/src',
         exportCore: false,
         useOptions: true,

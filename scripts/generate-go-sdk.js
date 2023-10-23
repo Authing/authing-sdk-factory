@@ -7,20 +7,30 @@ fs.mkdirSync('./generated/go/src', { recursive: true });
 
 const generateManagementClient = async () => {
     await generate({
-        input: 'http://localhost:3000/openapi-json',
+        input: 'http://localhost:3888/openapi-json',
         output: './generated/go/src',
         exportCore: false,
         lang: 'go',
     });
-    execSync('cp -R generated/go/src/models/* ../go/authing-golang-sdk/dto', { encoding: 'utf-8' });
-    execSync('cp -R generated/go/src/management_client.go ../go/authing-golang-sdk/management/management_client.go', {
+    execSync('cp -R generated/go/src/models/* ../authing-golang-sdk/dto', { encoding: 'utf-8' });
+    execSync('cp -R generated/go/src/management_client.go ../authing-golang-sdk/management/management_client.go', {
         encoding: 'utf-8',
     });
+
+    fs.writeFileSync('../authing-golang-sdk/dto/LangObject.go',`package dto
+
+type LangObject struct {
+    zhCN LangUnit \`json:"zh-CN"\`
+    enUS LangUnit \`json:"en-US"\`
+    zhTW LangUnit \`json:"zh-TW"\`
+    jaJP LangUnit \`json:"ja-JP"\`
+}
+`)
 };
 
 const generateAuthenticationClient = async () => {
     await generate({
-        input: 'http://localhost:3000/auth-openapi-json',
+        input: 'http://localhost:3888/auth-openapi-json',
         output: './generated/go/src',
         exportCore: false,
         useOptions: true,
@@ -30,10 +40,10 @@ const generateAuthenticationClient = async () => {
     const authMethodsContent = fs.readFileSync('./generated/go/src/AuthMethods.go');
     fs.unlinkSync('./generated/go/src/AuthMethods.go');
 
-    execSync('cp -R generated/go/src/models/* ../go/authing-golang-sdk/dto', { encoding: 'utf-8' });
+    execSync('cp -R generated/go/src/models/* ../authing-golang-sdk/dto', { encoding: 'utf-8' });
 
     // 替换原来 Authing.ts 中的内容
-    const authingTsFile = '../go/authing-golang-sdk/authentication/authentication_client.go';
+    const authingTsFile = '../authing-golang-sdk/authentication/authentication_client.go';
     const originalAuthingTsContent = fs.readFileSync(authingTsFile, 'utf-8');
     fs.writeFileSync(
         authingTsFile,

@@ -83,6 +83,31 @@ export const writeClient = async (params: {
     //     await writeClientCore(client, templates, outputPathCore, httpClient, indent, clientName, request);
     // }
 
+    for (const model of client.models) {
+        if (model.name.includes('/')) {
+            model.name = model.name.split('/')[1];
+        }
+    }
+
+    const traversedOperationNames: string[] = [];
+    for (const service of client.services) {
+        const operations = service.operations;
+        for (let i = 0; i <= operations.length - 1; i++) {
+            const op = operations[i];
+            if (!traversedOperationNames.includes(op.name)) {
+                traversedOperationNames.push(op.name);
+            } else {
+                operations.splice(i, 1);
+            }
+        }
+    }
+
+    for (const operation of client.services.map(x => x.operations).flat()) {
+        if (operation.parametersDto?.includes('/')) {
+            operation.parametersDto = operation.parametersDto.split('/')[1];
+        }
+    }
+
     if (exportServices) {
         // await rmdir(outputPathServices);
         // await mkdir(outputPathServices);

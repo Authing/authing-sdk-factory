@@ -7,7 +7,7 @@ fs.mkdirSync('./generated/typescript/src', { recursive: true });
 
 const generateManagementClient = async () => {
     await generate({
-        input: 'http://localhost:3000/openapi-json',
+        input: 'http://localhost:3888/openapi-json',
         output: './generated/typescript/src',
         exportCore: false,
         useOptions: true,
@@ -23,7 +23,7 @@ const generateManagementClient = async () => {
 const generateAuthenticationClient = async () => {
     const originalManagementModelFiles = fs.readdirSync('./generated/typescript/src/models');
     await generate({
-        input: 'http://localhost:3000/auth-openapi-json',
+        input: 'http://localhost:3888/auth-openapi-json',
         output: './generated/typescript/src',
         exportCore: false,
         useOptions: true,

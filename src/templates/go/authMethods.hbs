@@ -22,7 +22,6 @@
 {{/each}}
 	*/
 {{#equals method "POST"}}
-{{!--     {{console this}} --}}
 func (client *AuthenticationClient) {{{convertFirstCharToUpperCase name}}} (reqDto *dto.{{parametersBody.type}}) *dto.{{>result}}  {
     b, err := client.SendHttpRequest("{{{path}}}", fasthttp.MethodPost, reqDto)
 	var response dto.{{>result}}

@@ -3,9 +3,9 @@ import { camelizeAndFirstCharUpperCase } from '../../../utils/camelize';
 import type { OpenApi } from '../interfaces/OpenApi';
 import { getModel } from './getModel';
 import { getType } from './getType';
-import {OperationParameter} from "../../../client/interfaces/OperationParameter";
-import {getPattern} from "../../../utils/getPattern";
-import {Operation} from "../../../client/interfaces/Operation";
+import { OperationParameter } from '../../../client/interfaces/OperationParameter';
+import { getPattern } from '../../../utils/getPattern';
+import { Operation } from '../../../client/interfaces/Operation';
 
 const javaTypeMap: any = {
     string: 'String',
@@ -21,11 +21,26 @@ const goTypeMap: any = {
     any: 'interface{}',
 };
 
+const goTypeListMap: any = {
+    string: '[]string',
+    number: '[]int',
+    boolean: '[]bool',
+    any: '[]interface{}',
+};
+
 const csharpTypeMap: any = {
     string: 'string',
     number: 'long',
     boolean: 'bool',
     any: 'object',
+};
+
+const getGoType = (base: string, exportType: string) => {
+    if (exportType === 'array') {
+        return goTypeListMap[base];
+    } else {
+        return goTypeMap[base];
+    }
 };
 
 export const getModels = (openApi: OpenApi): Model[] => {
@@ -39,7 +54,7 @@ export const getModels = (openApi: OpenApi): Model[] => {
 
                 if (model.properties.length) {
                     model.properties.forEach(p => {
-                        const { name, base } = p;
+                        const { name, base, export: exportType } = p;
                         p.name_java_get = `get${camelizeAndFirstCharUpperCase(name)}`;
                         p.name_java_set = `set${camelizeAndFirstCharUpperCase(name)}`;
                         if (javaTypeMap[base]) {
@@ -47,15 +62,15 @@ export const getModels = (openApi: OpenApi): Model[] => {
                         } else {
                             p.base_java = base;
                         }
-                        if (goTypeMap[base]) {
-                            p.base_go = goTypeMap[base];
+                        if (getGoType(base, exportType)) {
+                            p.base_go = getGoType(base, exportType)
                         } else {
                             p.base_go = base;
                         }
-                        if(csharpTypeMap[base]){
-                            p.base_csharp=csharpTypeMap[base];
-                        }else{
-                            p.base_csharp=base;
+                        if (csharpTypeMap[base]) {
+                            p.base_csharp = csharpTypeMap[base];
+                        } else {
+                            p.base_csharp = base;
                         }
                         if (p.enum?.length > 0) {
                             p.isEnum = true;
@@ -72,7 +87,6 @@ export const getModels = (openApi: OpenApi): Model[] => {
 
 // for java
 export const getModelByParameter = (parameter: OperationParameter): Model => {
-
     const model: Model = {
         name: parameter.name,
         prop: parameter.prop,
@@ -94,7 +108,7 @@ export const getModelByParameter = (parameter: OperationParameter): Model => {
         name_java_get: `get${camelizeAndFirstCharUpperCase(parameter.name)}`,
         base_java: '',
         base_go: '',
-        base_csharp:'',
+        base_csharp: '',
     };
 
     if (javaTypeMap[parameter.base]) {
@@ -103,8 +117,8 @@ export const getModelByParameter = (parameter: OperationParameter): Model => {
         model.base_java = parameter.base;
     }
 
-    if (goTypeMap[parameter.base]) {
-        model.base_go = goTypeMap[parameter.base];
+    if (getGoType(parameter.base, parameter.export)) {
+        model.base_go = getGoType(parameter.base, parameter.export);
     } else {
         model.base_go = parameter.base;
     }
@@ -144,13 +158,13 @@ export const getModelByOperation = (op: Operation): Model => {
         name_java_set: `set${camelizeAndFirstCharUpperCase(op.name)}`,
         name_java_get: `get${camelizeAndFirstCharUpperCase(op.name)}`,
         base_java: '',
-        base_csharp:'',
+        base_csharp: '',
     };
 
     model.base_java = name;
     model.base_go = name;
     model.base = name;
-    model.base_csharp=name;
+    model.base_csharp = name;
 
     return model;
 };
