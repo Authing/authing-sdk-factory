@@ -74,4 +74,5 @@ const generateAuthenticationClient = async () => {
     );
 };
 
-generateManagementClient().then(generateAuthenticationClient).catch(console.error);
+generateManagementClient().then(console.log).catch(console.error);
+// generateAuthenticationClient().then(console.log).catch(console.error);
