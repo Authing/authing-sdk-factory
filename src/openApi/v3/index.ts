@@ -42,7 +42,7 @@ export const parse = (openApi: OpenApi): Client => {
         service.operations.forEach(op => {
             const { parameters, method } = op;
             if (parameters.length) {
-                if (method === 'GET') {
+                if (method === 'GET' || method === 'DELETE') {
                     // for java
                     let properties: Model[] = [];
                     parameters.forEach(p => {
