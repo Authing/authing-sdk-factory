@@ -265,12 +265,20 @@ export const registerHandlebarTemplatesForCSharp = (root: {
         return javaTypeMap[item] || item;
     });
 
+    /**
+     * 判断是否相等
+     */
+    Handlebars.registerHelper('if_eq',function (a, b, opts) {
+        if(a == b)
+            return opts.fn(this);
+        else
+            return opts.inverse(this);
+    });
+
     Handlebars.registerHelper('reverse', (data: any) => {
 
         let paramStr = "";
-
         const myArray = SortParams(data);
-
         for (let i = 0; i < myArray.length; i++) {
             paramStr += GetParamString(myArray[i]);
 
@@ -335,6 +343,10 @@ export const registerHandlebarTemplatesForCSharp = (root: {
      * @returns
      */
     function GetParamString(obj: any) {
+
+        //console.log(`类型描述为：${obj.description}`)
+        console.log(`类型描述为`);
+
         let param = "";
 
         param += javaTypeMap[obj.type] + " ";

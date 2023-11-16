@@ -13,10 +13,14 @@ namespace Authing.CSharp.SDK.Models
 		{{/if}}
 		{{#if prop}}
 		[JsonProperty("{{{removeQuot prop}}}")]
-		public {{base_csharp}} {{>isReadOnly}} {{convertFirstCharToUpperCase name}} {get;set;} {{#equals name 'page'}}=1;{{/equals}}{{#equals name 'limit'}}=10;{{/equals}}
+		public {{base_csharp}} {{>isReadOnly}} {{convertFirstCharToUpperCase name}} {get;set;}
 		{{else}}
 		[JsonProperty("{{{removeQuot name}}}")]
+		{{#if_eq export 'one-of'}}
+		public object {{>isReadOnly}} {{convertFirstCharToUpperCase name}} {get;set;}
+		{{else}}
 		public {{>type parent=../name}} {{>isReadOnly}} {{convertFirstCharToUpperCase name}} {get;set;}
+		{{/if_eq}}
 		{{/if}}
 		{{/each}}
 	}

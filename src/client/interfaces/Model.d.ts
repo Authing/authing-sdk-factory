@@ -26,5 +26,5 @@ export interface Model extends Schema {
     enums: Model[];
     properties: Model[];
     isEnum?: boolean;
-    base_csharp?:string;
+    base_csharp?: string;
 }
